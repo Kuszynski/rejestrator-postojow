@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Clock } from 'lucide-react';
+import { authenticateUser } from '../lib/auth';
 
 interface User {
   id: string;
@@ -14,18 +15,19 @@ interface LoginProps {
   onLogin: (user: User) => void;
 }
 
-const USERS = [
-  { id: 'op1', username: 'operatør', password: 'operator123', role: 'operator', name: 'Operator' },
-  { id: 'mg1', username: 'sjef', password: 'sjef123', role: 'manager', name: 'Leder' },
-  { id: 'ad1', username: 'admin', password: 'admin123', role: 'admin', name: 'Administrator' },
-];
+// Mapowanie użytkowników na role
+const USER_ROLES = {
+  'Dag': { role: 'manager', name: 'Dag' },
+  'operator': { role: 'operator', name: 'Operator' },
+  'admin': { role: 'admin', name: 'Administrator' },
+};
 
 export default function Login({ onLogin }: LoginProps) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -34,18 +36,23 @@ export default function Login({ onLogin }: LoginProps) {
       return;
     }
 
-    const foundUser = USERS.find(
-      u => u.username === username && u.password === password
-    );
-    
-    if (foundUser) {
-      onLogin({
-        id: foundUser.id,
-        name: foundUser.name,
-        role: foundUser.role as 'operator' | 'manager' | 'admin'
-      });
-    } else {
-      setError('Feil brukernavn eller passord');
+    try {
+      const result = await authenticateUser(username, password);
+      
+      if (result.success) {
+        const userConfig = USER_ROLES[username] || { role: 'operator', name: username };
+        
+        onLogin({
+          id: username,
+          name: userConfig.name,
+          role: userConfig.role as 'operator' | 'manager' | 'admin'
+        });
+      } else {
+        setError(result.error || 'Feil brukernavn eller passord');
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('Feil ved innlogging. Prøv igjen.');
     }
   };
 
@@ -101,8 +108,8 @@ export default function Login({ onLogin }: LoginProps) {
           <div className="mt-6 p-4 bg-gray-50 rounded-xl">
             <p className="text-xs text-gray-600 mb-2 font-medium">Testkontoer:</p>
             <div className="space-y-1 text-xs text-gray-500">
-              <div>Operator: operatør / operator123</div>
-              <div>Manager: sjef / sjef123</div>
+              <div>Manager: Dag / test123</div>
+              <div>Operator: operator / operator123</div>
               <div>Admin: admin / admin123</div>
             </div>
           </div>

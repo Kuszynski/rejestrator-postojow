@@ -115,7 +115,7 @@ export default function DowntimeTracker() {
       const { data: userPassword, error } = await supabase
         .from('user_passwords')
         .select('password_hash')
-        .eq('user_id', foundUser.id)
+        .eq('user_id', foundUser.username)
         .single();
 
       // Hvis ingen passord funnet, vis opprett passord modal
@@ -171,7 +171,7 @@ export default function DowntimeTracker() {
       const { error } = await supabase
         .from('user_passwords')
         .insert({
-          user_id: selectedUser.id,
+          user_id: selectedUser.username,
           password_hash: newPasswordForm.password
         });
 
@@ -212,7 +212,7 @@ export default function DowntimeTracker() {
       const { data: currentPassword, error: fetchError } = await supabase
         .from('user_passwords')
         .select('password_hash')
-        .eq('user_id', user.id)
+        .eq('user_id', user.username)
         .single();
 
       if (fetchError) {
@@ -230,7 +230,7 @@ export default function DowntimeTracker() {
       const { error: updateError } = await supabase
         .from('user_passwords')
         .update({ password_hash: passwordForm.new })
-        .eq('user_id', user.id);
+        .eq('user_id', user.username);
 
       if (updateError) {
         console.error('Feil ved oppdatering av passord:', updateError);
