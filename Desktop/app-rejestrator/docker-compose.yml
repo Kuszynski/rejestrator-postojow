@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  downtime-tracker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: downtime-tracker
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+    env_file:
+      - .env.production
