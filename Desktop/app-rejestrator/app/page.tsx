@@ -1,9 +1,5 @@
-import DowntimeTracker from '@/components/DowntimeTracker';
+import MainApp from '@/components/MainApp';
 
 export default function Home() {
-  return (
-    <main className="min-h-screen bg-gray-50">
-      <DowntimeTracker />
-    </main>
-  );
+  return <MainApp />;
 }
