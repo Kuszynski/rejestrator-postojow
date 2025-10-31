@@ -121,8 +121,8 @@ export default function MainApp() {
     );
   }
 
-  // Jeśli nie ma użytkownika i próbuje dostać się do chronionego widoku
-  if (!currentUser && !canAccess(currentView)) {
+  // Jeśli nie ma użytkownika, pokaż login
+  if (!currentUser) {
     return <Login onLogin={handleLogin} />;
   }
 
