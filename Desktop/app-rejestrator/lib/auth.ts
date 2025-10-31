@@ -14,19 +14,30 @@ export const verifyPassword = (password: string, hash: string): boolean => {
 // Funkcja do sprawdzania użytkownika w Supabase
 export const authenticateUser = async (username: string, password: string) => {
   try {
+    console.log('Authenticating user:', username);
+    console.log('Supabase client:', !!supabase);
+    
     const { data, error } = await supabase
       .from('user_passwords')
       .select('user_id, password_hash')
       .eq('user_id', username)
       .single();
 
+    console.log('Supabase query result:', { data, error });
+
     if (error || !data) {
-      return { success: false, error: 'Użytkownik nie znaleziony' };
+      console.log('User not found or error:', error);
+      return { success: false, error: 'Użytkownik nie znaleziony: ' + (error?.message || 'No data') };
     }
+
+    console.log('Found user data:', data);
+    console.log('Comparing passwords:', { provided: password, stored: data.password_hash });
 
     // Sprawdź hasło - najpierw spróbuj z hashowaniem, potem bez
     const isValidHashed = verifyPassword(password, data.password_hash);
     const isValidPlain = password === data.password_hash;
+
+    console.log('Password validation:', { isValidHashed, isValidPlain });
 
     if (isValidHashed || isValidPlain) {
       return { success: true, userId: data.user_id };
@@ -35,7 +46,7 @@ export const authenticateUser = async (username: string, password: string) => {
     }
   } catch (err) {
     console.error('Authentication error:', err);
-    return { success: false, error: 'Błąd serwera' };
+    return { success: false, error: 'Błąd serwera: ' + (err as Error).message };
   }
 };
 

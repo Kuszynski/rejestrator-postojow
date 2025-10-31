@@ -36,11 +36,16 @@ export default function Login({ onLogin }: LoginProps) {
       return;
     }
 
+    console.log('Attempting login with:', { username, password });
+    console.log('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
+
     try {
       const result = await authenticateUser(username, password);
+      console.log('Authentication result:', result);
       
       if (result.success) {
         const userConfig = USER_ROLES[username] || { role: 'operator', name: username };
+        console.log('User config:', userConfig);
         
         onLogin({
           id: username,
@@ -48,11 +53,12 @@ export default function Login({ onLogin }: LoginProps) {
           role: userConfig.role as 'operator' | 'manager' | 'admin'
         });
       } else {
+        console.error('Login failed:', result.error);
         setError(result.error || 'Feil brukernavn eller passord');
       }
     } catch (err) {
       console.error('Login error:', err);
-      setError('Feil ved innlogging. Prøv igjen.');
+      setError('Feil ved innlogging. Prøv igjen. Error: ' + (err as Error).message);
     }
   };
 
