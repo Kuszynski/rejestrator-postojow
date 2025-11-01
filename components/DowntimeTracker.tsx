@@ -3355,6 +3355,17 @@ export default function DowntimeTracker() {
                   >
                     Tøm
                   </button>
+                  <button
+                    onClick={() => {
+                      const yesterday = new Date();
+                      yesterday.setDate(yesterday.getDate() - 1);
+                      const yesterdayStr = yesterday.toISOString().split('T')[0];
+                      setDateFilter({ from: yesterdayStr, to: yesterdayStr });
+                    }}
+                    className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white border border-blue-600 text-sm transition-colors"
+                  >
+                    I går
+                  </button>
                   <div className="flex gap-2">
                     <button
                       onClick={() => {
