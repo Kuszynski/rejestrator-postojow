@@ -31,5 +31,12 @@ module.exports = {
     'bg-fuchsia-500',
     'bg-rose-500',
     'bg-slate-500',
+    // Dodaj kolory dla sekcji maszyn
+    'bg-blue-50',
+    'bg-blue-100',
+    'bg-blue-200',
+    'border-blue-200',
+    'border-blue-300',
+    'text-blue-800',
   ],
 }

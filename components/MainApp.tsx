@@ -8,7 +8,7 @@ import ServiceWorkerRegistration from './ServiceWorkerRegistration';
 
 export default function MainApp() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50">
       <DowntimeTracker />
       
       {/* PWA Installer */}

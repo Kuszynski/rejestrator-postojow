@@ -2,8 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { Play, Square, Clock, User, AlertCircle } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
-const MACHINES = [
+interface Machine {
+  id: string;
+  name: string;
+  color: string;
+}
+
+const DEFAULT_MACHINES: Machine[] = [
   { id: 'm1', name: 'Hjullaster', color: 'bg-blue-500' },
   { id: 'm2', name: 'Tømmerbord', color: 'bg-green-500' },
   { id: 'm3', name: 'Tømmerhest, Enstokkmater, Rotreduserer', color: 'bg-yellow-500' },
@@ -36,6 +43,7 @@ interface DowntimeEntry {
 }
 
 export default function SimpleDowntimeTracker() {
+  const [machines, setMachines] = useState<Machine[]>([]);
   const [activeDowntime, setActiveDowntime] = useState<DowntimeEntry | null>(null);
   const [downtimeHistory, setDowntimeHistory] = useState<DowntimeEntry[]>([]);
   const [operatorName, setOperatorName] = useState('');
@@ -59,15 +67,10 @@ export default function SimpleDowntimeTracker() {
 
   // Ładowanie danych
   useEffect(() => {
-    const stored = localStorage.getItem('downtimeHistory');
-    if (stored) {
-      setDowntimeHistory(JSON.parse(stored));
-    }
-
-    const activeStored = localStorage.getItem('activeDowntime');
-    if (activeStored) {
-      setActiveDowntime(JSON.parse(activeStored));
-    }
+    const initializeData = async () => {
+      await loadMachines();
+    };
+    initializeData();
 
     // Przywróć dane operatora
     const operatorStored = localStorage.getItem('operatorName');
@@ -76,6 +79,122 @@ export default function SimpleDowntimeTracker() {
     }
   }, []);
 
+  // Ładuj dane po załadowaniu maszyn
+  useEffect(() => {
+    if (machines.length > 0) {
+      loadDowntimeHistory();
+      checkActiveDowntime();
+    }
+  }, [machines]);
+
+  const loadDowntimeHistory = async () => {
+    if (machines.length === 0) return;
+    
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const { data, error } = await supabase
+        .from('downtimes')
+        .select('*')
+        .eq('date', today)
+        .eq('is_active', false)
+        .order('start_time', { ascending: false });
+
+      if (error) {
+        console.error('Error loading downtime history:', error);
+        // Fallback do localStorage
+        const stored = localStorage.getItem('downtimeHistory');
+        if (stored) {
+          setDowntimeHistory(JSON.parse(stored));
+        }
+        return;
+      }
+
+      const formattedData = data?.map(item => ({
+        id: item.id.toString(),
+        machineName: machines.find(m => m.id === item.machine_id)?.name || item.machine_id,
+        operatorName: item.operator_id,
+        startTime: item.start_time,
+        endTime: item.end_time,
+        duration: item.duration || 0,
+        comment: item.comment || '',
+        date: item.date,
+        postNumber: item.post_number,
+        isActive: false
+      })) || [];
+
+      setDowntimeHistory(formattedData);
+    } catch (error) {
+      console.error('Unexpected error loading downtime history:', error);
+    }
+  };
+
+  const checkActiveDowntime = async () => {
+    if (machines.length === 0) return;
+    
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const { data, error } = await supabase
+        .from('downtimes')
+        .select('*')
+        .eq('date', today)
+        .eq('is_active', true)
+        .limit(1);
+
+      if (error) {
+        console.error('Error checking active downtime:', error);
+        // Fallback do localStorage
+        const activeStored = localStorage.getItem('activeDowntime');
+        if (activeStored) {
+          setActiveDowntime(JSON.parse(activeStored));
+        }
+        return;
+      }
+
+      if (data && data.length > 0) {
+        const item = data[0];
+        const activeDowntimeData: DowntimeEntry = {
+          id: item.id.toString(),
+          machineName: machines.find(m => m.id === item.machine_id)?.name || item.machine_id,
+          operatorName: item.operator_id,
+          startTime: item.start_time,
+          duration: 0,
+          comment: item.comment || '',
+          date: item.date,
+          postNumber: item.post_number,
+          isActive: true
+        };
+        setActiveDowntime(activeDowntimeData);
+        localStorage.setItem('activeDowntime', JSON.stringify(activeDowntimeData));
+      } else {
+        // Usuń z localStorage jeśli nie ma aktywnych w bazie
+        localStorage.removeItem('activeDowntime');
+        setActiveDowntime(null);
+      }
+    } catch (error) {
+      console.error('Unexpected error checking active downtime:', error);
+    }
+  };
+
+  const loadMachines = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('machines')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      if (error) {
+        console.error('Error loading machines:', error);
+        setMachines(DEFAULT_MACHINES);
+        return;
+      }
+
+      setMachines(data || DEFAULT_MACHINES);
+    } catch (error) {
+      console.error('Unexpected error loading machines:', error);
+      setMachines(DEFAULT_MACHINES);
+    }
+  };
+
   // Zapisz dane operatora
   useEffect(() => {
     if (operatorName) {
@@ -83,26 +202,77 @@ export default function SimpleDowntimeTracker() {
     }
   }, [operatorName]);
 
-  const startDowntime = (machine: any) => {
+  const startDowntime = async (machine: Machine) => {
     if (!operatorName.trim()) {
       alert('Skriv inn operatørnavn først!');
       return;
     }
 
-    const newDowntime: DowntimeEntry = {
-      id: Date.now().toString(),
-      machineName: machine.name,
-      operatorName: operatorName.trim(),
-      startTime: new Date().toISOString(),
-      duration: 0,
-      comment: '',
-      date: new Date().toISOString().split('T')[0],
-      isActive: true
-    };
+    const startTime = new Date().toISOString();
+    const date = new Date().toISOString().split('T')[0];
 
-    setActiveDowntime(newDowntime);
-    localStorage.setItem('activeDowntime', JSON.stringify(newDowntime));
-    setElapsedTime(0);
+    try {
+      console.log('Starting downtime for machine:', machine);
+      console.log('Operator:', operatorName.trim());
+      
+      // Zapisz aktywny postój do Supabase
+      const { data, error } = await supabase
+        .from('downtimes')
+        .insert({
+          machine_id: machine.id,
+          operator_id: operatorName.trim(),
+          start_time: startTime,
+          duration: 0,
+          comment: '',
+          date: date,
+          is_active: true
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error saving active downtime:', error);
+        console.error('Error details:', JSON.stringify(error, null, 2));
+        
+        // Fallback - kontynuuj lokalnie ale pokaż alert
+        alert('Błąd bazy danych - postój będzie zapisany lokalnie');
+        const newDowntime: DowntimeEntry = {
+          id: Date.now().toString(),
+          machineName: machine.name,
+          operatorName: operatorName.trim(),
+          startTime: startTime,
+          duration: 0,
+          comment: '',
+          date: date,
+          isActive: true
+        };
+
+        setActiveDowntime(newDowntime);
+        localStorage.setItem('activeDowntime', JSON.stringify(newDowntime));
+        setElapsedTime(0);
+        return;
+      }
+
+      console.log('Active downtime saved to DB:', data);
+
+      const newDowntime: DowntimeEntry = {
+        id: data.id.toString(),
+        machineName: machine.name,
+        operatorName: operatorName.trim(),
+        startTime: startTime,
+        duration: 0,
+        comment: '',
+        date: date,
+        isActive: true
+      };
+
+      setActiveDowntime(newDowntime);
+      localStorage.setItem('activeDowntime', JSON.stringify(newDowntime));
+      setElapsedTime(0);
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      alert('Błąd podczas zapisywania postoju');
+    }
   };
 
   const stopDowntime = () => {
@@ -110,7 +280,7 @@ export default function SimpleDowntimeTracker() {
     setShowCommentModal(true);
   };
 
-  const confirmStopDowntime = () => {
+  const confirmStopDowntime = async () => {
     if (!activeDowntime || !comment.trim()) {
       alert('Skriv inn årsak til stans!');
       return;
@@ -120,25 +290,52 @@ export default function SimpleDowntimeTracker() {
     const startTime = new Date(activeDowntime.startTime);
     const duration = Math.floor((endTime.getTime() - startTime.getTime()) / 60000);
 
-    const completedDowntime: DowntimeEntry = {
-      ...activeDowntime,
-      endTime: endTime.toISOString(),
-      duration,
-      comment: comment.trim(),
-      postNumber: postNumber.trim() || undefined,
-      isActive: false
-    };
+    try {
+      console.log('Stopping downtime:', activeDowntime.id);
+      console.log('Duration:', duration, 'minutes');
+      
+      // Aktualizuj postój w Supabase
+      const { error } = await supabase
+        .from('downtimes')
+        .update({
+          end_time: endTime.toISOString(),
+          duration: duration,
+          comment: comment.trim(),
+          post_number: postNumber.trim() || null,
+          is_active: false
+        })
+        .eq('id', parseInt(activeDowntime.id));
 
-    const newHistory = [completedDowntime, ...downtimeHistory];
-    setDowntimeHistory(newHistory);
-    localStorage.setItem('downtimeHistory', JSON.stringify(newHistory));
-    localStorage.removeItem('activeDowntime');
+      if (error) {
+        console.error('Error updating downtime:', error);
+        alert('Błąd podczas zapisywania postoju: ' + error.message);
+        return;
+      }
 
-    setActiveDowntime(null);
-    setComment('');
-    setPostNumber('');
-    setElapsedTime(0);
-    setShowCommentModal(false);
+      console.log('Downtime updated in DB successfully');
+
+      const completedDowntime: DowntimeEntry = {
+        ...activeDowntime,
+        endTime: endTime.toISOString(),
+        duration,
+        comment: comment.trim(),
+        postNumber: postNumber.trim() || undefined,
+        isActive: false
+      };
+
+      // Odśwież historię postojów
+      loadDowntimeHistory();
+      localStorage.removeItem('activeDowntime');
+
+      setActiveDowntime(null);
+      setComment('');
+      setPostNumber('');
+      setElapsedTime(0);
+      setShowCommentModal(false);
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      alert('Błąd podczas zapisywania postoju');
+    }
   };
 
   const formatDuration = (minutes: number) => {
@@ -231,7 +428,7 @@ export default function SimpleDowntimeTracker() {
 
         {/* Machine buttons */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
-          {MACHINES.map(machine => {
+          {machines.map(machine => {
             const isActive = activeDowntime?.machineName === machine.name;
             
             return (

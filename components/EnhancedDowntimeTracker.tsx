@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Play, Square, Clock, User, AlertCircle, QrCode, Zap, Camera } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 interface DowntimeEntry {
   id: string;
@@ -57,36 +58,94 @@ export default function EnhancedDowntimeTracker() {
 
   // Ładowanie danych
   useEffect(() => {
-    const stored = localStorage.getItem('downtimeHistory');
-    if (stored) {
-      const data = JSON.parse(stored);
-      setDowntimeHistory(data);
-      
-      // Aktualizuj liczniki przyczyn
-      const reasonCounts = {};
-      data.forEach((entry: DowntimeEntry) => {
-        reasonCounts[entry.comment] = (reasonCounts[entry.comment] || 0) + 1;
-      });
-      
-      setQuickReasons(prev => prev.map(reason => ({
-        ...reason,
-        count: reasonCounts[reason.text] || 0
-      })));
-    }
+    const loadData = async () => {
+      // Ładuj dane z localStorage jako fallback
+      const stored = localStorage.getItem('downtimeHistory');
+      if (stored) {
+        const data = JSON.parse(stored);
+        setDowntimeHistory(data);
+        
+        // Aktualizuj liczniki przyczyn
+        const reasonCounts = {};
+        data.forEach((entry: DowntimeEntry) => {
+          reasonCounts[entry.comment] = (reasonCounts[entry.comment] || 0) + 1;
+        });
+        
+        setQuickReasons(prev => prev.map(reason => ({
+          ...reason,
+          count: reasonCounts[reason.text] || 0
+        })));
+      }
 
-    const activeStored = localStorage.getItem('activeDowntime');
-    if (activeStored) {
-      setActiveDowntime(JSON.parse(activeStored));
-    }
+      // Sprawdź aktywne postoje w bazie danych
+      try {
+        const today = new Date().toISOString().split('T')[0];
+        const { data, error } = await supabase
+          .from('downtimes')
+          .select('*')
+          .eq('date', today)
+          .eq('is_active', true)
+          .order('start_time', { ascending: false })
+          .limit(1);
 
-    // Przywróć dane formularza
-    const formData = localStorage.getItem('formData');
-    if (formData) {
-      const data = JSON.parse(formData);
-      setMachineName(data.machineName || '');
-      setOperatorName(data.operatorName || '');
-      setPostNumber(data.postNumber || '');
-    }
+        if (error) {
+          console.error('Error loading active downtime:', error);
+        } else if (data && data.length > 0) {
+          const activeData = data[0];
+          const activeDowntimeEntry: DowntimeEntry = {
+            id: activeData.id.toString(),
+            machineName: activeData.machine_id,
+            operatorName: activeData.operator_id,
+            startTime: activeData.start_time,
+            duration: 0,
+            comment: activeData.comment || '',
+            date: activeData.date,
+            postNumber: activeData.post_number,
+            isActive: true
+          };
+          
+          setActiveDowntime(activeDowntimeEntry);
+          localStorage.setItem('activeDowntime', JSON.stringify(activeDowntimeEntry));
+          
+          // Ustaw dane formularza z aktywnego postoju
+          setMachineName(activeData.machine_id);
+          setOperatorName(activeData.operator_id);
+          setPostNumber(activeData.post_number || '');
+        } else {
+          // Brak aktywnych postojów w bazie, sprawdź localStorage
+          const activeStored = localStorage.getItem('activeDowntime');
+          if (activeStored) {
+            const storedActive = JSON.parse(activeStored);
+            // Sprawdź czy to dzisiejszy postój
+            if (storedActive.date === today) {
+              setActiveDowntime(storedActive);
+            } else {
+              localStorage.removeItem('activeDowntime');
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error checking active downtimes:', error);
+        // Fallback do localStorage
+        const activeStored = localStorage.getItem('activeDowntime');
+        if (activeStored) {
+          setActiveDowntime(JSON.parse(activeStored));
+        }
+      }
+
+      // Przywróć dane formularza jeśli nie ma aktywnego postoju
+      if (!activeDowntime) {
+        const formData = localStorage.getItem('formData');
+        if (formData) {
+          const data = JSON.parse(formData);
+          setMachineName(data.machineName || '');
+          setOperatorName(data.operatorName || '');
+          setPostNumber(data.postNumber || '');
+        }
+      }
+    };
+
+    loadData();
   }, []);
 
   // Zapisz dane formularza
@@ -98,30 +157,61 @@ export default function EnhancedDowntimeTracker() {
     }));
   }, [machineName, operatorName, postNumber]);
 
-  const startDowntime = () => {
+  const startDowntime = async () => {
     if (!machineName.trim() || !operatorName.trim()) {
       alert('Wypełnij nazwę maszyny i operatora!');
       return;
     }
 
-    const newDowntime: DowntimeEntry = {
-      id: Date.now().toString(),
-      machineName: machineName.trim(),
-      operatorName: operatorName.trim(),
-      startTime: new Date().toISOString(),
-      duration: 0,
-      comment: '',
-      date: new Date().toISOString().split('T')[0],
-      postNumber: postNumber.trim() || undefined,
-      isActive: true
-    };
+    const startTime = new Date().toISOString();
+    const date = new Date().toISOString().split('T')[0];
 
-    setActiveDowntime(newDowntime);
-    localStorage.setItem('activeDowntime', JSON.stringify(newDowntime));
-    setElapsedTime(0);
+    try {
+      // Zapisz do bazy danych
+      const { data, error } = await supabase
+        .from('downtimes')
+        .insert({
+          machine_id: machineName.trim(),
+          operator_id: operatorName.trim(),
+          start_time: startTime,
+          date: date,
+          post_number: postNumber.trim() || null,
+          is_active: true,
+          comment: null,
+          end_time: null,
+          duration: 0
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error starting downtime:', error);
+        alert('Błąd podczas zapisywania do bazy danych');
+        return;
+      }
+
+      const newDowntime: DowntimeEntry = {
+        id: data.id.toString(),
+        machineName: machineName.trim(),
+        operatorName: operatorName.trim(),
+        startTime: startTime,
+        duration: 0,
+        comment: '',
+        date: date,
+        postNumber: postNumber.trim() || undefined,
+        isActive: true
+      };
+
+      setActiveDowntime(newDowntime);
+      localStorage.setItem('activeDowntime', JSON.stringify(newDowntime));
+      setElapsedTime(0);
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      alert('Błąd podczas zapisywania');
+    }
   };
 
-  const stopDowntime = () => {
+  const stopDowntime = async () => {
     if (!activeDowntime || !comment.trim()) {
       alert('Wybierz przyczynę postoju!');
       return;
@@ -131,38 +221,60 @@ export default function EnhancedDowntimeTracker() {
     const startTime = new Date(activeDowntime.startTime);
     const duration = Math.floor((endTime.getTime() - startTime.getTime()) / 60000);
 
-    const completedDowntime: DowntimeEntry = {
-      ...activeDowntime,
-      endTime: endTime.toISOString(),
-      duration,
-      comment: comment.trim(),
-      isActive: false
-    };
+    try {
+      // Aktualizuj w bazie danych
+      const { error } = await supabase
+        .from('downtimes')
+        .update({
+          end_time: endTime.toISOString(),
+          duration: duration,
+          comment: comment.trim(),
+          is_active: false
+        })
+        .eq('id', parseInt(activeDowntime.id));
 
-    const newHistory = [completedDowntime, ...downtimeHistory];
-    setDowntimeHistory(newHistory);
-    localStorage.setItem('downtimeHistory', JSON.stringify(newHistory));
-    localStorage.removeItem('activeDowntime');
-
-    setActiveDowntime(null);
-    setComment('');
-    setElapsedTime(0);
-
-    // Aktualizuj liczniki
-    setQuickReasons(prev => prev.map(reason => 
-      reason.text === comment.trim() 
-        ? { ...reason, count: reason.count + 1 }
-        : reason
-    ));
-
-    // Powiadomienie o długim postoju
-    if (duration > 30) {
-      if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification('Długi postój zakończony!', {
-          body: `${activeDowntime.machineName}: ${duration} minut`,
-          icon: '/icon-192x192.png'
-        });
+      if (error) {
+        console.error('Error stopping downtime:', error);
+        alert('Błąd podczas zapisywania do bazy danych');
+        return;
       }
+
+      const completedDowntime: DowntimeEntry = {
+        ...activeDowntime,
+        endTime: endTime.toISOString(),
+        duration,
+        comment: comment.trim(),
+        isActive: false
+      };
+
+      const newHistory = [completedDowntime, ...downtimeHistory];
+      setDowntimeHistory(newHistory);
+      localStorage.setItem('downtimeHistory', JSON.stringify(newHistory));
+      localStorage.removeItem('activeDowntime');
+
+      setActiveDowntime(null);
+      setComment('');
+      setElapsedTime(0);
+
+      // Aktualizuj liczniki
+      setQuickReasons(prev => prev.map(reason => 
+        reason.text === comment.trim() 
+          ? { ...reason, count: reason.count + 1 }
+          : reason
+      ));
+
+      // Powiadomienie o długim postoju
+      if (duration > 30) {
+        if ('Notification' in window && Notification.permission === 'granted') {
+          new Notification('Długi postój zakończony!', {
+            body: `${activeDowntime.machineName}: ${duration} minut`,
+            icon: '/icon-192x192.png'
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      alert('Błąd podczas zapisywania');
     }
   };
 
@@ -196,11 +308,19 @@ export default function EnhancedDowntimeTracker() {
         <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-2xl font-bold text-gray-900">Rejestrator Postojów</h1>
-            {isPWA && (
-              <div className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
-                PWA
-              </div>
-            )}
+            <div className="flex items-center gap-2">
+              {isPWA && (
+                <div className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                  PWA
+                </div>
+              )}
+              <button className="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-3 py-1 text-sm font-medium transition-colors">
+                Password
+              </button>
+              <button className="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-3 py-1 text-sm font-medium transition-colors">
+                Logout
+              </button>
+            </div>
           </div>
           
           {!isPWA && (
