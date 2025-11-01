@@ -42,6 +42,7 @@ export default function ManagerDashboard() {
   const [showSettings, setShowSettings] = useState(false);
   const [activeTab, setActiveTab] = useState<'dashboard' | 'machines'>('dashboard');
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<'today' | 'yesterday'>('today');
 
   useEffect(() => {
     const initializeData = async () => {
@@ -82,7 +83,7 @@ export default function ManagerDashboard() {
     };
   }, []);
 
-  // Ładuj dane po załadowaniu maszyn
+  // Ładuj dane po załadowaniu maszyn lub zmianie daty
   useEffect(() => {
     console.log('Machines loaded:', machines.length);
     if (machines.length > 0) {
@@ -90,7 +91,7 @@ export default function ManagerDashboard() {
       loadDowntimes(machines);
       loadActiveDowntimes(machines);
     }
-  }, [machines]);
+  }, [machines, selectedDate]);
 
   // Debug aktywnych postojów
   useEffect(() => {
@@ -142,11 +143,14 @@ export default function ManagerDashboard() {
 
   const loadDowntimes = async (machinesList: Machine[] = machines) => {
     try {
-      const today = new Date().toISOString().split('T')[0];
+      const targetDate = selectedDate === 'today' 
+        ? new Date().toISOString().split('T')[0]
+        : new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      
       const { data, error } = await supabase
         .from('downtimes')
         .select('*')
-        .eq('date', today)
+        .eq('date', targetDate)
         .eq('is_active', false)
         .order('start_time', { ascending: false });
 
@@ -176,6 +180,7 @@ export default function ManagerDashboard() {
 
   const loadActiveDowntimes = async (machinesList: Machine[] = machines) => {
     try {
+      // Aktywne postoje zawsze tylko z dzisiaj
       const today = new Date().toISOString().split('T')[0];
       console.log('Loading active downtimes for date:', today);
       
@@ -258,11 +263,14 @@ export default function ManagerDashboard() {
     setAlerts(newAlerts);
   };
 
-  const todayStats = () => {
-    const today = new Date().toISOString().split('T')[0];
-    const todayData = downtimeHistory.filter(d => d.date === today);
-    const activeData = activeDowntimes.filter(d => d.date === today);
-    const allData = [...todayData, ...activeData];
+  const getStats = () => {
+    const targetDate = selectedDate === 'today' 
+      ? new Date().toISOString().split('T')[0]
+      : new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    
+    const dateData = downtimeHistory.filter(d => d.date === targetDate);
+    const activeData = selectedDate === 'today' ? activeDowntimes.filter(d => d.date === targetDate) : [];
+    const allData = [...dateData, ...activeData];
     
     return {
       totalStops: allData.length,
@@ -273,7 +281,7 @@ export default function ManagerDashboard() {
     };
   };
 
-  const stats = todayStats();
+  const stats = getStats();
 
   const getAlertColor = (severity: string) => {
     switch (severity) {
@@ -387,12 +395,38 @@ export default function ManagerDashboard() {
               </div>
             )}
 
-            {/* Statystyki dzisiejsze */}
+            {/* Przełącznik dat */}
+            <div className="bg-white rounded-lg shadow p-4 mb-6">
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setSelectedDate('today')}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                    selectedDate === 'today'
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  Dzisiaj
+                </button>
+                <button
+                  onClick={() => setSelectedDate('yesterday')}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                    selectedDate === 'yesterday'
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  Wczoraj
+                </button>
+              </div>
+            </div>
+
+            {/* Statystyki */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               <div className="bg-white rounded-lg shadow p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-600">Postoje dzisiaj</p>
+                    <p className="text-sm text-gray-600">Postoje {selectedDate === 'today' ? 'dzisiaj' : 'wczoraj'}</p>
                     <p className="text-2xl font-bold text-red-600">{stats.totalStops}</p>
                     {stats.activeStops > 0 && (
                       <p className="text-xs text-red-500 font-medium animate-pulse">
@@ -438,8 +472,12 @@ export default function ManagerDashboard() {
             {/* Live View - Aktywne i ostatnie postoje */}
             <div className="bg-white rounded-lg shadow">
               <div className="p-6 border-b">
-                <h3 className="text-xl font-semibold">Oversikt - Live View</h3>
-                <p className="text-gray-600">Aktualizacja w czasie rzeczywistym</p>
+                <h3 className="text-xl font-semibold">
+                  Oversikt - {selectedDate === 'today' ? 'Live View' : 'Wczorajsze postoje'}
+                </h3>
+                <p className="text-gray-600">
+                  {selectedDate === 'today' ? 'Aktualizacja w czasie rzeczywistym' : 'Postoje z wczoraj'}
+                </p>
                 {stats.activeStops > 0 && (
                   <div className="mt-2 inline-flex items-center gap-2 bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">
                     <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
@@ -449,8 +487,8 @@ export default function ManagerDashboard() {
               </div>
               <div className="p-6">
                 <div className="space-y-4">
-                  {/* Aktywne postoje */}
-                  {activeDowntimes.map(entry => {
+                  {/* Aktywne postoje - tylko dla dzisiaj */}
+                  {selectedDate === 'today' && activeDowntimes.map(entry => {
                     const duration = Math.floor((currentTime.getTime() - new Date(entry.startTime).getTime()) / 60000);
                     return (
                       <div key={`active_${entry.id}`} className="flex items-center justify-between p-4 bg-red-50 border-2 border-red-200 rounded-lg animate-pulse">
@@ -483,7 +521,6 @@ export default function ManagerDashboard() {
                   
                   {/* Zakończone postoje */}
                   {downtimeHistory
-                    .filter(d => d.date === new Date().toISOString().split('T')[0])
                     .slice(0, 10)
                     .map(entry => (
                       <div key={entry.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
@@ -514,8 +551,10 @@ export default function ManagerDashboard() {
                       </div>
                     ))}
                   
-                  {downtimeHistory.length === 0 && activeDowntimes.length === 0 && (
-                    <p className="text-center text-gray-500 py-8">Brak postojów dzisiaj</p>
+                  {downtimeHistory.length === 0 && (selectedDate === 'yesterday' || activeDowntimes.length === 0) && (
+                    <p className="text-center text-gray-500 py-8">
+                      Brak postojów {selectedDate === 'today' ? 'dzisiaj' : 'wczoraj'}
+                    </p>
                   )}
                 </div>
               </div>
