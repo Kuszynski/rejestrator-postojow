@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-const settingsPath = path.join(process.cwd(), '..', 'daemon_settings.json');
+const dataDir = process.env.DATA_DIR || path.join(process.cwd(), '..');
+const settingsPath = path.join(dataDir, 'daemon_settings.json');
 
 export async function GET() {
     try {

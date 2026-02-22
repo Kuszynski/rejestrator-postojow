@@ -7,7 +7,8 @@ export async function GET() {
     try {
         // Scieżka do wygenerowanego przez live_daemon.py pliku.
         // Dashboard Next.js będzie znajdował się o folder niżej niż główny Daemon Pythona.
-        const statusPath = path.join(process.cwd(), '..', 'live_status.json');
+        const dataDir = process.env.DATA_DIR || path.join(process.cwd(), '..');
+        const statusPath = path.join(dataDir, 'live_status.json');
 
         if (!fs.existsSync(statusPath)) {
             return NextResponse.json({

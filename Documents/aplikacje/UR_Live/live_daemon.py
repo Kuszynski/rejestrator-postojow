@@ -24,20 +24,22 @@ from bearing_monitor import (
 # demon budzi się, agreguje mikro-dane w krótkich strzałach (micro-batching)
 # i podrzuca JSON Frontendowi by nie zaciąć SCADA.
 
+# ENV SETTINGS
+DATA_DIR = os.getenv("DATA_DIR", ".")
 POLL_INTERVAL_SECONDS = 120 # Odświeżanie z API (zgodnie z sugestią użytkownika - 2 minuty)
 WARM_HISTORY_DAYS = 60      # Ile dni wstecz pobrać przy pierwszym rozruchu (lub uzupełnić luki)
 MAX_CONCURRENT_REQUESTS = 50       # Zwiększono przepustowość dla 111 sensorów
-OUTPUT_JSON_PATH = "live_status.json" # Plik wyjściowy (Atomic write)
-EVENT_LOG_PATH_RAW = "event_history_raw.json"
-EVENT_LOG_PATH_COMP = "event_history_comp.json"
-PERSISTENCE_FILE = "sensor_history.parquet" # Baza danych 60 dni 
-TAG_FILTER = "saglinje" # TYLKO te maszyny
+OUTPUT_JSON_PATH = os.path.join(DATA_DIR, "live_status.json") # Plik wyjściowy (Atomic write)
+EVENT_LOG_PATH_RAW = os.path.join(DATA_DIR, "event_history_raw.json")
+EVENT_LOG_PATH_COMP = os.path.join(DATA_DIR, "event_history_comp.json")
+PERSISTENCE_FILE = os.path.join(DATA_DIR, "sensor_history.parquet") # Baza danych 60 dni 
+TAG_FILTER = os.getenv("TAG_FILTER", "saglinje") # TYLKO te maszyny
 RETENTION_DAYS = 60         # Ile dni historii trzymać w pamięci i na dysku
 
-# PRAWDZIWE DANE Z KODU FRONTENDU
-API_KEY = "jP4UeJ8RBN5sX5FdTtKLlHDEEc9nbYlUz/s8UyikfiI="
-SYSTEM_ID = "nIwosVxCrK9RTctvb90X"
-API_BASE_URL = "https://api.neuronsensors.app/v2"
+# API CREDS
+API_KEY = os.getenv("API_KEY", "jP4UeJ8RBN5sX5FdTtKLlHDEEc9nbYlUz/s8UyikfiI=")
+SYSTEM_ID = os.getenv("SYSTEM_ID", "nIwosVxCrK9RTctvb90X")
+API_BASE_URL = os.getenv("API_BASE_URL", "https://api.neuronsensors.app/v2")
 
 
 class HardwareState:

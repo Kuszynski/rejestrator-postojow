@@ -1,0 +1,26 @@
+# Use official Python image
+FROM python:3.11-slim
+
+# Set work directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirements.txt .
+# Create requirements if it doesn't exist or just install known ones
+RUN pip install --no-cache-dir pandas numpy scikit-learn aiohttp scipy pyarrow
+
+# Copy application code
+COPY bearing_monitor.py .
+COPY live_daemon.py .
+COPY daemon_settings.json .
+
+# Create data directory for shared volumes
+RUN mkdir -p /app/data
+
+# Run the daemon
+CMD ["python", "live_daemon.py"]

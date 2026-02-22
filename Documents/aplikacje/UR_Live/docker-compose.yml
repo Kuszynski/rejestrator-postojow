@@ -1,0 +1,29 @@
+services:
+  ai-daemon:
+    build:
+      context: .
+      dockerfile: Dockerfile.daemon
+    restart: always
+    environment:
+      - API_KEY=${API_KEY}
+      - SYSTEM_ID=${SYSTEM_ID}
+      - TAG_FILTER=saglinje
+      - DATA_DIR=/app/data
+    volumes:
+      - ur-live-data:/app/data
+
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - DATA_DIR=/app/data
+    volumes:
+      - ur-live-data:/app/data
+
+volumes:
+  ur-live-data:
