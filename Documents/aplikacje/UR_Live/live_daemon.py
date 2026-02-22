@@ -241,7 +241,7 @@ def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame):
                         "alias": hwstate.sensor_aliases.get(sn, sn),
                         "timestamp": ts_iso,
                         "type": row['FINAL_VERDICT'],
-                        "msg": f"Wykryto zdarzenie AI ({row['alarm_source']})",
+                        "msg": f"AI-hendelse detektert ({row['alarm_source']})",
                         "vib_rms": float(row.get('vib_rms', 0.0)),
                         "temp_mean": float(row.get('temp_mean', 0.0)),
                         "temp_gradient": float(row.get('temp_gradient_final', 0.0))
@@ -408,7 +408,7 @@ def mine_historical_events(hwstate):
                         "alias": hwstate.sensor_aliases.get(sn, sn),
                         "timestamp": timestamp.isoformat(),
                         "type": row['FINAL_VERDICT'],
-                        "msg": f"Historyczna anomalia: {row['alarm_source']}",
+                        "msg": f"Historisk anomali: {row['alarm_source']}",
                         "vib_rms": float(row.get('vib_rms', 0.0)),
                         "temp_mean": float(row.get('temp_mean', 0.0)),
                         "temp_gradient": float(row.get('temp_gradient_final', 0.0))

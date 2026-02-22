@@ -90,17 +90,17 @@ const AlertLogSection = React.memo(({ alerts, selectedGroup }: any) => {
     const now = Date.now();
 
     if (timeFilter === '24h') {
-      const dayAgo = now - 24 * 60 * 60 * 1000;
+      const dayAgo = now - 24 * 60 * 60 * 1000 - (10 * 60 * 1000); // 10 min buffer
       return base.filter((a: any) => a.timestamp >= dayAgo);
     } else if (timeFilter === '7d') {
-      const weekAgo = now - 7 * 24 * 60 * 60 * 1000;
+      const weekAgo = now - 7 * 24 * 60 * 60 * 1000 - (10 * 60 * 1000);
       return base.filter((a: any) => a.timestamp >= weekAgo);
     } else if (timeFilter === '30d') {
-      const monthAgo = now - 30 * 24 * 60 * 60 * 1000;
+      const monthAgo = now - 30 * 24 * 60 * 60 * 1000 - (10 * 60 * 1000);
       return base.filter((a: any) => a.timestamp >= monthAgo);
     }
     return base; // '90d' or all
-  }, [alerts, selectedGroup, timeFilter]);
+  }, [alerts, selectedGroup, timeFilter, alerts.length]); // Track alerts length for updates
 
   return (
     <div className="bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6 shadow-2xl flex flex-col h-[750px] relative overflow-hidden">
@@ -120,7 +120,7 @@ const AlertLogSection = React.memo(({ alerts, selectedGroup }: any) => {
               onClick={() => setTimeFilter(f)}
               className={`flex-1 py-1 text-[10px] font-bold uppercase tracking-tighter rounded transition-all ${timeFilter === f ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300 hover:bg-white/5'}`}
             >
-              {f === '90d' ? 'Wszystko' : f}
+              {f === '90d' ? 'Alt' : f}
             </button>
           ))}
         </div>
@@ -162,7 +162,7 @@ const AlertLogSection = React.memo(({ alerts, selectedGroup }: any) => {
         ) : (
           <div className="flex flex-col items-center justify-center h-full text-slate-600 gap-3 text-center px-4">
             <CheckSquare className="w-8 h-8 opacity-20" />
-            <span className="text-sm font-medium">Brak zdarzeń w wybranym okresie ({timeFilter}).</span>
+            <span className="text-sm font-medium">Ingen hendelser i valgt periode ({timeFilter}).</span>
           </div>
         )}
       </div>

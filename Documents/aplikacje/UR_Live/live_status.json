@@ -1,5 +1,5 @@
 {
-  "server_time": "2026-02-22 18:33:05",
+  "server_time": "2026-02-22 18:38:54",
   "sensors": [
     {
       "sn": "20010974",
@@ -24,12 +24,12 @@
     {
       "sn": "21001530",
       "alias": "1880 QSS-420 el motor V.S \u00f8vre NDE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": 15.9,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21001554",
@@ -44,12 +44,12 @@
     {
       "sn": "21001564",
       "alias": "1730 El motor RL-600 H.S NDE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": 15.5,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21001657",
@@ -74,9 +74,9 @@
     {
       "sn": "21001694",
       "alias": "1300.50 El motor MV3 barkemaskin",
-      "timestamp": 1771781100000,
+      "timestamp": 1771781400000,
       "temp": 18.3,
-      "vib_rms": 0.001414213562373095,
+      "vib_rms": 0.002,
       "health_index": null,
       "failure_prob": 0.0,
       "status": "IDLE"
@@ -144,12 +144,12 @@
     {
       "sn": "21001916",
       "alias": "1880 QSS-420 el motor H.S \u00f8vre DE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
-      "vib_rms": 0.0,
-      "health_index": 100.0,
+      "timestamp": 1771781400000,
+      "temp": 16.1,
+      "vib_rms": 0.001,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21001944",
@@ -174,22 +174,22 @@
     {
       "sn": "21001984",
       "alias": "1730 El motor RL-600 V.S NDE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": 15.8,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21002039",
       "alias": "1880 QSS-420 el motor V.S \u00f8vre DE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
-      "vib_rms": 0.0,
-      "health_index": 100.0,
+      "timestamp": 1771781400000,
+      "temp": 15.699999999999998,
+      "vib_rms": 0.002943920288775949,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21002047",
@@ -214,32 +214,32 @@
     {
       "sn": "21002189",
       "alias": "1300.40 El motor barkemaskin rotor DE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
-      "vib_rms": 0.0,
-      "health_index": 100.0,
+      "timestamp": 1771781400000,
+      "temp": 18.3,
+      "vib_rms": 0.001,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21002210",
       "alias": "1830 RC-600 Spindel H.S DE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
-      "vib_rms": 0.0,
-      "health_index": 100.0,
+      "timestamp": 1771781400000,
+      "temp": 15.4,
+      "vib_rms": 0.0025495097567963926,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21002292",
       "alias": "1280 El motor Akk kjerrat 2 f\u00f8r barker",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
-      "vib_rms": 0.0,
-      "health_index": 100.0,
+      "timestamp": 1771781400000,
+      "temp": 17.5,
+      "vib_rms": 0.001414213562373095,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21002314",
@@ -264,9 +264,9 @@
     {
       "sn": "21002378",
       "alias": "1300.20 El motor RE rotor NDE",
-      "timestamp": 1771781100000,
+      "timestamp": 1771781400000,
       "temp": 18.5,
-      "vib_rms": 0.0,
+      "vib_rms": 0.002,
       "health_index": null,
       "failure_prob": 0.0,
       "status": "IDLE"
@@ -284,9 +284,9 @@
     {
       "sn": "21002409",
       "alias": "1300.40 El motor barkemaskin rotor NDE",
-      "timestamp": 1771781100000,
+      "timestamp": 1771781400000,
       "temp": 18.3,
-      "vib_rms": 0.004743416490252569,
+      "vib_rms": 0.0,
       "health_index": null,
       "failure_prob": 0.0,
       "status": "IDLE"
@@ -324,7 +324,7 @@
     {
       "sn": "21002511",
       "alias": "1290 El motor inn mat transport barker",
-      "timestamp": 1771781100000,
+      "timestamp": 1771781400000,
       "temp": 18.8,
       "vib_rms": 0.0,
       "health_index": null,
@@ -334,32 +334,32 @@
     {
       "sn": "21002942",
       "alias": "1880 QSS-420 el motor H.S nedre DE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
-      "vib_rms": 0.0,
-      "health_index": 100.0,
+      "timestamp": 1771781400000,
+      "temp": 14.800000000000002,
+      "vib_rms": 0.00483045891539648,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21003043",
       "alias": "2270 Avtrekksvifte El motor stup venstre",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": -7.8,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21003166",
       "alias": "1880 QSS-420 el motor H.S \u00f8vre NDE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": 15.8,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21003212",
@@ -414,12 +414,12 @@
     {
       "sn": "21008097",
       "alias": "1780 el motor NDE QSS-700 \u00d8.V",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": 15.2,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21008117",
@@ -434,7 +434,7 @@
     {
       "sn": "21008118",
       "alias": "1880 QSS-420 Spindel \u00d8.V DE",
-      "timestamp": 1771781100000,
+      "timestamp": 1771781400000,
       "temp": 14.5,
       "vib_rms": 0.0,
       "health_index": null,
@@ -454,12 +454,12 @@
     {
       "sn": "21008127",
       "alias": "1780 el motor NDE QSS-700 N.V",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": 15.0,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21008128",
@@ -484,12 +484,12 @@
     {
       "sn": "21008148",
       "alias": "1840 el motor P700C V.S NDE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": 15.5,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21008152",
@@ -544,12 +544,12 @@
     {
       "sn": "21008169",
       "alias": "1780 el motor NDE QSS-700 \u00d8.H",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": 15.3,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21008174",
@@ -574,12 +574,12 @@
     {
       "sn": "21008185",
       "alias": "1750 P-700 el motor DE nedre venstre",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
-      "vib_rms": 0.0,
-      "health_index": 100.0,
+      "timestamp": 1771781400000,
+      "temp": 14.699999999999998,
+      "vib_rms": 0.0011547005383792514,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21008211",
@@ -594,58 +594,58 @@
     {
       "sn": "21008244",
       "alias": "1780 el motor DE QSS-700 \u00d8.V",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781700000,
+      "temp": 15.2,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21008258",
       "alias": "1750 P-700L el motor DE vertikal venstre",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
-      "vib_rms": 0.0,
-      "health_index": 100.0,
+      "timestamp": 1771781400000,
+      "temp": 15.2,
+      "vib_rms": 0.00282842712474619,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21008260",
       "alias": "1840 el motor P700C H.S NDE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": 15.6,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21008264",
       "alias": "2080 el motor reimtrsp overgrovt",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": -7.7,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21008276",
       "alias": "2040 Sponskrue 3",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": 14.9,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21008295",
       "alias": "2020 Sponskrue 2",
-      "timestamp": 1771781100000,
-      "temp": 16.55,
+      "timestamp": 1771781400000,
+      "temp": 16.4,
       "vib_rms": 0.0,
       "health_index": null,
       "failure_prob": 0.0,
@@ -654,29 +654,29 @@
     {
       "sn": "21008296",
       "alias": "1010 El motor Matebord 1",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": -7.9,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21008299",
       "alias": "2230 El motor ABAC Barkemaskin DE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
-      "vib_rms": 0.0,
-      "health_index": 100.0,
+      "timestamp": 1771781400000,
+      "temp": 35.9,
+      "vib_rms": 0.012,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21008302",
       "alias": "1840 el motor P700C V.S DE",
-      "timestamp": 1771781100000,
+      "timestamp": 1771781400000,
       "temp": 15.5,
-      "vib_rms": 0.0,
+      "vib_rms": 0.002,
       "health_index": null,
       "failure_prob": 0.0,
       "status": "IDLE"
@@ -684,19 +684,19 @@
     {
       "sn": "21008303",
       "alias": "2230 El motor ABAC SAG DE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
-      "vib_rms": 0.0,
-      "health_index": 100.0,
+      "timestamp": 1771781400000,
+      "temp": 21.6,
+      "vib_rms": 3.703,
+      "health_index": 76.95185185185186,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "\ud83d\udfe2 MONITORING"
     },
     {
       "sn": "21008304",
       "alias": "1880 QSS-420 Spindel N.H DE",
-      "timestamp": 1771781100000,
+      "timestamp": 1771781400000,
       "temp": 13.2,
-      "vib_rms": 0.002,
+      "vib_rms": 0.0,
       "health_index": null,
       "failure_prob": 0.0,
       "status": "IDLE"
@@ -704,7 +704,7 @@
     {
       "sn": "21008309",
       "alias": "1750 P-700 el motor DE \u00f8vre h\u00f8yre",
-      "timestamp": 1771781100000,
+      "timestamp": 1771781400000,
       "temp": 14.8,
       "vib_rms": 0.0,
       "health_index": null,
@@ -714,7 +714,7 @@
     {
       "sn": "21009224",
       "alias": "1880 QSS-420 Spindel N.V NDE",
-      "timestamp": 1771781100000,
+      "timestamp": 1771781400000,
       "temp": 13.3,
       "vib_rms": 0.0,
       "health_index": null,
@@ -724,29 +724,29 @@
     {
       "sn": "21009277",
       "alias": "1880 QSS-420 Spindel N.V DE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": 13.3,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21009377",
       "alias": "1880 QSS-420 Spindel \u00d8.H NDE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": 14.5,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21009390",
       "alias": "1880 QSS-420 Spindel N.H NDE",
-      "timestamp": 1771781100000,
+      "timestamp": 1771781400000,
       "temp": 13.2,
-      "vib_rms": 0.001414213562373095,
+      "vib_rms": 0.0,
       "health_index": null,
       "failure_prob": 0.0,
       "status": "IDLE"
@@ -754,17 +754,17 @@
     {
       "sn": "21009909",
       "alias": "1830 RC-600 El motor V.S DE",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
+      "timestamp": 1771781400000,
+      "temp": 15.4,
       "vib_rms": 0.0,
-      "health_index": 100.0,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "21009914",
       "alias": "1780 el motor NDE QSS-700 N.H",
-      "timestamp": 1771781100000,
+      "timestamp": 1771781700000,
       "temp": 15.0,
       "vib_rms": 0.0,
       "health_index": null,
@@ -774,7 +774,7 @@
     {
       "sn": "21010297",
       "alias": "1780 el motor DE QSS-700 \u00d8.H",
-      "timestamp": 1771781100000,
+      "timestamp": 1771781400000,
       "temp": 15.3,
       "vib_rms": 0.0,
       "health_index": null,
@@ -844,7 +844,7 @@
     {
       "sn": "30012325",
       "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
-      "timestamp": 1771781100000,
+      "timestamp": 1771781400000,
       "temp": 17.4,
       "vib_rms": 0.015,
       "health_index": null,
@@ -854,29 +854,29 @@
     {
       "sn": "30012332",
       "alias": "1300.10 Girkasse \u00d8vre MV1 barkemaskin",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
-      "vib_rms": 0.0,
-      "health_index": 100.0,
+      "timestamp": 1771781700000,
+      "temp": 17.4,
+      "vib_rms": 0.013,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "30012342",
       "alias": "2060 Soll spindel nedrelager",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
-      "vib_rms": 0.0,
-      "health_index": 100.0,
+      "timestamp": 1771781400000,
+      "temp": -8.7,
+      "vib_rms": 0.013,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "30012349",
       "alias": "1300.50 Girkasse \u00d8vre MV3 barkemaskin",
-      "timestamp": 1771781100000,
-      "temp": 17.6,
-      "vib_rms": 0.014035668847618199,
+      "timestamp": 1771781400000,
+      "temp": 17.7,
+      "vib_rms": 0.015,
       "health_index": null,
       "failure_prob": 0.0,
       "status": "IDLE"
@@ -884,9 +884,9 @@
     {
       "sn": "30012361",
       "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
-      "timestamp": 1771781100000,
+      "timestamp": 1771781400000,
       "temp": 18.3,
-      "vib_rms": 0.012041594578792296,
+      "vib_rms": 0.013,
       "health_index": null,
       "failure_prob": 0.0,
       "status": "IDLE"
@@ -894,22 +894,22 @@
     {
       "sn": "30012362",
       "alias": "1290 Girkasse inn mat transport\u00f8r barker",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
-      "vib_rms": 0.0,
-      "health_index": 100.0,
+      "timestamp": 1771781400000,
+      "temp": 18.1,
+      "vib_rms": 0.015,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "30012363",
       "alias": "2060 Soll spindel \u00f8vre lager",
-      "timestamp": 1771781301152,
-      "temp": 0.0,
-      "vib_rms": 0.0,
-      "health_index": 100.0,
+      "timestamp": 1771781400000,
+      "temp": -8.1,
+      "vib_rms": 0.003,
+      "health_index": null,
       "failure_prob": 0.0,
-      "status": "INAKTIV"
+      "status": "IDLE"
     },
     {
       "sn": "30012382",
@@ -1114,6 +1114,66 @@
   ],
   "events": [
     {
+      "sn": "21008303",
+      "alias": "2230 El motor ABAC SAG DE",
+      "timestamp": "2026-02-22T10:05:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 3.8899236496363265,
+      "temp_mean": 29.133333333333336,
+      "temp_gradient": 11.433333333333334
+    },
+    {
+      "sn": "21008169",
+      "alias": "1780 el motor NDE QSS-700 \u00d8.H",
+      "timestamp": "2026-02-20T10:35:00",
+      "type": "\ud83d\udd34\ud83d\udd25 BRANN/STOPP \u2014 STOPP LINJEN!",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 0.0023094010767585028,
+      "temp_mean": 54.86666666666667,
+      "temp_gradient": 32.16666666666667
+    },
+    {
+      "sn": "21008303",
+      "alias": "2230 El motor ABAC SAG DE",
+      "timestamp": "2026-02-19T07:55:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 3.903556807579467,
+      "temp_mean": 28.725,
+      "temp_gradient": 10.024999999999999
+    },
+    {
+      "sn": "21008303",
+      "alias": "2230 El motor ABAC SAG DE",
+      "timestamp": "2026-02-18T14:40:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (Siemens)",
+      "vib_rms": 5.858526649252353,
+      "temp_mean": 24.7,
+      "temp_gradient": 2.539999999999999
+    },
+    {
+      "sn": "21008303",
+      "alias": "2230 El motor ABAC SAG DE",
+      "timestamp": "2026-02-16T17:05:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (Siemens)",
+      "vib_rms": 5.923742595127959,
+      "temp_mean": 23.76666666666667,
+      "temp_gradient": 1.0066666666666677
+    },
+    {
+      "sn": "21008169",
+      "alias": "1780 el motor NDE QSS-700 \u00d8.H",
+      "timestamp": "2026-02-13T07:15:00",
+      "type": "\ud83d\udd34\ud83d\udd25 BRANN/STOPP \u2014 STOPP LINJEN!",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 0.5565752419933894,
+      "temp_mean": 68.1,
+      "temp_gradient": 23.499999999999993
+    },
+    {
       "sn": "21008295",
       "alias": "2020 Sponskrue 2",
       "timestamp": "2026-02-13T06:10:00",
@@ -1124,6 +1184,16 @@
       "temp_gradient": 3.75
     },
     {
+      "sn": "21008097",
+      "alias": "1780 el motor NDE QSS-700 \u00d8.V",
+      "timestamp": "2026-02-13T05:55:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 0.46706851745755673,
+      "temp_mean": 39.05,
+      "temp_gradient": 13.299999999999997
+    },
+    {
       "sn": "21008295",
       "alias": "2020 Sponskrue 2",
       "timestamp": "2026-02-12T21:00:00",
@@ -1132,6 +1202,26 @@
       "vib_rms": 0.7356119901143536,
       "temp_mean": 26.6,
       "temp_gradient": 1.1333333333333329
+    },
+    {
+      "sn": "21008169",
+      "alias": "1780 el motor NDE QSS-700 \u00d8.H",
+      "timestamp": "2026-02-12T12:50:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 0.4330619663127514,
+      "temp_mean": 47.1,
+      "temp_gradient": 11.149999999999999
+    },
+    {
+      "sn": "21008185",
+      "alias": "1750 P-700 el motor DE nedre venstre",
+      "timestamp": "2026-02-11T15:45:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (Siemens)",
+      "vib_rms": 1.5972728842206851,
+      "temp_mean": 22.433333333333334,
+      "temp_gradient": 1.8333333333333321
     },
     {
       "sn": "30012361",
@@ -1154,6 +1244,16 @@
       "temp_gradient": 13.466666666666669
     },
     {
+      "sn": "30012332",
+      "alias": "1300.10 Girkasse \u00d8vre MV1 barkemaskin",
+      "timestamp": "2026-02-11T06:15:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 0.4552614633372783,
+      "temp_mean": 29.933333333333334,
+      "temp_gradient": 14.466666666666667
+    },
+    {
       "sn": "21009224",
       "alias": "1880 QSS-420 Spindel N.V NDE",
       "timestamp": "2026-02-11T05:50:00",
@@ -1162,6 +1262,26 @@
       "vib_rms": 1.0105773102538964,
       "temp_mean": 28.049999999999997,
       "temp_gradient": 12.749999999999996
+    },
+    {
+      "sn": "21008097",
+      "alias": "1780 el motor NDE QSS-700 \u00d8.V",
+      "timestamp": "2026-02-11T05:50:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 0.6314937318242624,
+      "temp_mean": 39.53333333333333,
+      "temp_gradient": 12.666666666666668
+    },
+    {
+      "sn": "21008169",
+      "alias": "1780 el motor NDE QSS-700 \u00d8.H",
+      "timestamp": "2026-02-11T05:50:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 0.9221087246089802,
+      "temp_mean": 41.4,
+      "temp_gradient": 13.75
     },
     {
       "sn": "30012325",
@@ -1174,6 +1294,26 @@
       "temp_gradient": 13.083333333333334
     },
     {
+      "sn": "21008169",
+      "alias": "1780 el motor NDE QSS-700 \u00d8.H",
+      "timestamp": "2026-02-10T09:30:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 1.0473072615044736,
+      "temp_mean": 36.900000000000006,
+      "temp_gradient": 14.500000000000007
+    },
+    {
+      "sn": "21008097",
+      "alias": "1780 el motor NDE QSS-700 \u00d8.V",
+      "timestamp": "2026-02-10T09:25:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 0.5095551981875958,
+      "temp_mean": 36.5,
+      "temp_gradient": 15.299999999999997
+    },
+    {
       "sn": "21002446",
       "alias": "1300.20 El motor RE rotor DE",
       "timestamp": "2026-02-09T07:35:00",
@@ -1182,6 +1322,16 @@
       "vib_rms": 0.676418879097856,
       "temp_mean": 9.75,
       "temp_gradient": 4.35
+    },
+    {
+      "sn": "21008260",
+      "alias": "1840 el motor P700C H.S NDE",
+      "timestamp": "2026-02-06T09:05:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (Siemens)",
+      "vib_rms": 0.9171207663116129,
+      "temp_mean": 24.4,
+      "temp_gradient": 0.533333333333335
     },
     {
       "sn": "30012325",
@@ -1194,6 +1344,16 @@
       "temp_gradient": 11.399999999999999
     },
     {
+      "sn": "21008169",
+      "alias": "1780 el motor NDE QSS-700 \u00d8.H",
+      "timestamp": "2026-02-06T06:15:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 0.7507799278084091,
+      "temp_mean": 36.7,
+      "temp_gradient": 10.350000000000001
+    },
+    {
       "sn": "21002511",
       "alias": "1290 El motor inn mat transport barker",
       "timestamp": "2026-02-05T11:35:00",
@@ -1202,6 +1362,16 @@
       "vib_rms": 0.12359207094308276,
       "temp_mean": 25.666666666666668,
       "temp_gradient": 5.341666666666669
+    },
+    {
+      "sn": "21008185",
+      "alias": "1750 P-700 el motor DE nedre venstre",
+      "timestamp": "2026-02-05T09:05:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (Siemens)",
+      "vib_rms": 1.7728522217037719,
+      "temp_mean": 22.5,
+      "temp_gradient": -0.3999999999999986
     },
     {
       "sn": "21008128",
@@ -1244,6 +1414,36 @@
       "temp_gradient": 12.100000000000001
     },
     {
+      "sn": "30012332",
+      "alias": "1300.10 Girkasse \u00d8vre MV1 barkemaskin",
+      "timestamp": "2026-02-05T06:15:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 0.3550218303147005,
+      "temp_mean": 28.7,
+      "temp_gradient": 11.899999999999999
+    },
+    {
+      "sn": "30012362",
+      "alias": "1290 Girkasse inn mat transport\u00f8r barker",
+      "timestamp": "2026-02-05T06:15:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 0.2748035662068453,
+      "temp_mean": 32.75,
+      "temp_gradient": 11.616666666666667
+    },
+    {
+      "sn": "21008299",
+      "alias": "2230 El motor ABAC Barkemaskin DE",
+      "timestamp": "2026-02-05T06:10:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 0.7695534419388949,
+      "temp_mean": 45.724999999999994,
+      "temp_gradient": 13.158333333333324
+    },
+    {
       "sn": "21008128",
       "alias": "1300.30 Girkasse \u00d8vre MV2 barkemaskin",
       "timestamp": "2026-02-03T06:55:00",
@@ -1284,6 +1484,46 @@
       "temp_gradient": 10.953333333333333
     },
     {
+      "sn": "21001984",
+      "alias": "1730 El motor RL-600 V.S NDE",
+      "timestamp": "2026-02-03T06:55:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (Siemens)",
+      "vib_rms": 2.3954174305675133,
+      "temp_mean": 23.2,
+      "temp_gradient": 2.8999999999999986
+    },
+    {
+      "sn": "30012332",
+      "alias": "1300.10 Girkasse \u00d8vre MV1 barkemaskin",
+      "timestamp": "2026-02-03T06:55:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 0.4749192913888983,
+      "temp_mean": 27.066666666666666,
+      "temp_gradient": 11.4
+    },
+    {
+      "sn": "21008169",
+      "alias": "1780 el motor NDE QSS-700 \u00d8.H",
+      "timestamp": "2026-02-03T06:50:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (AWS)",
+      "vib_rms": 0.8700281604637864,
+      "temp_mean": 36.1,
+      "temp_gradient": 11.166666666666668
+    },
+    {
+      "sn": "21008185",
+      "alias": "1750 P-700 el motor DE nedre venstre",
+      "timestamp": "2026-02-02T18:10:00",
+      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
+      "msg": "Wykryto zdarzenie AI (Siemens)",
+      "vib_rms": 1.5555143843757921,
+      "temp_mean": 21.75,
+      "temp_gradient": 0.9499999999999993
+    },
+    {
       "sn": "21008295",
       "alias": "2020 Sponskrue 2",
       "timestamp": "2026-02-01T10:25:00",
@@ -1314,304 +1554,64 @@
       "temp_gradient": 12.075000000000003
     },
     {
-      "sn": "21008295",
-      "alias": "2020 Sponskrue 2",
-      "timestamp": "2026-01-28T06:10:00",
+      "sn": "21009909",
+      "alias": "1830 RC-600 El motor V.S DE",
+      "timestamp": "2026-02-01T06:30:00",
       "type": "\ud83d\udd34 KRITISK ALARM",
-      "msg": "Wykryto zdarzenie AI (Siemens)",
-      "vib_rms": 0.6836275789248607,
-      "temp_mean": 22.133333333333336,
-      "temp_gradient": 6.433333333333335
+      "msg": "Wykryto zdarzenie AI (RCF)",
+      "vib_rms": 3.0255035944450634,
+      "temp_mean": 23.333333333333332,
+      "temp_gradient": 5.083333333333332
     },
     {
-      "sn": "21008302",
-      "alias": "1840 el motor P700C V.S DE",
-      "timestamp": "2026-01-27T19:30:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (Siemens)",
-      "vib_rms": 0.9238468487796015,
-      "temp_mean": 31.55,
-      "temp_gradient": 1.0833333333333321
-    },
-    {
-      "sn": "21008304",
-      "alias": "1880 QSS-420 Spindel N.H DE",
-      "timestamp": "2026-01-27T18:20:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (Siemens)",
-      "vib_rms": 0.8960312494550623,
-      "temp_mean": 25.633333333333336,
-      "temp_gradient": 1.7333333333333414
-    },
-    {
-      "sn": "21009224",
-      "alias": "1880 QSS-420 Spindel N.V NDE",
-      "timestamp": "2026-01-27T11:10:00",
+      "sn": "21008097",
+      "alias": "1780 el motor NDE QSS-700 \u00d8.V",
+      "timestamp": "2026-02-01T06:15:00",
       "type": "\ud83d\udfe1 PLANLEGG SERVICE",
       "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 1.3471432737463378,
-      "temp_mean": 36.36666666666667,
-      "temp_gradient": 15.291666666666668
+      "vib_rms": 1.6276422825670267,
+      "temp_mean": 29.48,
+      "temp_gradient": 11.613333333333337
     },
     {
-      "sn": "21009390",
-      "alias": "1880 QSS-420 Spindel N.H NDE",
-      "timestamp": "2026-01-27T11:10:00",
+      "sn": "21008169",
+      "alias": "1780 el motor NDE QSS-700 \u00d8.H",
+      "timestamp": "2026-02-01T06:15:00",
       "type": "\ud83d\udfe1 PLANLEGG SERVICE",
       "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 1.3835860411746477,
-      "temp_mean": 33.5,
-      "temp_gradient": 11.100000000000001
+      "vib_rms": 1.3230808743232592,
+      "temp_mean": 33.675,
+      "temp_gradient": 13.474999999999994
     },
     {
-      "sn": "21009390",
-      "alias": "1880 QSS-420 Spindel N.H NDE",
-      "timestamp": "2026-01-26T07:30:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 0.866,
-      "temp_mean": 38.7,
-      "temp_gradient": 15.600000000000005
-    },
-    {
-      "sn": "21009224",
-      "alias": "1880 QSS-420 Spindel N.V NDE",
-      "timestamp": "2026-01-26T07:25:00",
-      "type": "\ud83d\udd34\ud83d\udd25 BRANN/STOPP \u2014 STOPP LINJEN!",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 1.5478547250953496,
-      "temp_mean": 45.225,
-      "temp_gradient": 24.275000000000002
-    },
-    {
-      "sn": "21008128",
-      "alias": "1300.30 Girkasse \u00d8vre MV2 barkemaskin",
-      "timestamp": "2026-01-23T06:50:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 1.141564934640163,
-      "temp_mean": 38.25,
-      "temp_gradient": 11.899999999999999
-    },
-    {
-      "sn": "30012325",
-      "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
-      "timestamp": "2026-01-23T06:50:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 0.6381629885852047,
-      "temp_mean": 37.8,
-      "temp_gradient": 13.449999999999996
-    },
-    {
-      "sn": "30012361",
-      "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
-      "timestamp": "2026-01-23T06:45:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 0.8278207837448877,
-      "temp_mean": 36.65,
-      "temp_gradient": 13.349999999999998
-    },
-    {
-      "sn": "21009390",
-      "alias": "1880 QSS-420 Spindel N.H NDE",
-      "timestamp": "2026-01-23T06:15:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 1.6134016858798679,
-      "temp_mean": 41.1,
-      "temp_gradient": 13.350000000000001
-    },
-    {
-      "sn": "30012319",
-      "alias": "1300.10 El motor MV1 Barkemaskin",
-      "timestamp": "2026-01-22T16:15:00",
+      "sn": "21008260",
+      "alias": "1840 el motor P700C H.S NDE",
+      "timestamp": "2026-02-01T06:15:00",
       "type": "\ud83d\udfe1 PLANLEGG SERVICE",
       "msg": "Wykryto zdarzenie AI (Siemens)",
-      "vib_rms": 0.914012034931707,
-      "temp_mean": 26.9,
-      "temp_gradient": -1.1000000000000014
+      "vib_rms": 0.8351347196710242,
+      "temp_mean": 19.65,
+      "temp_gradient": 3.349999999999998
     },
     {
-      "sn": "21001657",
-      "alias": "1300.10 Girkasse Nedre MV1 barkemaskin",
-      "timestamp": "2026-01-22T06:20:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 0.31422868530206893,
-      "temp_mean": 33.333333333333336,
-      "temp_gradient": 11.833333333333336
-    },
-    {
-      "sn": "21008128",
-      "alias": "1300.30 Girkasse \u00d8vre MV2 barkemaskin",
-      "timestamp": "2026-01-22T06:20:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 0.40588237212276174,
-      "temp_mean": 37.425,
-      "temp_gradient": 15.305
-    },
-    {
-      "sn": "30012361",
-      "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
-      "timestamp": "2026-01-22T06:20:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 1.3730564445790274,
-      "temp_mean": 36.75,
-      "temp_gradient": 15.23
-    },
-    {
-      "sn": "21009390",
-      "alias": "1880 QSS-420 Spindel N.H NDE",
-      "timestamp": "2026-01-22T06:15:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 2.1635573715526935,
-      "temp_mean": 39.4,
-      "temp_gradient": 13.399999999999999
-    },
-    {
-      "sn": "30012325",
-      "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
-      "timestamp": "2026-01-22T06:15:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 0.5938133825818792,
-      "temp_mean": 35.5,
-      "temp_gradient": 15.399999999999999
-    },
-    {
-      "sn": "30012349",
-      "alias": "1300.50 Girkasse \u00d8vre MV3 barkemaskin",
-      "timestamp": "2026-01-22T06:15:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 1.308349978662692,
-      "temp_mean": 36.699999999999996,
-      "temp_gradient": 16.574999999999996
-    },
-    {
-      "sn": "30012325",
-      "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
-      "timestamp": "2026-01-21T16:10:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 0.7976544782464815,
-      "temp_mean": 32.6,
-      "temp_gradient": 11.933333333333334
-    },
-    {
-      "sn": "21009390",
-      "alias": "1880 QSS-420 Spindel N.H NDE",
-      "timestamp": "2026-01-21T10:10:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 1.9055268300393988,
-      "temp_mean": 41.8,
-      "temp_gradient": 11.199999999999996
-    },
-    {
-      "sn": "21009224",
-      "alias": "1880 QSS-420 Spindel N.V NDE",
-      "timestamp": "2026-01-18T07:15:00",
-      "type": "\ud83d\udd34\ud83d\udd25 BRANN/STOPP \u2014 STOPP LINJEN!",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 1.6423463905847226,
-      "temp_mean": 59.199999999999996,
-      "temp_gradient": 23.199999999999996
-    },
-    {
-      "sn": "21002378",
-      "alias": "1300.20 El motor RE rotor NDE",
-      "timestamp": "2026-01-18T06:25:00",
-      "type": "\ud83d\udd34 KRITISK ALARM",
-      "msg": "Wykryto zdarzenie AI (Siemens)",
-      "vib_rms": 2.2298506676457057,
-      "temp_mean": 15.5,
-      "temp_gradient": 3.4000000000000004
-    },
-    {
-      "sn": "21002446",
-      "alias": "1300.20 El motor RE rotor DE",
-      "timestamp": "2026-01-18T06:25:00",
+      "sn": "21008097",
+      "alias": "1780 el motor NDE QSS-700 \u00d8.V",
+      "timestamp": "2026-01-28T12:50:00",
       "type": "\ud83d\udfe1 PLANLEGG SERVICE",
       "msg": "Wykryto zdarzenie AI (Siemens)",
-      "vib_rms": 1.1003601683085407,
-      "temp_mean": 16.65,
-      "temp_gradient": 3.849999999999998
+      "vib_rms": 1.5357157940191928,
+      "temp_mean": 37.94,
+      "temp_gradient": 1.2399999999999949
     },
     {
-      "sn": "21009224",
-      "alias": "1880 QSS-420 Spindel N.V NDE",
-      "timestamp": "2026-01-16T06:30:00",
-      "type": "\ud83d\udd34\ud83d\udd25 BRANN/STOPP \u2014 STOPP LINJEN!",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 1.591011313598995,
-      "temp_mean": 45.35,
-      "temp_gradient": 16.183333333333334
-    },
-    {
-      "sn": "21009390",
-      "alias": "1880 QSS-420 Spindel N.H NDE",
-      "timestamp": "2026-01-16T06:30:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 1.5210013149238233,
-      "temp_mean": 39.8,
-      "temp_gradient": 12.5
-    },
-    {
-      "sn": "30012319",
-      "alias": "1300.10 El motor MV1 Barkemaskin",
-      "timestamp": "2026-01-15T19:40:00",
+      "sn": "21008260",
+      "alias": "1840 el motor P700C H.S NDE",
+      "timestamp": "2026-01-28T09:25:00",
       "type": "\ud83d\udfe1 PLANLEGG SERVICE",
       "msg": "Wykryto zdarzenie AI (Siemens)",
-      "vib_rms": 0.8208783913183081,
-      "temp_mean": 27.933333333333334,
-      "temp_gradient": -1.1916666666666664
-    },
-    {
-      "sn": "21002511",
-      "alias": "1290 El motor inn mat transport barker",
-      "timestamp": "2026-01-15T15:05:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (Siemens)",
-      "vib_rms": 1.2538239509596234,
-      "temp_mean": 24.85,
-      "temp_gradient": 0.09000000000000341
-    },
-    {
-      "sn": "21008118",
-      "alias": "1880 QSS-420 Spindel \u00d8.V DE",
-      "timestamp": "2026-01-15T06:05:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (Siemens)",
-      "vib_rms": 1.2582959376341747,
-      "temp_mean": 31.53333333333333,
-      "temp_gradient": 7.493333333333332
-    },
-    {
-      "sn": "21009390",
-      "alias": "1880 QSS-420 Spindel N.H NDE",
-      "timestamp": "2026-01-15T05:55:00",
-      "type": "\ud83d\udfe1 PLANLEGG SERVICE",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 1.1565900310827515,
-      "temp_mean": 36.05,
-      "temp_gradient": 11.049999999999997
-    },
-    {
-      "sn": "21009224",
-      "alias": "1880 QSS-420 Spindel N.V NDE",
-      "timestamp": "2026-01-15T05:50:00",
-      "type": "\ud83d\udd34\ud83d\udd25 BRANN/STOPP \u2014 STOPP LINJEN!",
-      "msg": "Wykryto zdarzenie AI (AWS)",
-      "vib_rms": 2.6363827870777796,
-      "temp_mean": 45.06,
-      "temp_gradient": 19.610000000000003
+      "vib_rms": 0.8369191518101774,
+      "temp_mean": 22.7,
+      "temp_gradient": 1.3999999999999986
     }
   ]
 }
