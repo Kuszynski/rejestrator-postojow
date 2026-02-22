@@ -59,9 +59,9 @@ warnings.filterwarnings('ignore')
 # Gdy CF rośnie powyżej 5, oznacza to impulsy mechaniczne (pęknięcia kulek,
 # odpryski bieżni) — zanim jeszcze wzrośnie temperatura.
 SKF_CF_NORMAL = 3.0       # CF < 3.0 → łożysko zdrowe
-SKF_CF_WARNING = 5.0      # 3.0 ≤ CF < 5.0 → wczesne zużycie (micro-pitting)
-SKF_CF_CRITICAL = 6.0     # CF ≥ 6.0 → uszkodzenie bieżni/kulek → PLANUJ SERWIS
-SKF_VIBRATION_IDLE = 0.10 # g — podniesiono z 0.01g aby ignorować szum tła innych maszyn
+SKF_CF_WARNING = 5.0      # 3.0 ≤ CF < 5.0 → wczesne mikro-pittingi
+SKF_CF_CRITICAL = 6.0     # CF ≥ 6.0 → poważne uszkodzenie fizyczne
+SKF_VIBRATION_IDLE = 0.1  # g — Idle bypass (ignoruje wibracje tła poniżej 0.1g)
 
 # --- Siemens: Baseline Deviation (Adaptacyjna Banda Statystyczna) ---
 # Ref: Siemens MindSphere / AWS Monitron — adaptive statistical bands
@@ -71,8 +71,8 @@ SKF_VIBRATION_IDLE = 0.10 # g — podniesiono z 0.01g aby ignorować szum tła i
 # Jeśli maszyna jest stabilna (±3%), banda będzie ciaśniejsza.
 SIEMENS_BASELINE_WINDOW = '30D'  # Okno bazowe: 30 dni (~20 cykli produkcyjnych)
                                   # 7 dni to za mało dla maszyn start-stop (tylko ~5 cykli)
-SIEMENS_SIGMA_WARNING = 2.0      # μ ± 2σ → PLANUJ SERWIS (95.4% przedział ufności)
-SIEMENS_SIGMA_CRITICAL = 3.0     # μ ± 3σ → ALARM KRYTYCZNY (99.7% — prawie pewność anomalii)
+SIEMENS_SIGMA_WARNING = 2.0      # μ ± 2σ → PLANLEGG SERVICE (🟡) (95.4% pewności anomalii)
+SIEMENS_SIGMA_CRITICAL = 3.0     # μ ± 3σ → KRITISK ALARM (🔴) (99.7% pewności anomalii)
 SIEMENS_STEADYSTATE_WINDOW = 6   # Interwały (30 min) do oceny stabilności maszyny
 SIEMENS_STEADYSTATE_CV_MAX = 0.15  # Max współczynnik zmienności (15%) = steady state
 
@@ -85,10 +85,15 @@ SIEMENS_STEADYSTATE_CV_MAX = 0.15  # Max współczynnik zmienności (15%) = stea
 # UWAGA: Tylko DODATNIE gradienty (grzanie) są niebezpieczne.
 # Ujemny gradient = chłodzenie = BEZPIECZNE.
 AWS_GRADIENT_WINDOW = '1h'       # Okno obliczeń gradientu
-AWS_GRADIENT_WARNING = 10.0      # °C/h → PLANUJ SERWIS (ponad 95 percentyl)
-AWS_GRADIENT_CRITICAL = 15.0     # °C/h → 🔥 POŻAR/STOP (ponad 99.9 percentyl)
-AWS_GRADIENT_FIRE_EXTREME = 30.0 # °C/h → 🔥🔥🔥 EKSTREMALNY POŻAR (Bypass debouncingu!)
-AWS_MIN_FIRE_TEMP = 45.0         # °C → Minimalna absolutna temp pożaru (Cold-Start bypass)
+AWS_GRADIENT_WARNING = 10.0      # °C/h → Warning
+AWS_GRADIENT_CRITICAL = 15.0     # °C/h → Critical / Fire (🔴🔥)
+AWS_GRADIENT_FIRE_EXTREME = 30.0 # °C/h → Extreme Fire (natychmiastowy stop linii)
+AWS_MIN_FIRE_TEMP = 45.0         # °C → Minimalna temp wymagana dla pożaru
+# --- NOWY: Podłoga wibracji dla alarmów krytycznych ---
+# Chroni przed nadawaniem statusu BRANN na bardzo cichych maszynach (np. 0.3g)
+# które statystycznie mają anomalię, ale fizycznie nic im nie grozi.
+SIEMENS_MIN_CRITICAL_RMS = 0.3   # g 
+
 # Dzień produkcyjny: 06:00 — 23:20
 # Przerwy: 09:30–10:00 (śniadanie), 19:00–19:30 (kolacja)
 # Poza tymi godzinami maszyna jest wyłączona — ignoruj szum czujników.
@@ -136,8 +141,8 @@ ISO_VIB_ZONE_B_C = 1.80  # mm/s (Granica między Zadowalającym a Niepokojącym)
 ISO_VIB_ZONE_C_D = 4.50  # mm/s (Granica między Niepokojącym a Niedopuszczalnym)
 
 # Progi anomalii RCF (Random Cut Forest) kalibrowane automatycznie z danych:
-RCF_PERCENTILE_WARNING = 99.0    # Score > 99-ty percentyl → PLANUJ SERWIS
-RCF_PERCENTILE_CRITICAL = 99.9   # Score > 99.9-ty percentyl → ANOMALIA KRYTYCZNA
+RCF_PERCENTILE_WARNING = 99.0    # Score > 99.0-ty percentyl → PLANLEGG SERVICE
+RCF_PERCENTILE_CRITICAL = 99.9   # Score > 99.9-ty percentyl → KRITISK ALARM
 
 # --- Agregacja ---
 AGGREGATION_INTERVAL = '5min'    # Interwał próbkowania: 5 minut
@@ -186,8 +191,16 @@ def prepare_bearing_data(df: pd.DataFrame) -> pd.DataFrame:
       - mean: średnia w oknie — wystarczająca dla gradientu (AWS Monitron)
     """
     # Rozdziel kanały
-    vib = df[df['unit'] == 'g'].copy()
-    temp = df[df['unit'] == '°C'].copy()
+    if 'vib_rms' in df.columns and 'temp_mean' in df.columns:
+        # Format "wide" (nowy daemon) - przygotuj do agregacji
+        vib = df[['timestamp', 'vib_rms']].copy().rename(columns={'vib_rms': 'value'})
+        vib['unit'] = 'g'
+        temp = df[['timestamp', 'temp_mean']].copy().rename(columns={'temp_mean': 'value'})
+        temp['unit'] = '°C'
+    else:
+        # Format "long" (klasyczny CSV)
+        vib = df[df['unit'] == 'g'].copy()
+        temp = df[df['unit'] == '°C'].copy()
 
     vib = vib.set_index('timestamp')
     temp = temp.set_index('timestamp')
@@ -271,7 +284,13 @@ def prepare_hall_data(df: pd.DataFrame) -> pd.DataFrame:
     Przygotuj dane temperatury hali jako referencję otoczenia.
     Używane do kompensacji: ΔT_skorygowane = T_łożysko - T_hala
     """
-    temp = df[df['unit'] == '°C'].copy()
+    if 'temp_mean' in df.columns:
+        # Format wide
+        temp = df[['timestamp', 'temp_mean']].copy().rename(columns={'temp_mean': 'value'})
+    else:
+        # Format long
+        temp = df[df['unit'] == '°C'].copy()
+
     temp = temp.set_index('timestamp')
 
     hall_agg = temp['value'].resample(AGGREGATION_INTERVAL).agg(
@@ -328,9 +347,9 @@ def analyze_skf_crest_factor(df: pd.DataFrame) -> pd.DataFrame:
         'IDLE',
         '🟢 MONITORING',
         '🟢 MONITORING',
-        '🟡 WCZESNE ZUŻYCIE',
-        '🟡 PLANUJ SERWIS',
-        '🔴 USZKODZENIE CF'
+        '🟡 PLANLEGG SERVICE',
+        '🟡 PLANLEGG SERVICE',
+        '🔴 KRITISK ALARM'
     ]
     df['skf_status'] = np.select(conditions, choices, default='UNKNOWN')
 
@@ -438,8 +457,8 @@ def analyze_siemens_baseline(df: pd.DataFrame) -> pd.DataFrame:
         '🟢 MONITORING',          # Rozgrzewka
         '🟢 MONITORING',          # Stan przejściowy — nie alarmuj
         '🟢 MONITORING',          # Wewnątrz bandy 2σ
-        '🟡 PLANUJ SERWIS',       # Poza bandą 2σ — trend
-        '🔴 ODCHYLENIE KRYTYCZNE' # Poza bandą 3σ — anomalia
+        '🟡 PLANLEGG SERVICE',    # Poza bandą 2σ — trend
+        '🔴 KRITISK ALARM'        # Poza bandą 3σ — anomalia
     ]
     df['siemens_status'] = np.select(conditions, choices, default='UNKNOWN')
 
@@ -547,12 +566,12 @@ def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None) -> pd.Da
         gradient_for_alarm >= AWS_GRADIENT_CRITICAL                  # Alarm zdegradowany przez niską temperaturę fizyczną (zimny start)
     ]
     choices = [
-        '🔴 POŻAR/STOP',
+        '🔴🔥 BRANN/STOPP',
         'IDLE',
         '🟢 MONITORING',
-        '🟡 PLANUJ SERWIS',
-        '🔴 POŻAR/STOP',
-        '🟡 PLANUJ SERWIS'                                           # Zimny rozbieg zdegradowany do statusu żółtego!
+        '🟡 PLANLEGG SERVICE',
+        '🔴🔥 BRANN/STOPP',
+        '🟡 PLANLEGG SERVICE'                                           # Zimny rozbieg zdegradowany do statusu żółtego!
     ]
     df['aws_status'] = np.select(conditions, choices, default='UNKNOWN')
 
@@ -657,10 +676,10 @@ def analyze_rcf_anomaly(df: pd.DataFrame) -> pd.DataFrame:
     rcf_status = pd.Series('IDLE', index=df.index)
     rcf_status[prod_mask] = np.where(
         scores <= threshold_critical,
-        '🔴 ANOMALIA KRYTYCZNA RCF',
+        '🔴 KRITISK ALARM',
         np.where(
             scores <= threshold_warning,
-            '🟡 ANOMALIA RCF',
+            '🟡 PLANLEGG SERVICE',
             '🟢 MONITORING'
         )
     )
@@ -708,13 +727,9 @@ def fuse_alarms(df: pd.DataFrame) -> pd.DataFrame:
     priority = {
         'IDLE': 0,
         '🟢 MONITORING': 1,
-        '🟡 WCZESNE ZUŻYCIE': 2,
-        '🟡 PLANUJ SERWIS': 3,
-        ' ANOMALIA RCF': 3,     # RCF warning = ten sam poziom co PLANUJ SERWIS
-        '🔴 USZKODZENIE CF': 4,
-        '🔴 ODCHYLENIE KRYTYCZNE': 4,
-        '🔴 ANOMALIA KRYTYCZNA RCF': 4,  # RCF critical = ten sam co Siemens critical
-        '🔴 POŻAR/STOP': 5,
+        '🟡 PLANLEGG SERVICE': 3,
+        '🔴 KRITISK ALARM': 4,
+        '🔴🔥 BRANN/STOPP': 5,
         'UNKNOWN': 0
     }
 
@@ -727,7 +742,7 @@ def fuse_alarms(df: pd.DataFrame) -> pd.DataFrame:
 
     # ── Alarm Persistence (Debounce) ──
     # Dla każdego silnika: ile kolejnych interwałów alarm jest aktywny?
-    # Alarm trwa = priorytet >= 3 (PLANUJ SERWIS lub wyżej)
+    # Alarm trwa = priorytet >= 3 (PLANLEGG SERVICE lub wyżej)
     for col in ['p_skf', 'p_siemens', 'p_aws', 'p_rcf']:
         alarm_active = (df[col] >= 3).astype(int)
         # Oblicz ciąg kolejnych jedynek (rolling count z resetem na 0)
@@ -745,22 +760,34 @@ def fuse_alarms(df: pd.DataFrame) -> pd.DataFrame:
         if 'temp_gradient_final' in df.columns and 'temp_mean' in df.columns:
             is_extreme_fire = (df['temp_gradient_final'] >= AWS_GRADIENT_FIRE_EXTREME) & (df['temp_mean'] >= AWS_MIN_FIRE_TEMP)
         
-        # POŻAR/STOP (priorytet 5) — wymóg potwierdzenia
+        # BRANN/STOPP (priorytet 5) — wymóg potwierdzenia
         # CHYBA ŻE JEST TO EKSTREMALNY POŻAR (który nie zmarzł) - wtedy bypass debouncingu (persistence = 0)
         is_fire_not_persistent = (
             (df[col] >= 5) &
             (df[f'{col}_streak'] < ALARM_PERSISTENCE_FIRE) &
             ~is_extreme_fire
         )
-        # Zwykłe alarmy (priorytet 3-4) — pełna persistence (25 min)
+        # Zwykłe alarmy (priorytet 3-4) — pełna persistence 
+        # Zmieniono: alarmy nie sš już kasowane do statusu ZIELONEGO,
+        # Jeżeli alarm (np p=4) nie ma persistence, próbujemy zachować chociaż p=3 jeśli pod spodem też krzyczy algorytm
         is_alarm_not_persistent = (
             (df[col] >= 3) &
             (df[col] < 5) &
             (df[f'{col}_streak'] < ALARM_PERSISTENCE_INTERVALS)
         )
-        # Zdegraduj nietrwałe alarmy do MONITORING
-        df.loc[is_fire_not_persistent | is_alarm_not_persistent, status_col] = '🟢 MONITORING'
-        df.loc[is_fire_not_persistent | is_alarm_not_persistent, col] = 1
+        
+        # Degradacja: zamiast na ślepo wrzucać 🟢 MONITORING (p=1), 
+        # zrzucamy nietrwałe p>=4 do p=3 (SERVICE), a nietrwałe p=3 do p=1
+        df.loc[is_fire_not_persistent, col] = 4
+        df.loc[is_fire_not_persistent, status_col] = '🔴 KRITISK ALARM'
+        
+        unpersisted_crit = is_alarm_not_persistent & (df[col] == 4)
+        df.loc[unpersisted_crit, col] = 3
+        df.loc[unpersisted_crit, status_col] = '🟡 PLANLEGG SERVICE'
+        
+        unpersisted_warn = is_alarm_not_persistent & (df[col] == 3)
+        df.loc[unpersisted_warn, col] = 1
+        df.loc[unpersisted_warn, status_col] = '🟢 MONITORING'
 
     # Przelicz max_priority po debounce
     df['max_priority'] = df[['p_skf', 'p_siemens', 'p_aws', 'p_rcf']].max(axis=1)
@@ -778,7 +805,7 @@ def fuse_alarms(df: pd.DataFrame) -> pd.DataFrame:
         '🟢 MONITORING',
         '🟡 PLANLEGG SERVICE',
         '🔴 KRITISK ALARM',
-        '🔴🔥 BRANN/STOPP — STOPP LINJEN!'
+        '🔴🔥 BRANN/STOPP'
     ]
     df['FINAL_VERDICT'] = np.select(conditions, choices, default='UNKNOWN')
 
@@ -1031,7 +1058,7 @@ def print_summary_stats(df: pd.DataFrame):
     print(f"  ⚙️  IDLE (maskin av): {idle:>6}  ({idle/total*100:5.1f}%)")
     print(f"  🟢 MONITORING (stabil):       {ok:>6}  ({ok/total*100:5.1f}%)")
     print(f"  🟡 PLANLEGG SERVICE (trend):   {warn:>6}  ({warn/total*100:5.1f}%)")
-    print(f"  🔴 KRITISK ALARM / STOPP:      {crit:>6}  ({crit/total*100:5.1f}%)")
+    print(f"  🔴 KRITISK ALARM / BRANN:      {crit:>6}  ({crit/total*100:5.1f}%)")
     print(f"{'─' * 80}")
 
     # Temperatura
@@ -1059,7 +1086,7 @@ def print_summary_stats(df: pd.DataFrame):
 
 def print_alarm_events(df: pd.DataFrame):
     """Wydrukuj szczegółową listę zdarzeń alarmowych."""
-    alarms = df[df['FINAL_VERDICT'].str.contains('SERWIS|ALARM|POŻAR', na=False)].copy()
+    alarms = df[df['FINAL_VERDICT'].str.contains('SERVICE|ALARM|BRANN', na=False)].copy()
 
     if len(alarms) == 0:
         print("\n  ✅ BRAK ALARMÓW — Maszyna pracuje w normie przez cały analizowany okres.")
@@ -1115,7 +1142,7 @@ def print_alarm_events(df: pd.DataFrame):
 
 def print_recommendations(df: pd.DataFrame):
     """Wydrukuj rekomendacje działań na podstawie wyników analizy."""
-    alarms = df[df['FINAL_VERDICT'].str.contains('SERWIS|ALARM|POŻAR', na=False)]
+    alarms = df[df['FINAL_VERDICT'].str.contains('SERVICE|ALARM|BRANN', na=False)]
 
     print(f"\n{'═' * 80}")
     print("  📋 REKOMENDACJE DLA ZARZĄDU / KIEROWNIKA UR")
@@ -1125,16 +1152,16 @@ def print_recommendations(df: pd.DataFrame):
         print("  ✅ Brak wymaganych działań. Kontynuować monitoring.")
         return
 
-    has_fire = df['FINAL_VERDICT'].str.contains('POŻAR', na=False).any()
-    has_critical = df['FINAL_VERDICT'].str.contains('ALARM KRYTYCZNY', na=False).any()
-    has_service = df['FINAL_VERDICT'].str.contains('PLANUJ SERWIS', na=False).any()
+    has_fire = df['FINAL_VERDICT'].str.contains('BRANN', na=False).any()
+    has_critical = df['FINAL_VERDICT'].str.contains('KRITISK', na=False).any()
+    has_service = df['FINAL_VERDICT'].str.contains('SERVICE', na=False).any()
 
     rec_num = 1
     if has_fire:
         print(f"\n  🔴 REKOMENDACJA {rec_num}: NATYCHMIASTOWE ZATRZYMANIE")
         print(f"     Wykryto krytyczny gradient temperatury (>{AWS_GRADIENT_CRITICAL}°C/h).")
         print(f"     Uzasadnienie: Zgodnie z AWS Monitron methodology, szybki wzrost")
-        print(f"     temperatury wskazuje na utratę smarowania lub zacieranie.")
+        print(f"     temperatury wskazuje na utratę smarowania lub zacieranie (🔴🔥 BRANN/STOPP).")
         print(f"     RYZYKO: Pożar łożyska w ciągu 1-3 godzin bez interwencji.")
         print(f"     AKCJA: Zatrzymaj linię. Sprawdź smarowanie i stan bieżni.")
         rec_num += 1
@@ -1151,7 +1178,7 @@ def print_recommendations(df: pd.DataFrame):
         print(f"\n  🟡 REKOMENDACJA {rec_num}: PLANOWANY SERWIS (2-4 TYGODNIE)")
         print(f"     Wykryto trend wzrostowy wibracji lub temperatury.")
         print(f"     Uzasadnienie: Siemens Baseline Deviation wskazuje na")
-        print(f"     postępujące zużycie, jeszcze niekrytyczne.")
+        print(f"     postępujące zużycie (🟡 PLANLEGG SERVICE).")
         print(f"     AKCJA: Zamów części. Zaplanuj wymianę w ramach planowego przestoju.")
         rec_num += 1
 

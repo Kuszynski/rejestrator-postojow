@@ -25,13 +25,14 @@ from bearing_monitor import (
 # i podrzuca JSON Frontendowi by nie zaciąć SCADA.
 
 POLL_INTERVAL_SECONDS = 120 # Odświeżanie z API (zgodnie z sugestią użytkownika - 2 minuty)
-WARM_HISTORY_DAYS = 120      # Ile dni wstecz pobrać przy pierwszym rozruchu (lub uzupełnić luki)
+WARM_HISTORY_DAYS = 60      # Ile dni wstecz pobrać przy pierwszym rozruchu (lub uzupełnić luki)
 MAX_CONCURRENT_REQUESTS = 50       # Zwiększono przepustowość dla 111 sensorów
 OUTPUT_JSON_PATH = "live_status.json" # Plik wyjściowy (Atomic write)
-EVENT_LOG_PATH = "event_history.json" # Nowy plik z historią zdarzeń
-PERSISTENCE_FILE = "sensor_history.parquet" # Baza danych 90 dni 
+EVENT_LOG_PATH_RAW = "event_history_raw.json"
+EVENT_LOG_PATH_COMP = "event_history_comp.json"
+PERSISTENCE_FILE = "sensor_history.parquet" # Baza danych 60 dni 
 TAG_FILTER = "saglinje" # TYLKO te maszyny
-RETENTION_DAYS = 90         # Ile dni historii trzymać w pamięci i na dysku
+RETENTION_DAYS = 60         # Ile dni historii trzymać w pamięci i na dysku
 
 # PRAWDZIWE DANE Z KODU FRONTENDU
 API_KEY = "jP4UeJ8RBN5sX5FdTtKLlHDEEc9nbYlUz/s8UyikfiI="
@@ -42,12 +43,14 @@ API_BASE_URL = "https://api.neuronsensors.app/v2"
 class HardwareState:
     def __init__(self):
         self.active_sensors = []
-        self.sensor_history = {}    # { sn: DataFrame } - trzymamy 90 dni w RAM
+        self.sensor_history = {}    # { sn: DataFrame } - trzymamy 60 dni w RAM
         self.last_timestamps = {}   # { sn: last_ms }
         self.sensor_aliases = {}    # { sn: alias }
         self.live_snapshot = {}     # { sn: latest_result_dict }
-        self.event_history = []     # Lista słowników: {sn, alias, timestamp, type, msg}
+        self.event_history_raw = [] # Lista zdarzeń be kompensacji
+        self.event_history_comp = [] # Lista zdarzeń z kompensacją
         self.settings = {"use_hall_compensation": True}
+        self.mining_progress = 100.0 # Procent przeliczania historii
 
 
 async def fetch_sensor_delta(session: aiohttp.ClientSession, hwstate: HardwareState, sn: str):
@@ -58,67 +61,110 @@ async def fetch_sensor_delta(session: aiohttp.ClientSession, hwstate: HardwareSt
     # Domyślnie bierzemy historię z WARM_HISTORY_DAYS, jeśli nie mamy nic w pamięci
     last_ts = hwstate.last_timestamps.get(sn, now_ts - WARM_HISTORY_DAYS * 24 * 60 * 60 * 1000) 
     
-    url = f"{API_BASE_URL}/systems/{SYSTEM_ID}/devices/{sn}/samples?from={last_ts}&to={now_ts}&limit=1000"
-    headers = { "ApiKey": API_KEY }
+    all_extracted = []
+    current_last_ts = last_ts
     
-    try:
-        async with session.get(url, headers=headers, timeout=30) as response:
-            if response.status != 200:
-                print(f"[!] Błąd HTTP {response.status} dla SN {sn}")
-                return sn, pd.DataFrame()
+    # Maksymalnie 60 strzałów przy starcie
+    for _ in range(60):
+        chunk_to = min(current_last_ts + 15 * 24 * 60 * 60 * 1000, now_ts)
+        url = f"{API_BASE_URL}/systems/{SYSTEM_ID}/devices/{sn}/samples?from={current_last_ts}&to={chunk_to}&limit=5000"
+        headers = { "ApiKey": API_KEY }
+        
+        try:
+            async with session.get(url, headers=headers, timeout=60) as response:
+                if response.status != 200:
+                    break
+                data = await response.json()
                 
-            data = await response.json()
-            
-            # Przekładanie formatu wzięte z route.ts
-            extracted = []
-            if isinstance(data, list): extracted = data
-            elif data and isinstance(data.get('items'), list): extracted = data['items']
-            elif data and isinstance(data, dict):
-                for v in data.values():
-                    if isinstance(v, list):
-                        extracted = v
-                        break
-                        
-            if not extracted:
-                hwstate.last_timestamps[sn] = now_ts
-                return sn, pd.DataFrame()
+                extracted = []
+                if isinstance(data, list): extracted = data
+                elif data and isinstance(data.get('items'), list): extracted = data['items']
+                elif data and isinstance(data, dict):
+                    for v in data.values():
+                        if isinstance(v, list):
+                            extracted = v
+                            break
                 
-            # Budujemy Dataframe
-            records = []
-            for s in extracted:
-                ts = s.get('timestamp') or s.get('time')
-                if not ts: continue
-                # Konwertuj timestamp ISO stringa na ms
-                # Konwertuj timestamp/time na ms
-                try:
-                    if isinstance(ts, (int, float)):
-                        # Pozwól Pandas obsłużyć liczby z jawnym unit='ms' 
-                        # lub po prostu przypisz jeśli wiemy że to ms
-                        unix_ms = int(ts)
-                    else:
-                        # Dla stringów ISO
-                        unix_ms = int(pd.to_datetime(ts).timestamp() * 1000)
-                except:
-                    unix_ms = 0
+                if not extracted: break
+                all_extracted.extend(extracted)
+                
+                # Pobierz najnowszy timestamp z paczki i ustaw jako 'from' dla kolejnej
+                max_ts = current_last_ts
+                for s in extracted:
+                    ts = s.get('timestamp') or s.get('time')
+                    if not ts: continue
+                    try:
+                        if isinstance(ts, (int, float)):
+                            unix_ms = int(ts)
+                        else:
+                            unix_ms = int(pd.to_datetime(ts).timestamp() * 1000)
+                        if unix_ms > max_ts: 
+                            max_ts = unix_ms
+                    except:
+                        continue
+                
+                if max_ts <= current_last_ts:
+                    # Jeśli nie było danych, wciąż musimy przewinąć okno czasowe do przodu
+                    current_last_ts = chunk_to + 1
+                elif len(extracted) < 5000:
+                    # Jeśli nie wyczerpaliśmy limitu zapytania, znaczy że pobraliśmy wszystko do 'chunk_to'
+                    # Skaczemy od razu do nowej epoki, żeby nie iterować próbka po próbce
+                    current_last_ts = chunk_to + 1
+                else:    
+                    current_last_ts = max_ts + 1
                     
-                records.append({
-                    'sn': sn,
-                    'time': str(ts),
-                    'unit': s.get('unit', 'g'),
-                    'value': s.get('value', 0.0),
-                    'timestamp': unix_ms
-                })
-                
-            df_delta = pd.DataFrame(records)
-            if not df_delta.empty:
-                df_delta.sort_values('timestamp', inplace=True)
-                
-            hwstate.last_timestamps[sn] = now_ts
-            return sn, df_delta
+                if current_last_ts >= now_ts: break
+        except Exception as e:
+            # print(f"API Fetch Error SN: {sn} -> {e}")
+            break
             
-    except Exception as e:
-        # print(f"[!] Błąd asynchronicznego pobierania SN {sn}: {type(e).__name__} - {e}")
+    extracted = all_extracted
+    if not extracted:
+        hwstate.last_timestamps[sn] = now_ts
         return sn, pd.DataFrame()
+        
+    # Budujemy Dataframe (Long format)
+    records = []
+    
+    for s in extracted:
+        ts = s.get('timestamp') or s.get('time')
+        if not ts: continue
+        try:
+            if isinstance(ts, (int, float)):
+                unix_ms = int(ts)
+            else:
+                unix_ms = int(pd.to_datetime(ts).timestamp() * 1000)
+        except:
+            continue
+            
+        unit = s.get('unit', '')
+        if 'G' in unit or 'g' in unit: unit = 'g'
+        if 'C' in unit or 'c' in unit: unit = '°C'
+            
+        # Spróbuj formatu zagnieżdżonego
+        vals = s.get('values', [])
+        for v in vals:
+            idx = v.get('index')
+            if idx == 1:
+                records.append({'timestamp': unix_ms, 'sn': sn, 'value': float(v.get('value', 0.0)), 'unit': 'g'})
+            elif idx == 2:
+                records.append({'timestamp': unix_ms, 'sn': sn, 'value': float(v.get('value', 0.0)), 'unit': '°C'})
+                
+        # Spróbuj formatu płaskiego
+        if 'value' in s and not vals:
+            records.append({
+                'timestamp': unix_ms,
+                'sn': sn,
+                'value': float(s.get('value', 0.0)),
+                'unit': unit
+            })
+        
+    df_delta = pd.DataFrame(records)
+    if not df_delta.empty:
+        df_delta.sort_values('timestamp', inplace=True)
+        
+    hwstate.last_timestamps[sn] = now_ts
+    return sn, df_delta
 
 
 def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame):
@@ -158,43 +204,50 @@ def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame):
             return
 
         # 3. Uruchomienie modeli AI (Wymuszamy inty dla okien, żeby Pandas nie marudził w trybie stream)
-        try:
-            df['crest_factor'] = 1.5 
-            df['vib_max'] = df.get('vib_rms', 0.0) * df['crest_factor'] 
-            
-            # Parametry okien jako liczby całkowite (bezpieczniejsze w streamingu)
-            WIN_30D = 30 * 24 * 12 # 30 dni w interwałach 5-min
-            WIN_1H = 12            # 1 godzina w interwałach 5-min
-            
-            try: df = analyze_skf_crest_factor(df)
-            except Exception as e: print(f"  [SKF ERR] {sn}: {e}")
-            
-            try: 
-                # Patchujemy okno w locie przed wywołaniem
-                import bearing_monitor
-                bearing_monitor.SIEMENS_BASELINE_WINDOW = WIN_30D
-                df = analyze_siemens_baseline(df)
-            except Exception as e: print(f"  [SIEMENS ERR] {sn}: {e}")
-            
-            try: 
-                bearing_monitor.AWS_GRADIENT_WINDOW = WIN_1H
+        def _run_pipeline(input_df, use_hall):
+            d = input_df.copy()
+            try:
+                d['crest_factor'] = 1.5 
+                d['vib_max'] = d.get('vib_rms', 0.0) * d['crest_factor'] 
                 
-                # Przekazanie temperatury z hali (Sensor 30001856) do kompensacji gradientu
-                hall_temp_series = None
-                if hwstate.settings.get("use_hall_compensation", True):
-                    if '30001856' in hwstate.sensor_history and not hwstate.sensor_history['30001856'].empty:
+                WIN_30D = 30 * 24 * 12 # 30 dni w interwałach 5-min
+                WIN_1H = 12            # 1 godzina w interwałach 5-min
+                
+                try: d = analyze_skf_crest_factor(d)
+                except Exception as e: pass
+                
+                try: 
+                    import bearing_monitor
+                    bearing_monitor.SIEMENS_BASELINE_WINDOW = WIN_30D
+                    d = analyze_siemens_baseline(d)
+                except Exception as e: pass
+                
+                try: 
+                    bearing_monitor.AWS_GRADIENT_WINDOW = WIN_1H
+                    hall_temp_series = None
+                    if use_hall and '30001856' in hwstate.sensor_history and not hwstate.sensor_history['30001856'].empty:
                         hall_temp_series = hwstate.sensor_history['30001856']['temp_mean']
-                    
-                df = analyze_aws_gradient(df, hall_temp=hall_temp_series) 
-            except Exception as e: print(f"  [AWS ERR] {sn}: {e}")
-            
-            try: df = analyze_rcf_anomaly(df) 
-            except Exception as e: print(f"  [RCF ERR] {sn}: {e}")
-            
-            df = fuse_alarms(df)
-            df = calculate_health_index(df)
-            
-            latest_status = df.iloc[-1]
+                    d = analyze_aws_gradient(d, hall_temp=hall_temp_series) 
+                except Exception as e: pass
+                
+                try: d = analyze_rcf_anomaly(d) 
+                except Exception as e: pass
+                
+                d = fuse_alarms(d)
+                d = calculate_health_index(d)
+                return d
+            except Exception as e:
+                print(f"[!] Błąd Pipeline w trybie {'Kompensacja' if use_hall else 'Raw'}: {e}")
+                return d
+
+        df_raw = _run_pipeline(df, False)
+        df_comp = _run_pipeline(df, True)
+        
+        # Wybierz aktywny DF do UI (ustawi status maszyn, HI i Prob)
+        active_df = df_comp if hwstate.settings.get("use_hall_compensation", True) else df_raw
+        
+        try:
+            latest_status = active_df.iloc[-1]
             status_val = str(latest_status.get('FINAL_VERDICT', 'OK'))
             
             raw_hi = latest_status.get('health_index', 100.0)
@@ -209,50 +262,63 @@ def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame):
             hi_val = 100.0
             prob_val = 0.0
         
-        # Tworzymy pakunek dla Dashboardu UI (Zawsze, nawet przy błędzie AI)
+        # Tworzymy pakunek dla Dashboardu UI
         hwstate.live_snapshot[sn] = {
             "sn": sn,
             "alias": hwstate.sensor_aliases.get(sn, sn),
             "timestamp": int(latest_status.name.timestamp()*1000) if hasattr(latest_status.name, 'timestamp') else int(time.time()*1000),
             "temp": float(latest_status.get('temp_mean', 0.0)),
             "vib_rms": float(latest_status.get('vib_rms', 0.0)),
-            "health_index": float(latest_status.get('health_index', 100.0)),
-            "failure_prob": float(latest_status.get('failure_prob', 0.0)),
+            "health_index": float(hi_val),
+            "failure_prob": float(prob_val),
             "status": status_val
         }
         
         # AKTUALIZACJA LOGU ZDARZEŃ (Analiza historyczna przy Warm-upie)
-        # Jeżeli mamy dużo danych (np. po pobraniu 90 dni), przeszukaj wszystko
-        target_df = df if len(df) > 20 else df.tail(1)
-        
-        anomalies = target_df[~target_df['FINAL_VERDICT'].isin(['IDLE', '🟢 MONITORING', 'UNKNOWN', 'INAKTIV'])]
-        if not anomalies.empty:
-            # Grupuj po dniach, aby nie zaspamować logu tysiącem wpisów z jednej awarii
-            anomalies = anomalies.copy()
-            anomalies['day'] = anomalies.index.date
-            daily_top = anomalies.sort_values(['day', 'max_priority'], ascending=[True, False]).drop_duplicates('day')
+        def _append_anomalies(target_df, history_list):
+            tdf = target_df if len(target_df) > 20 else target_df.tail(1)
+            anomalies = tdf[~tdf['FINAL_VERDICT'].isin(['IDLE', '🟢 MONITORING', 'UNKNOWN', 'INAKTIV'])]
             
-            for timestamp, row in daily_top.iterrows():
-                now_dt = timestamp if hasattr(timestamp, 'timestamp') else datetime.now()
-                ts_iso = now_dt.isoformat()
+            if not anomalies.empty:
+                anomalies = anomalies.copy()
+                anomalies['day'] = anomalies.index.date
+                daily_top = anomalies.sort_values(['day', 'max_priority'], ascending=[True, False]).drop_duplicates('day')
                 
-                # Unikalność: nie dodawaj jeśli już jest taki sam SN + dzień
-                if not any(e['sn'] == sn and e['timestamp'][:10] == ts_iso[:10] for e in hwstate.event_history):
-                    hwstate.event_history.append({
-                        "sn": sn,
-                        "alias": hwstate.sensor_aliases.get(sn, sn),
-                        "timestamp": ts_iso,
-                        "type": row['FINAL_VERDICT'],
-                        "msg": f"AI-hendelse detektert ({row['alarm_source']})",
-                        "vib_rms": float(row.get('vib_rms', 0.0)),
-                        "temp_mean": float(row.get('temp_mean', 0.0)),
-                        "temp_gradient": float(row.get('temp_gradient_final', 0.0))
-                    })
-            
-            # Limit 500 zdarzeń
-            hwstate.event_history.sort(key=lambda x: x['timestamp'], reverse=True)
-            hwstate.event_history = hwstate.event_history[:500]
-            save_event_history(hwstate)
+                # Norwegian UI Translations for Live Streaming Events
+                translation_map = {
+                    '🟡 PLANLEGG SERVICE': '🟡 PLANLEGG SERVICE',
+                    '🔴 KRITISK ALARM': '🔴 KRITISK ALARM',
+                    '🔴🔥 BRANN/STOPP': '🔴🔥 BRANN/STOPP — STOPP LINJEN!'
+                }
+                
+                for timestamp, row in daily_top.iterrows():
+                    now_dt = timestamp if hasattr(timestamp, 'timestamp') else datetime.now()
+                    ts_iso = now_dt.isoformat()
+                    
+                    if not any(e['sn'] == sn and e['timestamp'][:10] == ts_iso[:10] for e in history_list):
+                        final_verdict_no = translation_map.get(row['FINAL_VERDICT'], row['FINAL_VERDICT'])
+                        history_list.append({
+                            "sn": sn,
+                            "alias": hwstate.sensor_aliases.get(sn, sn),
+                            "timestamp": ts_iso,
+                            "type": final_verdict_no,
+                            "msg": f"AI-hendelse detektert ({row['alarm_source']})",
+                            "vib_rms": float(row.get('vib_rms', 0.0)),
+                            "temp_mean": float(row.get('temp_mean', 0.0)),
+                            "temp_gradient": float(row.get('temp_gradient_final', 0.0))
+                        })
+
+        _append_anomalies(df_raw, hwstate.event_history_raw)
+        _append_anomalies(df_comp, hwstate.event_history_comp)
+        
+        # Limit i sortowanie w obu listach
+        hwstate.event_history_raw.sort(key=lambda x: x['timestamp'], reverse=True)
+        hwstate.event_history_raw = hwstate.event_history_raw[:500]
+        
+        hwstate.event_history_comp.sort(key=lambda x: x['timestamp'], reverse=True)
+        hwstate.event_history_comp = hwstate.event_history_comp[:500]
+        
+        save_event_history(hwstate)
 
     except Exception as e:
         print(f"[!] Błąd AI Engine dla {sn}: {e}")
@@ -265,10 +331,13 @@ async def push_snapshot_to_ui(hwstate: HardwareState):
     """
     tmp_path = OUTPUT_JSON_PATH + ".tmp"
     
+    active_history = hwstate.event_history_comp if hwstate.settings.get("use_hall_compensation", True) else hwstate.event_history_raw
+    
     snapshot = {
         "server_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "mining_progress": hwstate.mining_progress,
         "sensors": list(hwstate.live_snapshot.values()),
-        "events": sorted(hwstate.event_history, key=lambda x: x['timestamp'], reverse=True)[:50] # Top 50 do UI
+        "events": sorted(active_history, key=lambda x: x['timestamp'], reverse=True)[:50] # Top 50 do UI
     }
     
     with open(tmp_path, 'w', encoding='utf-8') as f:
@@ -326,102 +395,133 @@ def load_event_history(hwstate):
             hwstate.event_history = []
 
 def save_event_history(hwstate):
-    """Zapisuje log zdarzeń do pliku"""
-    try:
-        # Sortuj chronologicznie przed zapisem
-        hwstate.event_history.sort(key=lambda x: x['timestamp'], reverse=True)
-        # Unikalność po SN i Timestamp (zaokrąglonym do godziny)
-        seen = set()
-        unique_events = []
-        for e in hwstate.event_history:
-            key = (e['sn'], e['timestamp'][:13]) 
-            if key not in seen:
-                unique_events.append(e)
-                seen.add(key)
-        
-        with open(EVENT_LOG_PATH, 'w', encoding='utf-8') as f:
-            json.dump(unique_events[:500], f, indent=2, ensure_ascii=False)
-    except:
-        pass
+    """Zapisuje chronologiczne logi zdarzeń do osobnych plików"""
+    def _save(history_list, path):
+        try:
+            history_list.sort(key=lambda x: x['timestamp'], reverse=True)
+            seen = set()
+            unique_events = []
+            for e in history_list:
+                key = (e['sn'], e['timestamp'][:13]) 
+                if key not in seen:
+                    unique_events.append(e)
+                    seen.add(key)
+            with open(path, 'w', encoding='utf-8') as f:
+                json.dump(unique_events[:500], f, indent=2, ensure_ascii=False)
+        except:
+            pass
+            
+    _save(hwstate.event_history_raw, EVENT_LOG_PATH_RAW)
+    _save(hwstate.event_history_comp, EVENT_LOG_PATH_COMP)
 
 async def mine_historical_events(hwstate):
     """
-    Przeszukuje sensor_history w poszukiwaniu historycznych alarmów.
+    Przeszukuje sensor_history w poszukiwaniu historycznych alarmów w DWA tryby (Raw i Comp).
     Wywoływane raz przy starcie.
     """
-    print("[*] Rozpoczynam poszukiwanie historycznych alarmów (Mining 90 dni)...")
+    print("[*] Rozpoczynam poszukiwanie historycznych alarmów (Dual Mining 60 dni)...")
     import bearing_monitor as ai
     
-    found_count = 0
-    total_processed_points = 0
+    found_raw = 0
+    found_comp = 0
     
-    # Sortowanie sensorów po SN dla ładnego logu
     sorted_sns = sorted(hwstate.sensor_history.keys())
+    total_sns = len(sorted_sns)
+    hwstate.mining_progress = 0.0
     
-    for sn in sorted_sns:
+    for i, sn in enumerate(sorted_sns):
+        hwstate.mining_progress = round((i / total_sns) * 100, 1) if total_sns > 0 else 100.0
+        if i % 10 == 0: await push_snapshot_to_ui(hwstate)
+        
         df = hwstate.sensor_history[sn]
-        if len(df) < 50: continue # Za mało danych do baseline
+        if len(df) < 50: continue # Za mało danych
         
         try:
-            # Uproszczona analiza historyczna blokami
-            # (Nie chcemy spędzić tu 10 minut przy starcie)
             df_ai = df.copy()
-            # Standaryzacja jednostek (g / °C)
             df_ai['unit'] = df_ai['unit'].str.replace('G', 'g').str.replace('c', '°C').str.replace('C', '°C')
-            
-            # Upewniamy się że index to datetime
-            if not isinstance(df_ai.index, pd.DatetimeIndex):
-                df_ai.index = pd.to_datetime(df_ai.index)
+            if 'timestamp' in df_ai.columns:
+                df_ai['timestamp'] = pd.to_datetime(df_ai['timestamp'], unit='ms')
                 
-            df_ai = ai.prepare_bearing_data(df_ai)
-            if df_ai.empty: continue
+            prep_df = ai.prepare_bearing_data(df_ai)
+            if prep_df.empty: continue
             
-            df_ai = ai.analyze_skf_crest_factor(df_ai)
-            df_ai = ai.analyze_siemens_baseline(df_ai)
+            with open("mining_debug.log", "a", encoding="utf-8") as debug_file:
+                debug_file.write(f"SN: {sn} prep_df index type: {type(prep_df.index)} | Max vib_rms: {prep_df['vib_rms'].max():.3f} | Max temp: {prep_df['temp_mean'].max():.1f}\n")
             
-            # Przekazanie temperatury z hali (Sensor 30001856) do kompensacji gradientu
-            hall_temp_series = None
-            if hwstate.settings.get("use_hall_compensation", True):
-                if '30001856' in hwstate.sensor_history and not hwstate.sensor_history['30001856'].empty:
-                    hall_temp_series = hwstate.sensor_history['30001856']['temp_mean']
+            
+            def _mine_pipeline(input_df, use_hall):
+                d = input_df.copy()
+                d = ai.analyze_skf_crest_factor(d)
+                d = ai.analyze_siemens_baseline(d)
                 
-            df_ai = ai.analyze_aws_gradient(df_ai, hall_temp=hall_temp_series)
-            df_ai = ai.fuse_alarms(df_ai)
+                hall_temp = None
+                if use_hall and '30001856' in hwstate.sensor_history and not hwstate.sensor_history['30001856'].empty:
+                    hall_temp = hwstate.sensor_history['30001856']['temp_mean']
+                    
+                d = ai.analyze_aws_gradient(d, hall_temp=hall_temp)
+                d = ai.fuse_alarms(d)
+                return d
             
-            total_processed_points += len(df_ai)
+            df_raw = _mine_pipeline(prep_df, False)
+            df_comp = _mine_pipeline(prep_df, True)
             
-            # Wypisz jakie statusy znaleziono (tylko nienormalne)
-            unique_verdicts = df_ai['FINAL_VERDICT'].unique()
-            interesting = [v for v in unique_verdicts if v not in ['IDLE', '🟢 MONITORING', 'UNKNOWN', 'INAKTIV']]
-            
-            if interesting:
-                print(f"  [MINING] {sn} ({hwstate.sensor_aliases.get(sn, sn)}): Wykryto {interesting}")
+            def _append_anomalies(res_df, history_list):
+                with open("mining_debug.log", "a", encoding="utf-8") as debug_file:
+                    v_counts = res_df['FINAL_VERDICT'].value_counts().to_dict()
+                    debug_file.write(f"SN: {sn} AI Verdicts before filter: {v_counts}\n")
+                    
+                anoms = res_df[~res_df['FINAL_VERDICT'].isin(['IDLE', '🟢 MONITORING', 'UNKNOWN'])]
+                count = 0
+                if not anoms.empty:
+                    anoms = anoms.copy()
+                    anoms['day'] = anoms.index.date
+                    top = anoms.sort_values(['day', 'max_priority'], ascending=[True, False]).drop_duplicates('day')
+                    # Norwegian UI Translations for Historical Logs
+                    translation_map = {
+                        '🟡 PLANLEGG SERVICE': '🟡 PLANLEGG SERVICE',
+                        '🔴 KRITISK ALARM': '🔴 KRITISK ALARM',
+                        '🔴🔥 BRANN/STOPP': '🔴🔥 BRANN/STOPP — STOPP LINJEN!'
+                    }
+                    
+                    for ts, row in top.iterrows():
+                        ts_iso = ts.isoformat()
+                        if not any(e['sn'] == sn and e['timestamp'][:10] == ts_iso[:10] for e in history_list):
+                            final_verdict_no = translation_map.get(row['FINAL_VERDICT'], row['FINAL_VERDICT'])
+                            history_list.append({
+                                "sn": sn,
+                                "alias": hwstate.sensor_aliases.get(sn, sn),
+                                "timestamp": ts_iso,
+                                "type": final_verdict_no,
+                                "msg": f"Historyczna anomalia: {row['alarm_source']}",
+                                "vib_rms": float(row.get('vib_rms', 0.0)),
+                                "temp_mean": float(row.get('temp_mean', 0.0)),
+                                "temp_gradient": float(row.get('temp_gradient_final', 0.0))
+                            })
+                            count += 1
+                return count
 
-            # Znajdź alarmy (wyższe niż MONITORING)
-            anomalies = df_ai[~df_ai['FINAL_VERDICT'].isin(['IDLE', '🟢 MONITORING', 'UNKNOWN'])]
-            
-            # Pobierz 1 najpoważniejszy alarm dziennie per sensor (żeby nie zaspamować logu)
-            if not anomalies.empty:
-                anomalies['day'] = anomalies.index.date
-                daily_top = anomalies.sort_values(['day', 'max_priority'], ascending=[True, False]).drop_duplicates('day')
-                
-                for timestamp, row in daily_top.iterrows():
-                    hwstate.event_history.append({
-                        "sn": sn,
-                        "alias": hwstate.sensor_aliases.get(sn, sn),
-                        "timestamp": timestamp.isoformat(),
-                        "type": row['FINAL_VERDICT'],
-                        "msg": f"Historisk anomali: {row['alarm_source']}",
-                        "vib_rms": float(row.get('vib_rms', 0.0)),
-                        "temp_mean": float(row.get('temp_mean', 0.0)),
-                        "temp_gradient": float(row.get('temp_gradient_final', 0.0))
-                    })
-                    found_count += 1
-        except:
+            found_raw += _append_anomalies(df_raw, hwstate.event_history_raw)
+            found_comp += _append_anomalies(df_comp, hwstate.event_history_comp)
+
+        except Exception as e:
+            with open("mining_debug.log", "a", encoding="utf-8") as debug_file:
+                debug_file.write(f"Error mining {sn}: {e}\n")
             continue
             
-    if found_count > 0:
-        print(f"[OK] Fant {found_count} historiske hendelser.")
+    hwstate.mining_progress = 100.0
+    
+    # Sort and limit
+    hwstate.event_history_raw.sort(key=lambda x: x['timestamp'], reverse=True)
+    hwstate.event_history_raw = hwstate.event_history_raw[:500]
+    
+    hwstate.event_history_comp.sort(key=lambda x: x['timestamp'], reverse=True)
+    hwstate.event_history_comp = hwstate.event_history_comp[:500]
+    
+    await push_snapshot_to_ui(hwstate)
+    
+    if found_raw > 0 or found_comp > 0:
+        print(f"[OK] Zakończono mining. Zdarzeń: {found_raw} (Raw), {found_comp} (Comp).")
+        save_event_history(hwstate)
         save_event_history(hwstate)
     else:
         print("[*] Ingen nye alarmer funnet i historien.")
@@ -441,12 +541,7 @@ def load_settings(hwstate: HardwareState):
                 hwstate.settings = new_settings
                 
                 if old_val != new_val:
-                    print(f"[*] ZKompensacja halowa zmieniona na: {new_val}. Przeliczam historię...")
-                    # Czyścimy historię zdarzeń
-                    hwstate.event_history = []
-                    if os.path.exists(EVENT_LOG_PATH):
-                        os.remove(EVENT_LOG_PATH)
-                    # Ustawienie flagi do re-miningu w pętli głównej
+                    print(f"[*] Kompensacja halowa zmieniona na: {new_val}. Obie bazy są już w RAM.")
                     return True 
         except Exception as e:
             print(f"[!] Błąd odczytu ustawień: {e}")
@@ -517,7 +612,7 @@ async def get_active_sensors(session, hwstate):
         return []
 
 def load_persistence(hwstate):
-    """Wczytuje 90 dni historii z dysku (Parquet)"""
+    """Wczytuje 60 dni historii z dysku (Parquet)"""
     path = PERSISTENCE_FILE
     if not os.path.exists(path):
         print("[!] Ingen historikkfil. Starter som ny.")
@@ -529,43 +624,41 @@ def load_persistence(hwstate):
         
         # Rozdzielamy na poszczególne sensory
         for sn, df_sn in df_all.groupby('sn'):
-            # Upewniamy się że timestamp jest indexem i jest typu Datetime
+            # Zapewniamy formę kolumny, by zachować spójność ze strumieniem live
             if 'timestamp' in df_sn.columns:
-                df_sn['timestamp'] = pd.to_datetime(df_sn['timestamp'], unit='ms')
-                df_sn = df_sn.set_index('timestamp')
+                df_sn['timestamp'] = df_sn['timestamp'].astype(int)
             
+            # Wyrzucamy kolumnę ze starym sn jeśli istnieje z parqueta
+            if 'sn' in df_sn.columns:
+                df_sn = df_sn.drop(columns=['sn'])
+
             hwstate.sensor_history[str(sn)] = df_sn
             if not df_sn.empty:
-                hwstate.last_timestamps[str(sn)] = int(df_sn.index.max().timestamp() * 1000)
+                hwstate.last_timestamps[str(sn)] = int(df_sn['timestamp'].max())
         
         print(f"[OK] Załadowano historię dla {len(hwstate.sensor_history)} sensorów.")
     except Exception as e:
         print(f"[!] Błąd ładowania historii: {e}")
 
 def save_persistence(hwstate):
-    """Zrzuca całą historię z RAM do Parquet (90 dni)"""
+    """Zrzuca całą historię z RAM do Parquet (60 dni)"""
     try:
         frames = []
         now = pd.Timestamp.now()
-        cutoff_time = now - timedelta(days=RETENTION_DAYS)
+        cutoff_time_ms = int((now - timedelta(days=RETENTION_DAYS)).timestamp() * 1000)
         
         # Przycinanie RAM
         for sn in list(hwstate.sensor_history.keys()):
             df = hwstate.sensor_history[sn]
-            if not df.empty:
-                # Upewniamy się, że index jest czasowy przed porównaniem
-                if not isinstance(df.index, pd.DatetimeIndex):
-                    df.index = pd.to_datetime(df.index)
-                hwstate.sensor_history[sn] = df[df.index >= cutoff_time]
+            if not df.empty and 'timestamp' in df.columns:
+                hwstate.sensor_history[sn] = df[df['timestamp'] >= cutoff_time_ms].copy()
 
         for sn, df in hwstate.sensor_history.items():
-            if df.empty: continue
+            if df.empty or 'timestamp' not in df.columns: continue
             # Przycinamy historię do RETENTION_DAYS przed zapisem
-            df_filtered = df[df.index >= cutoff_time].copy()
+            df_filtered = df[df['timestamp'] >= cutoff_time_ms].copy()
             df_filtered['sn'] = sn
-            # Eksportujemy index do kolumny by parquet go przechowal bezproblemowo
-            df_to_save = df_filtered.reset_index()
-            frames.append(df_to_save)
+            frames.append(df_filtered)
         
         if frames:
             df_final = pd.concat(frames)
@@ -584,7 +677,17 @@ async def main():
     
     # 1. Wczytaj historię z dysku
     load_persistence(hwstate)
-    load_event_history(hwstate)
+    
+    # Próbujemy wczytać log zdarzeń jeśli istnieje (opcjonalnie, zwykle mining załatwi sprawę)
+    try:
+        if os.path.exists(EVENT_LOG_PATH_RAW):
+            with open(EVENT_LOG_PATH_RAW, 'r', encoding='utf-8') as f:
+                hwstate.event_history_raw = json.load(f)
+        if os.path.exists(EVENT_LOG_PATH_COMP):
+            with open(EVENT_LOG_PATH_COMP, 'r', encoding='utf-8') as f:
+                hwstate.event_history_comp = json.load(f)
+    except:
+        pass
     
     async with aiohttp.ClientSession() as session:
         # 2. Pobierz aktualną listę sensorów (z filtrem tagu)
@@ -603,9 +706,9 @@ async def main():
         while True:
             # Sprawdź zmiany w ustawieniach
             if load_settings(hwstate):
-                # Trigger re-miningu historycznego przy zmianie ustawień
-                print("[*] Ponowne przeszukiwanie historii po zmianie parametrów AI...")
-                await mine_historical_events(hwstate)
+                # Usunięto re-mining (Teraz mamy pre-kalkulowane bazy). Wystarczy odświeżyć UI.
+                print("[*] Zmiana w UI. Natychmiastowe odświeżenie danych z alternate db...")
+                await push_snapshot_to_ui(hwstate)
 
             start_time = time.time()
             print(f"\n--- Cykl Polling #{cycle_count} (Sensorów: {len(hwstate.active_sensors)}) ---")
@@ -613,10 +716,11 @@ async def main():
             try:
                 await run_polling_cycle(session, hwstate)
                 
-                # JEDNORAZOWY MINING: Po pierwszym cyklu (gdy mamy już 90 dni w RAM)
-                if cycle_count == 0 and not hwstate.event_history:
-                    mine_historical_events(hwstate)
+                # JEDNORAZOWY MINING: Po pierwszym cyklu (gdy mamy już 60 dni w RAM)
+                if not hasattr(hwstate, 'mined_once'):
+                    await mine_historical_events(hwstate)
                     await push_snapshot_to_ui(hwstate) # Odśwież UI z nowymi zdarzeniami
+                    hwstate.mined_once = True
             except Exception as e:
                 print(f"[CRITICAL] Błąd w cyklu monitoringu: {e}")
             
