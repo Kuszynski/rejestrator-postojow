@@ -47,6 +47,7 @@ class HardwareState:
         self.sensor_aliases = {}    # { sn: alias }
         self.live_snapshot = {}     # { sn: latest_result_dict }
         self.event_history = []     # Lista słowników: {sn, alias, timestamp, type, msg}
+        self.settings = {"use_hall_compensation": True}
 
 
 async def fetch_sensor_delta(session: aiohttp.ClientSession, hwstate: HardwareState, sn: str):
@@ -180,8 +181,9 @@ def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame):
                 
                 # Przekazanie temperatury z hali (Sensor 30001856) do kompensacji gradientu
                 hall_temp_series = None
-                if '30001856' in hwstate.sensor_history and not hwstate.sensor_history['30001856'].empty:
-                    hall_temp_series = hwstate.sensor_history['30001856']['temp_mean']
+                if hwstate.settings.get("use_hall_compensation", True):
+                    if '30001856' in hwstate.sensor_history and not hwstate.sensor_history['30001856'].empty:
+                        hall_temp_series = hwstate.sensor_history['30001856']['temp_mean']
                     
                 df = analyze_aws_gradient(df, hall_temp=hall_temp_series) 
             except Exception as e: print(f"  [AWS ERR] {sn}: {e}")
@@ -342,7 +344,7 @@ def save_event_history(hwstate):
     except:
         pass
 
-def mine_historical_events(hwstate):
+async def mine_historical_events(hwstate):
     """
     Przeszukuje sensor_history w poszukiwaniu historycznych alarmów.
     Wywoływane raz przy starcie.
@@ -379,8 +381,9 @@ def mine_historical_events(hwstate):
             
             # Przekazanie temperatury z hali (Sensor 30001856) do kompensacji gradientu
             hall_temp_series = None
-            if '30001856' in hwstate.sensor_history and not hwstate.sensor_history['30001856'].empty:
-                hall_temp_series = hwstate.sensor_history['30001856']['temp_mean']
+            if hwstate.settings.get("use_hall_compensation", True):
+                if '30001856' in hwstate.sensor_history and not hwstate.sensor_history['30001856'].empty:
+                    hall_temp_series = hwstate.sensor_history['30001856']['temp_mean']
                 
             df_ai = ai.analyze_aws_gradient(df_ai, hall_temp=hall_temp_series)
             df_ai = ai.fuse_alarms(df_ai)
@@ -418,10 +421,36 @@ def mine_historical_events(hwstate):
             continue
             
     if found_count > 0:
-        print(f"[OK] Znaleziono {found_count} historycznych zdarzeń.")
+        print(f"[OK] Fant {found_count} historiske hendelser.")
         save_event_history(hwstate)
     else:
-        print("[*] Nie znaleziono nowych alarmów w historii.")
+        print("[*] Ingen nye alarmer funnet i historien.")
+
+def load_settings(hwstate: HardwareState):
+    """Odczytuje ustawienia z pliku daemon_settings.json"""
+    path = "daemon_settings.json"
+    if os.path.exists(path):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                new_settings = json.load(f)
+                
+                # Sprawdź czy zmieniono flagę kompensacji halowej
+                old_val = hwstate.settings.get("use_hall_compensation", True)
+                new_val = new_settings.get("use_hall_compensation", True)
+                
+                hwstate.settings = new_settings
+                
+                if old_val != new_val:
+                    print(f"[*] ZKompensacja halowa zmieniona na: {new_val}. Przeliczam historię...")
+                    # Czyścimy historię zdarzeń
+                    hwstate.event_history = []
+                    if os.path.exists(EVENT_LOG_PATH):
+                        os.remove(EVENT_LOG_PATH)
+                    # Ustawienie flagi do re-miningu w pętli głównej
+                    return True 
+        except Exception as e:
+            print(f"[!] Błąd odczytu ustawień: {e}")
+    return False
 
 async def get_active_sensors(session, hwstate):
     """Pobiera listę urządzeń i filtruje TYLKO te z tagiem TAG_FILTER"""
@@ -489,8 +518,9 @@ async def get_active_sensors(session, hwstate):
 
 def load_persistence(hwstate):
     """Wczytuje 90 dni historii z dysku (Parquet)"""
-    if not os.path.exists(PERSISTENCE_FILE):
-        print("[!] Brak pliku historii. Rozpoczynam czysty start.")
+    path = PERSISTENCE_FILE
+    if not os.path.exists(path):
+        print("[!] Ingen historikkfil. Starter som ny.")
         return
 
     try:
@@ -561,7 +591,7 @@ async def main():
         hwstate.active_sensors = await get_active_sensors(session, hwstate)
         
         if not hwstate.active_sensors:
-            print("[ERROR] Brak sensorów do monitorowania po filtrowaniu. Sprawdź tag 'saglinje'.")
+            print("[ERROR] Ingen sensorer å overvåke etter filtrering. Sjekk tag 'saglinje'.")
             return
 
         # 3. WYMUŚ NATYCHMIASTOWY SNAPSHOT UI (żeby użytkownik od razu widział Aliasy)
@@ -571,6 +601,12 @@ async def main():
         
         cycle_count = 0
         while True:
+            # Sprawdź zmiany w ustawieniach
+            if load_settings(hwstate):
+                # Trigger re-miningu historycznego przy zmianie ustawień
+                print("[*] Ponowne przeszukiwanie historii po zmianie parametrów AI...")
+                await mine_historical_events(hwstate)
+
             start_time = time.time()
             print(f"\n--- Cykl Polling #{cycle_count} (Sensorów: {len(hwstate.active_sensors)}) ---")
             

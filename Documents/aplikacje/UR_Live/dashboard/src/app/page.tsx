@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { AlertTriangle, Activity, Thermometer, ShieldAlert, Cpu, FolderUp, CloudDownload, CheckSquare, Square, TrendingUp } from 'lucide-react';
+import { AlertTriangle, Activity, Thermometer, ShieldAlert, Cpu, FolderUp, CloudDownload, CheckSquare, Square, TrendingUp, Settings, ToggleLeft, ToggleRight } from 'lucide-react';
 
 const translateVerdict = (v: string | undefined | null) => {
   if (!v) return 'INAKTIV';
@@ -191,6 +191,8 @@ export default function Dashboard() {
   const [availableSensors, setAvailableSensors] = useState<any[]>([]);
   const [selectedApiSensors, setSelectedApiSensors] = useState<Record<string, boolean>>({});
   const [searchFilter, setSearchFilter] = useState('');
+  const [useHallCompensation, setUseHallCompensation] = useState(true);
+  const [isCompensating, setIsCompensating] = useState(false); // For visual feedback during re-mine
 
   // --- Loading State ---
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -280,6 +282,11 @@ export default function Dashboard() {
     // Pierwszy strzał
     fetchLiveData();
 
+    // Pobierz ustawienia demona
+    fetch('/api/settings').then(r => r.json()).then(settings => {
+      setUseHallCompensation(settings.use_hall_compensation ?? true);
+    });
+
     // Polling co 120 sekund dla systemu Real-Time Streaming (zsynchronizowane z API)
     const liveInterval = setInterval(fetchLiveData, 120000);
 
@@ -293,6 +300,30 @@ export default function Dashboard() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   // --------------------------------------------
 
+
+
+  const toggleCompensation = async () => {
+    const newValue = !useHallCompensation;
+    setUseHallCompensation(newValue);
+    setIsCompensating(true);
+
+    try {
+      await fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ use_hall_compensation: newValue })
+      });
+
+      // Powiadomienie wizualne że daemon przelicza (zwykle trwa to kilka sekund zanim się odświeży)
+      setTimeout(() => {
+        fetchLiveData();
+        setTimeout(() => setIsCompensating(false), 2000);
+      }, 3000);
+    } catch (err) {
+      console.error("Failed to toggle compensation", err);
+      setIsCompensating(false);
+    }
+  };
 
 
   const { groups, alerts } = data;
@@ -389,8 +420,33 @@ export default function Dashboard() {
         </div>
 
         {/* RIGHT WIDGETS */}
-        <div className="w-full xl:w-[450px] flex gap-4">
-          <div className="flex-1 bg-gradient-to-br from-blue-900/40 to-slate-900/90 backdrop-blur-xl border border-blue-700/50 border-t-blue-500/50 rounded-2xl overflow-hidden shadow-lg shadow-blue-500/10 p-5 flex items-center justify-between">
+        <div className="w-full xl:w-[550px] flex gap-4">
+          <button
+            onClick={toggleCompensation}
+            className={`flex-1 bg-slate-900/60 backdrop-blur-xl border ${useHallCompensation ? 'border-blue-500/50' : 'border-slate-700/50'} rounded-2xl p-5 flex items-center justify-between transition-all hover:bg-slate-800/80 group overflow-hidden relative`}
+          >
+            {isCompensating && (
+              <div className="absolute inset-0 bg-blue-600/10 animate-pulse pointer-events-none" />
+            )}
+            <div className="flex items-center gap-4">
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-inner transition-colors ${useHallCompensation ? 'bg-blue-500/20 border-blue-400/30' : 'bg-slate-800 border-slate-700'}`}>
+                <Thermometer className={`w-6 h-6 ${useHallCompensation ? 'text-blue-400' : 'text-slate-500'}`} />
+              </div>
+              <div className="text-left">
+                <h3 className="font-bold text-white text-sm leading-tight">Romtemperatur-kompensasjon</h3>
+                <p className="text-[10px] text-slate-500 mt-1 uppercase tracking-widest font-mono">
+                  {useHallCompensation ? 'AKTIV (Sensor 30001856)' : 'DEAKTIVERT - Rå gradient'}
+                </p>
+              </div>
+            </div>
+            {useHallCompensation ? (
+              <ToggleRight className="w-8 h-8 text-blue-500" />
+            ) : (
+              <ToggleLeft className="w-8 h-8 text-slate-700" />
+            )}
+          </button>
+
+          <div className="flex-1 bg-gradient-to-br from-blue-900/40 to-slate-900/90 backdrop-blur-xl border border-blue-700/50 border-t-blue-500/50 rounded-2xl overflow-hidden shadow-lg shadow-blue-500/10 p-5 flex items-center justify-between min-w-[200px]">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center shadow-inner">
                 <Activity className="w-6 h-6 text-blue-400 animate-pulse drop-shadow-[0_0_8px_rgba(96,165,250,0.8)]" />
