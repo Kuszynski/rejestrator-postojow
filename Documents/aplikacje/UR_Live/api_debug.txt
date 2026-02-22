@@ -1,0 +1,22 @@
+
+TEST URL: https://api.neuronsensors.app/v2/systems/nIwosVxCrK9RTctvb90X/devices/21009914/samples?from=1771668252782&to=1771754652782
+Status: 200
+Count: 1200
+Sample 0 time: 1771668265038
+Sample last time: 1771754527437
+
+TEST URL: https://api.neuronsensors.app/v2/systems/nIwosVxCrK9RTctvb90X/devices/21009914/samples?from=1771668252&to=1771754652
+Status: 200
+Count: 0
+
+TEST URL: https://api.neuronsensors.app/v2/systems/nIwosVxCrK9RTctvb90X/devices/21009914/samples?start=1771668252782&end=1771754652782
+Status: 200
+Count: 48
+Sample 0 time: 1771751068321
+Sample last time: 1771754646652
+
+TEST URL: https://api.neuronsensors.app/v2/systems/nIwosVxCrK9RTctvb90X/devices/21009914/samples?startDate=1771668252782&endDate=1771754652782
+Status: 200
+Count: 48
+Sample 0 time: 1771751068321
+Sample last time: 1771754646652
