@@ -677,17 +677,31 @@ def analyze_rcf_anomaly(df: pd.DataFrame) -> pd.DataFrame:
     print(f"     → Próg CRITICAL (P{100-RCF_PERCENTILE_CRITICAL:.1f}): {threshold_critical:.3f}")
     print(f"     → Min score: {scores.min():.3f} | Median: {np.median(scores):.3f}")
 
-    # Klasyfikacja
+    # Wyniki do DF (tylko dla punktów produkcyjnych)
     prod_indices = prod_df.index
     df.loc[prod_indices, 'rcf_score'] = scores
 
-    # Warunkowa klasyfikacja (niższy score = bardziej anomalny)
+    # --- NOWOŚĆ: JEDNOSTRONNY FILTR WIBRACYJNY (ANTY-FALSE-POSITIVE DLA POSTOJÓW) ---
+    # RCF ma tendencję do krzyczenia "ANOMALIA!" gdy maszyna naturalnie zwalnia na koniec zmiany (nagły zanik wibracji).
+    # Chcemy zgłaszać alarmy (Warning/Critical) TYLKO wtedy, gdy RCF znajdzie anomalię ORAZ:
+    # 1. Maszyna wibruje silniej niż wynosi jej typowa "zdrowia" średnia praca.
+    # Używamy tolerancyjnego progu: wibracje muszą być >= (0.8 * typowa średnia produkcyjna).
+    if 'vib_rms' in prod_df.columns:
+        typical_vib = prod_df['vib_rms'].median()
+        # Mnożymy przez 0.8, aby pozwolić na alarmy "narastające", ale uciąć oczywiste puste zera z postoju
+        is_vib_spike = df['vib_rms'] >= (typical_vib * 0.8)
+    else:
+        is_vib_spike = pd.Series(True, index=df.index)
+
+    # Status tylko dla produkcji (poza produkcją będzie IDLE lub nadpisane)
     rcf_status = pd.Series('IDLE', index=df.index)
+    
+    # Warunkowa klasyfikacja (niższy score = anomalia PLUS rosnące/zgodne wibracje)
     rcf_status[prod_mask] = np.where(
-        scores <= threshold_critical,
+        (scores <= threshold_critical) & is_vib_spike[prod_mask],
         '🔴 KRITISK ALARM',
         np.where(
-            scores <= threshold_warning,
+            (scores <= threshold_warning) & is_vib_spike[prod_mask],
             '🟡 PLANLEGG SERVICE',
             '🟢 MONITORING'
         )
