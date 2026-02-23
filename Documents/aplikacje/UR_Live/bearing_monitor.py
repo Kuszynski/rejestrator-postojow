@@ -231,7 +231,16 @@ def prepare_bearing_data(df: pd.DataFrame) -> pd.DataFrame:
 
     # Uzupełnij brakujące interwały (forward fill z limitem 3 próbek = 15min)
     result = result.ffill(limit=3)
-    result = result.dropna(subset=['vib_rms', 'temp_mean'])
+    
+    # [POPRAWKA] Nie wyrzucaj rekordów, które mają tylko temperaturę (np. czujnik hali)
+    # Wyrzucamy tylko jeśli NIE MA ANI temperatury ANI wibracji
+    result = result.dropna(how='all', subset=['vib_rms', 'temp_mean'])
+    
+    # Zapewnij 0.0 zamiast NaN dla wibracji jeśli ich brak (bezpieczne dla dashboardu)
+    if 'vib_rms' in result.columns:
+        result['vib_rms'] = result['vib_rms'].fillna(0.0)
+    if 'vib_max' in result.columns:
+        result['vib_max'] = result['vib_max'].fillna(0.0)
 
     print(f"     → Zagregowano do {len(result)} interwałów 5-min")
 

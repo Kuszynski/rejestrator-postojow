@@ -169,34 +169,30 @@ async def fetch_sensor_delta(session: aiohttp.ClientSession, hwstate: HardwareSt
     return sn, df_delta
 
 
-def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame):
+def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame = None):
     """
-    Kalkulacja w czasie rzezywistym (Warstwa Processing w Pamięci) 
+    Kalkulacja w czasie rzeczywistym.
+    Jeśli delta_df jest None, odświeża snapshot na podstawie istniejącej historii.
     """
-    if delta_df.empty:
-        return
+    # 1. Dolaczamy Delte do historii (jeśli przekazano)
+    if delta_df is not None and not delta_df.empty:
+        if sn not in hwstate.sensor_history or hwstate.sensor_history[sn].empty:
+            hwstate.sensor_history[sn] = delta_df
+        else:
+            hwstate.sensor_history[sn] = pd.concat([hwstate.sensor_history[sn], delta_df], ignore_index=True)
         
-    # 1. Dolaczamy Delte do historii
-    if sn not in hwstate.sensor_history or hwstate.sensor_history[sn].empty:
-        # Initial Boot
-        hwstate.sensor_history[sn] = delta_df
-    else:
-        # Appending micro-batch
-        hwstate.sensor_history[sn] = pd.concat([hwstate.sensor_history[sn], delta_df], ignore_index=True)
-        # Opcjonalne Trimowanie do ostatnich "WARM_HISTORY_DAYS" 
-        # By uniknac Out-Of-Memory na serwerze 
+    df_context = hwstate.sensor_history.get(sn, pd.DataFrame())
         
-    df_context = hwstate.sensor_history[sn]
-        
-    # Bezpiecznik: Potrzebujemy chociaż 1 punktu by cokolwiek wyświetlić w Dashboardzie Live
-    if len(df_context) < 1:
+    # Bezpiecznik: Potrzebujemy chociaż 1 punktu by cokolwiek wyświetlić
+    if df_context.empty:
         return
         
     try:
         # 1. Przygotowanie danych (Konwersja na Datetime i Agregacja 5-min wg standardu b.monitor)
         df_raw = df_context.copy()
-        # Upewniamy się, że timestamp to Datetime dla resamplingu
-        df_raw['timestamp'] = pd.to_datetime(df_raw['timestamp'], unit='ms')
+        # Upewniamy się, że timestamp to Datetime w strefie lokalnej (Europe/Warsaw)
+        # API zwraca UTC, a my operujemy na czasie lokalnym (06:00 start zmiany itp.)
+        df_raw['timestamp'] = pd.to_datetime(df_raw['timestamp'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Warsaw').dt.tz_localize(None)
         
         # 2. Uruchomienie standardowego rurociągu przygotowawczego (Resample, Agg, Production Classify)
         # To załatwi nam 'vib_max', 'vib_rms', 'temp_mean' i poprawny DatetimeIndex
@@ -228,9 +224,16 @@ def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame):
                     bearing_monitor.AWS_GRADIENT_WINDOW = WIN_1H
                     hall_temp_series = None
                     if use_hall and '30001856' in hwstate.sensor_history and not hwstate.sensor_history['30001856'].empty:
-                        hall_temp_series = hwstate.sensor_history['30001856']['temp_mean']
+                        # [POPRAWKA] Przygotuj dane hali do formatu agregowanego (DatetimeIndex)
+                        df_hall_raw = hwstate.sensor_history['30001856'].copy()
+                        df_hall_raw['timestamp'] = pd.to_datetime(df_hall_raw['timestamp'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Warsaw').dt.tz_localize(None)
+                        df_hall_prep = bearing_monitor.prepare_hall_data(df_hall_raw)
+                        if not df_hall_prep.empty:
+                            hall_temp_series = df_hall_prep['hall_temp']
                     d = analyze_aws_gradient(d, hall_temp=hall_temp_series) 
-                except Exception as e: pass
+                except Exception as e: 
+                    # print(f"DEBUG: Hall error for {sn}: {e}")
+                    pass
                 
                 try: d = analyze_rcf_anomaly(d) 
                 except Exception as e: pass
@@ -247,6 +250,26 @@ def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame):
         
         # Wybierz aktywny DF do UI (ustawi status maszyn, HI i Prob)
         active_df = df_comp if hwstate.settings.get("use_hall_compensation", True) else df_raw
+        
+        # [POPRAWKA] Jeśli to jest sensor hali (30001856), omijamy dalszą analizę alarmów łożyskowych,
+        # ale musimy go zapisać do historii, żeby inne sensory mogły go używać jako referencji.
+        if sn == '30001856':
+            try:
+                latest_status = df.iloc[-1]
+                hwstate.live_snapshot[sn] = {
+                    "sn": sn,
+                    "alias": hwstate.sensor_aliases.get(sn, sn),
+                    "timestamp": int(latest_status.name.timestamp()*1000) if hasattr(latest_status.name, 'timestamp') else int(time.time()*1000),
+                    "temp": float(latest_status.get('temp_mean', 0.0)),
+                    "vib_rms": 0.0,
+                    "health_index": 100.0,
+                    "failure_prob": 0.0,
+                    "status": "AKTIV (HALLE)"
+                }
+                return # Wyjście dla sensora hali po zapisaniu snapshotu
+            except Exception as e:
+                print(f"[!] Błąd zapisu snapshotu dla sensora hali: {e}")
+                return
         
         try:
             latest_status = active_df.iloc[-1]
@@ -442,7 +465,7 @@ async def mine_historical_events(hwstate):
             df_ai = df.copy()
             df_ai['unit'] = df_ai['unit'].str.replace('G', 'g').str.replace('c', '°C').str.replace('C', '°C')
             if 'timestamp' in df_ai.columns:
-                df_ai['timestamp'] = pd.to_datetime(df_ai['timestamp'], unit='ms')
+                df_ai['timestamp'] = pd.to_datetime(df_ai['timestamp'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Warsaw').dt.tz_localize(None)
                 
             prep_df = ai.prepare_bearing_data(df_ai)
             if prep_df.empty: continue
@@ -458,7 +481,12 @@ async def mine_historical_events(hwstate):
                 
                 hall_temp = None
                 if use_hall and '30001856' in hwstate.sensor_history and not hwstate.sensor_history['30001856'].empty:
-                    hall_temp = hwstate.sensor_history['30001856']['temp_mean']
+                    # [POPRAWKA] Przygotuj dane hali do formatu agregowanego dla mining
+                    df_hall_raw = hwstate.sensor_history['30001856'].copy()
+                    df_hall_raw['timestamp'] = pd.to_datetime(df_hall_raw['timestamp'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Warsaw').dt.tz_localize(None)
+                    df_hall_prep = ai.prepare_hall_data(df_hall_raw)
+                    if not df_hall_prep.empty:
+                        hall_temp = df_hall_prep['hall_temp']
                     
                 d = ai.analyze_aws_gradient(d, hall_temp=hall_temp)
                 d = ai.fuse_alarms(d)
@@ -700,6 +728,16 @@ async def main():
             return
 
         # 3. WYMUŚ NATYCHMIASTOWY SNAPSHOT UI (żeby użytkownik od razu widział Aliasy)
+        print("[*] Inicjalizacja snapshotów z historii...")
+        for sn in hwstate.active_sensors:
+            if sn in hwstate.sensor_history and not hwstate.sensor_history[sn].empty:
+                # [POPRAWKA] Usuwamy ewentualne śmieci z timestampem 0 (z poprzedniej nieudanej inicjalizacji)
+                h = hwstate.sensor_history[sn]
+                hwstate.sensor_history[sn] = h[h['timestamp'] > 0]
+                
+                # Wywołaj inference bez dodawania danych, żeby zapełnić UI snapshotami z RAM
+                run_ai_inference(hwstate, sn, None)
+        
         await push_snapshot_to_ui(hwstate)
 
         print(f"[*] Startuję pętlę monitoringu dla {len(hwstate.active_sensors)} maszyn...")
@@ -732,8 +770,18 @@ async def main():
                 save_persistence(hwstate)
             
             elapsed = time.time() - start_time
-            sleep_time = max(0, POLL_INTERVAL_SECONDS - elapsed)
-            await asyncio.sleep(sleep_time)
+            sleep_total = max(0, POLL_INTERVAL_SECONDS - elapsed)
+            
+            # [POPRAWKA] Zamiast spać ciurkiem 120s, śpimy w małych interwałach
+            # sprawdzając czy użytkownik nie zmienił ustawień w Dashboardzie.
+            for _ in range(int(sleep_total)):
+                if load_settings(hwstate):
+                    print("[*] Zmiana w UI (w trakcie oczekiwania). Natychmiastowe odświeżenie...")
+                    await push_snapshot_to_ui(hwstate)
+                await asyncio.sleep(1)
+            
+            # Pozostała ułamkowa część sekundy
+            await asyncio.sleep(sleep_total % 1)
 
 if __name__ == "__main__":
     # Windows fix dla petli asyncio
