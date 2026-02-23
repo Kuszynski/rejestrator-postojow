@@ -267,9 +267,25 @@ def classify_production_time(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
 
     # Silnik pracuje, jeśli wibracje przekraczają próg szumu jałowego
-    df['is_production'] = df['vib_rms'] > SKF_VIBRATION_IDLE
+    df['is_production_raw'] = df['vib_rms'] > SKF_VIBRATION_IDLE
 
-    # Przerwa to czas, gdy maszyna (silnik) nie pracuje
+    # --- AWS MACHINE STATE GATING (Czas Wybiegu / Run-down) ---
+    # Zamiast ucinać produkcję natychmiast (co powoduje anomalie matematyczne w RCF),
+    # dodajemy czas wybiegu (np. 15 minut) od momentu fizycznego zejścia poniżej progu.
+    interval_minutes = int(pd.Timedelta(AGGREGATION_INTERVAL).total_seconds() / 60)
+    rundown_intervals = 15 // interval_minutes
+    
+    # Wykrywamy moment zatrzymania: wyrywamy przejście z 'pracuje' na 'nie pracuje'
+    stops = ~df['is_production_raw'] & df['is_production_raw'].shift(1, fill_value=False)
+    
+    # Rozciągamy flagę zatrzymania w przód o N interwałów, definiując fazę wybiegu (stygnięcia)
+    is_rundown = stops.replace(False, np.nan).ffill(limit=rundown_intervals).fillna(False).astype(bool)
+
+    # Ostateczna definicja produkcji to: fizyczna praca LUB fizyczne stygnięcie na wybiegu
+    df['is_production'] = df['is_production_raw'] | is_rundown
+    df['is_rundown'] = is_rundown
+
+    # Przerwa to czas, gdy maszyna (silnik) nie pracuje i nie jest w reaktorze wybiegu
     df['is_break'] = ~df['is_production']
 
     # Wykrywanie "warmupu" (rozgrzewki)
@@ -696,12 +712,14 @@ def analyze_rcf_anomaly(df: pd.DataFrame) -> pd.DataFrame:
     # Status tylko dla produkcji (poza produkcją będzie IDLE lub nadpisane)
     rcf_status = pd.Series('IDLE', index=df.index)
     
-    # Warunkowa klasyfikacja (niższy score = anomalia PLUS rosnące/zgodne wibracje)
+    # Warunkowa klasyfikacja (niższy score = anomalia PLUS rosnące/zgodne wibracje PLUS nie wybieg)
+    is_not_rundown = ~df.get('is_rundown', pd.Series(False, index=df.index))
+    
     rcf_status[prod_mask] = np.where(
-        (scores <= threshold_critical) & is_vib_spike[prod_mask],
+        (scores <= threshold_critical) & is_vib_spike[prod_mask] & is_not_rundown[prod_mask],
         '🔴 KRITISK ALARM',
         np.where(
-            (scores <= threshold_warning) & is_vib_spike[prod_mask],
+            (scores <= threshold_warning) & is_vib_spike[prod_mask] & is_not_rundown[prod_mask],
             '🟡 PLANLEGG SERVICE',
             '🟢 MONITORING'
         )
