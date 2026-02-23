@@ -113,11 +113,20 @@ WARMUP_MINUTES = 60
 # Pojedynczy spike wibracji (np. wózek widłowy, uderzenie kłody) nie powinien
 # wywoływać alarmu. Prawdziwa degradacja łożyska trwa — jest widoczna
 # w KOLEJNYCH próbkach. Wymagamy N kolejnych interwałów powyżej progu.
-ALARM_PERSISTENCE_INTERVALS = 2  # 2 × 5min = 10 minut ciągłego alarmu (zmniejszono z 15 min dla ekstremalnej czułości)
+ALARM_PERSISTENCE_INTERVALS = 2  # 2 × 5min = 10 minut ciągłego alarmu dla standardowej pompy/silnika
 ALARM_PERSISTENCE_FIRE = 1       # 1 × 5min = NATYCHMIAST dla POŻAR/STOP (W ułamku sekund temperatura nie robi false spikes, tylko płonie!)
 # Pożar (Gradient > 15C/h) nie podlega zwłoce! Bezwładność cieplna litego żeliwa 
 # uniemożliwia błędy pomiarowe np. o 20 stopni / h z powietrza. 
 # Czekanie 15 minut przy pożarze to pewne spalenie linii.
+
+# --- HEAVY IMPACT PROFILE (RĘBAKI / QSS) ---
+# Wprowadzamy osobne, ułagodzone kryteria dla maszyn brutalnie tnących kłody (np. 1880 QSS-420).
+# Rębaki zębowe produkują niekończący się ciąg szpilek wibracyjnych - standardowo ISO/SKF zarzucałyby alarmami przez cały dzień.
+HEAVY_KEYWORDS = ['QSS', 'HUGG', 'CHIPPER', 'REBAK', 'RĘBAK']
+HEAVY_SKF_CF_WARNING = 6.0       # Standardowy to 5.0 (dopuszczamy rębaki do cięcia twardszych materiałów)
+HEAVY_SKF_CF_CRITICAL = 8.0      # Standardowy to 6.0
+# Znaczne wydłużenie debouncingu dla rębaków — żeby zignorować np. twardą krzywą kłodę.
+HEAVY_ALARM_PERSISTENCE_INTERVALS = 5  # 5 × 5min = 25 minut ciągłego hałasu bezlitosnego bicia wału, by odpalić ALARM.
 
 # --- Random Cut Forest (4. silnik: AWS Monitron ML) ---
 # Ref: AWS Monitron — "Robust Random Cut Forest Based Anomaly Detection"
@@ -331,26 +340,22 @@ def prepare_hall_data(df: pd.DataFrame) -> pd.DataFrame:
 #  MODUŁ 2: LOGIKA SKF — CREST FACTOR (Współczynnik Szczytu)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def analyze_skf_crest_factor(df: pd.DataFrame) -> pd.DataFrame:
+def analyze_skf_crest_factor(df: pd.DataFrame, is_heavy_machinery: bool = False) -> pd.DataFrame:
     """
     SKF Crest Factor Analysis — wykrywanie uszkodzeń mechanicznych łożysk.
-
-    Teoria (SKF Application Note):
-        Crest Factor = Peak / RMS
-        - Nowe łożysko: CF ≈ 2-3 (sygnał sinusoidalny)
-        - Wczesne uszkodzenie bieżni: CF = 3-5 (pojawiają się impulsy)
-        - Zaawansowane uszkodzenie: CF > 5-6 (silne impulsy, odpryski)
-        - Katastrofalne uszkodzenie: CF spada (szum maskuje impulsy)
-
-    UWAGA: CF jest czuły na WCZESNE uszkodzenia — wykrywa pęknięcia
-    ZANIM temperatura zacznie rosnąć. To daje czas na planowany serwis.
-
-    Dla maszyny wyłączonej (wibracje < 0.01g) CF = 0 (brak danych).
     """
     df = df.copy()
 
+    # Wybór progów w zależności od profilu maszyny
+    if is_heavy_machinery:
+        cf_warning = HEAVY_SKF_CF_WARNING
+        cf_critical = HEAVY_SKF_CF_CRITICAL
+        print("     → Profil maszyny udarowej AKTYWNY: podwyższam tolerancję SKF (CF).")
+    else:
+        cf_warning = SKF_CF_WARNING
+        cf_critical = SKF_CF_CRITICAL
+
     # Oblicz Crest Factor tylko gdy maszyna pracuje W CZASIE PRODUKCJI
-    # Unikamy dzielenia przez zero i szumu z wyłączonej maszyny
     mask_running = (df['vib_rms'] > SKF_VIBRATION_IDLE) & df['is_production']
     df['crest_factor'] = 0.0
     df.loc[mask_running, 'crest_factor'] = (
@@ -363,10 +368,10 @@ def analyze_skf_crest_factor(df: pd.DataFrame) -> pd.DataFrame:
         df['is_warmup'],                                 # Rozgrzewka (maskujemy skoki)
         df['crest_factor'] < SKF_CF_NORMAL,             # Zdrowe łożysko
         (df['crest_factor'] >= SKF_CF_NORMAL) &
-            (df['crest_factor'] < SKF_CF_WARNING),      # Wczesne zużycie
-        (df['crest_factor'] >= SKF_CF_WARNING) &
-            (df['crest_factor'] < SKF_CF_CRITICAL),     # Postępujące zużycie
-        df['crest_factor'] >= SKF_CF_CRITICAL            # Uszkodzenie krytyczne
+            (df['crest_factor'] < cf_warning),          # Wczesne zużycie
+        (df['crest_factor'] >= cf_warning) &
+            (df['crest_factor'] < cf_critical),         # Postępujące zużycie
+        df['crest_factor'] >= cf_critical                # Uszkodzenie krytyczne
     ]
     choices = [
         'IDLE',
@@ -738,25 +743,14 @@ def analyze_rcf_anomaly(df: pd.DataFrame) -> pd.DataFrame:
 #  MODUŁ 5: FUZJA ALARMÓW — WYNIK KOŃCOWY
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def fuse_alarms(df: pd.DataFrame) -> pd.DataFrame:
+def fuse_alarms(df: pd.DataFrame, is_heavy_machinery: bool = False) -> pd.DataFrame:
     """
     Fuzja alarmów z trzech silników diagnostycznych.
-
-    Dwa etapy:
-        1. Worst-case fusion (SIL-2, IEC 61508)
-        2. Alarm Persistence / Debounce (SKF Enlight)
-
-    Persistence (trwałość alarmu):
-        Alarm jest potwierdzony TYLKO gdy N kolejnych interwałów przekracza próg.
-        Ref: SKF IMx — "alarm debounce eliminates transient false alarms"
-
-        Dlaczego? Prawdziwa degradacja łożyska to TREND, nie spike.
-        Uderzenie kłody o maszynę = 1 interwał z CF=4 → ignoruj.
-        Pęknięcie bieżni = 20 interwałów z CF=4 → alarm.
-
-        Wyjątek: POŻAR/STOP nigdy nie jest debounce'owany — ryzyko zbyt duże.
     """
     df = df.copy()
+    
+    # Wybór persistencji na podstawie klasy
+    persistence_required = HEAVY_ALARM_PERSISTENCE_INTERVALS if is_heavy_machinery else ALARM_PERSISTENCE_INTERVALS
 
     # Zabezpieczenie przed brakującymi kolumnami statusów
     for col in ['p_skf', 'p_siemens', 'p_aws', 'p_rcf']:
@@ -814,7 +808,7 @@ def fuse_alarms(df: pd.DataFrame) -> pd.DataFrame:
         is_alarm_not_persistent = (
             (df[col] >= 3) &
             (df[col] < 5) &
-            (df[f'{col}_streak'] < ALARM_PERSISTENCE_INTERVALS)
+            (df[f'{col}_streak'] < persistence_required)
         )
         
         # Degradacja: zamiast na ślepo wrzucać 🟢 MONITORING (p=1), 
@@ -1338,9 +1332,14 @@ def main():
         # Wstrzyknij 'avg_line_vibration' dla tego silnika
         df['avg_line_vibration'] = avg_line_vib
         
+        # --- SPRAWDZENIE PROFILU MASZYNY (HEAVY IMPACT) ---
+        is_heavy_machinery = any(keyword.upper() in str(sn).upper() for keyword in HEAVY_KEYWORDS)
+        if is_heavy_machinery:
+            print("  ⚠️ DETEKCJA PROFILU CIĘŻKIEGO: Wykryto rębaka/QSS. Ograniczam czułość wibracyjną i persystencję.")
+        
         # ── Krok 3: SKF Crest Factor ──
         print("🔧 KROK 3/9: Analiza SKF — Crest Factor (uszkodzenia mechaniczne)...")
-        df = analyze_skf_crest_factor(df)
+        df = analyze_skf_crest_factor(df, is_heavy_machinery)
 
         # ── Krok 4: Siemens Baseline ──
         print("📐 KROK 4/9: Analiza Siemens — Adaptive Baseline (banda μ±2σ)...")
@@ -1356,7 +1355,7 @@ def main():
 
         # ── Krok 7: Fuzja alarmów ──
         print("⚡ KROK 7/9: Fuzja alarmów (worst-case, SIL-2 + persistence)...")
-        df = fuse_alarms(df)
+        df = fuse_alarms(df, is_heavy_machinery)
 
         # ── Krok 8: Health Index + P(awaria) ──
         print("🏥 KROK 8/9: Health Index + P(awaria w ciągu 24h)...")
