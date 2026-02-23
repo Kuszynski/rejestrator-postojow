@@ -6,19 +6,23 @@ import { AlertTriangle, Activity, Thermometer, ShieldAlert, Cpu, FolderUp, Cloud
 const translateVerdict = (v: string | undefined | null) => {
   if (!v) return 'INAKTIV';
   let res = v;
-  // Czyszczenie ikon z tekstu jeśli zajdzie potrzeba, ale zostawiamy oryginalne norweskie tagi
+  // Czyszczenie ikon z tekstu jeśli zajdzie potrzeba
   res = res.replace('IDLE', 'INAKTIV');
   res = res.replace('MONITORING', 'OVERVÅKING');
   res = res.replace('SERVICE', 'PLANLEGG SERVICE');
   res = res.replace('FIRE', 'BRANN/STOPP');
+  res = res.replace('POŻAR/STOP', 'BRANN/STOPP');
+  res = res.replace('CRITICAL', 'KRITISK ALARM');
+  res = res.replace('ANOMALIA KRYTYCZNA', 'KRITISK ALARM');
+  res = res.replace('ODCHYLENIE KRYTYCZNE', 'KRITISK ALARM');
   return res;
 };
 
 const getStatusColor = (verdict: string) => {
   if (!verdict) return 'bg-slate-800 border-slate-700';
-  if (verdict.includes('BRANN') || verdict.includes('POŻAR') || verdict.includes('KRYTISK') || verdict.includes('KRYTYCZNA')) return 'bg-red-950 border-red-700 text-red-100 shadow-[0_0_15px_rgba(220,38,38,0.5)]';
+  if (verdict.includes('BRANN') || verdict.includes('POŻAR') || verdict.includes('KRYTISK') || verdict.includes('KRYTYCZNA') || verdict.includes('STOPP')) return 'bg-red-950 border-red-700 text-red-100 shadow-[0_0_15px_rgba(220,38,38,0.5)]';
   if (verdict.includes('SERVICE') || verdict.includes('SERWIS')) return 'bg-yellow-950 border-yellow-700 text-yellow-100 shadow-[0_0_10px_rgba(202,138,4,0.3)]';
-  if (verdict.includes('MONITORING')) return 'bg-green-950 border-green-800 text-green-100 shadow-[0_0_8px_rgba(22,163,74,0.2)]';
+  if (verdict.includes('OVERVÅKING') || verdict.includes('MONITORING')) return 'bg-green-950 border-green-800 text-green-100 shadow-[0_0_8px_rgba(22,163,74,0.2)]';
   return 'bg-slate-800 border-slate-700 text-slate-300';
 };
 
@@ -149,7 +153,7 @@ const AlertLogSection = React.memo(({ alerts, selectedGroup }: any) => {
                 <div className="text-xs font-mono text-slate-400 flex flex-wrap gap-x-5 gap-y-1 mt-1 bg-black/20 p-2 rounded-lg border border-white/5">
                   <span className="flex items-center gap-1.5"><Activity className="w-3.5 h-3.5 text-blue-500/70" /> {alert.vib_rms?.toFixed(2) || '0.00'}g</span>
                   <span className="flex items-center gap-1.5"><Thermometer className="w-3.5 h-3.5 text-orange-500/70" /> {alert.temp_mean?.toFixed(1) || '0.0'}°C</span>
-                  {alert.temp_gradient !== undefined && alert.temp_gradient !== 0 && (
+                  {alert.temp_gradient !== undefined && (
                     <span className="flex items-center gap-1.5 text-red-400/80">
                       <TrendingUp className="w-3.5 h-3.5" />
                       {alert.temp_gradient > 0 ? '+' : ''}{alert.temp_gradient.toFixed(1)}°C/h
@@ -179,7 +183,7 @@ export default function Dashboard() {
 
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
-  const [data, setData] = useState<any>({ groups: {}, alerts: [] });
+  const [data, setData] = useState<any>({ groups: {}, alerts: [], mining_progress: 100 });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -249,7 +253,7 @@ export default function Dashboard() {
               shortSn: e.sn,
               alias: e.alias,
               groupId: 'Live Stream (Daemona)',
-              type: (e.type.includes('KRITISK') || e.type.includes('BRANN')) ? 'FIRE' : 'SERVICE',
+              type: e.type.includes('BRANN') ? 'FIRE' : (e.type.includes('KRITISK') ? 'CRITICAL' : 'SERVICE'),
               msg: e.msg,
               timestamp: new Date(e.timestamp).getTime(),
               vib_rms: e.vib_rms,
@@ -430,13 +434,27 @@ export default function Dashboard() {
             )}
             <div className="flex items-center gap-4">
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-inner transition-colors ${useHallCompensation ? 'bg-blue-500/20 border-blue-400/30' : 'bg-slate-800 border-slate-700'}`}>
-                <Thermometer className={`w-6 h-6 ${useHallCompensation ? 'text-blue-400' : 'text-slate-500'}`} />
+                {data.mining_progress < 100 ? (
+                  <Activity className="w-6 h-6 text-blue-400 animate-spin" />
+                ) : (
+                  <Thermometer className={`w-6 h-6 ${useHallCompensation ? 'text-blue-400' : 'text-slate-500'}`} />
+                )}
               </div>
               <div className="text-left">
                 <h3 className="font-bold text-white text-sm leading-tight">Romtemperatur-kompensasjon</h3>
-                <p className="text-[10px] text-slate-500 mt-1 uppercase tracking-widest font-mono">
-                  {useHallCompensation ? 'AKTIV (Sensor 30001856)' : 'DEAKTIVERT - Rå gradient'}
-                </p>
+                {data.mining_progress < 100 ? (
+                  <div className="mt-2 w-32 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-blue-500 transition-all duration-500"
+                      style={{ width: `${data.mining_progress}%` }}
+                    />
+                    <p className="text-[8px] text-blue-400 mt-1 font-mono uppercase">Beregner historikk... {data.mining_progress}%</p>
+                  </div>
+                ) : (
+                  <p className="text-[10px] text-slate-500 mt-1 uppercase tracking-widest font-mono">
+                    {useHallCompensation ? 'AKTIV (Sensor 30001856)' : 'DEAKTIVERT - Rå gradient'}
+                  </p>
+                )}
               </div>
             </div>
             {useHallCompensation ? (

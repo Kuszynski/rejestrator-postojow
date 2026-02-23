@@ -583,6 +583,11 @@ def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None) -> pd.Da
     
     gradient_for_alarm[~df['is_production'] & ~is_extreme] = 0.0    # Poza zmianą — ignoruj
     gradient_for_alarm[df['is_warmup'] & ~is_extreme] = 0.0         # Rozgrzewka — ignoruj
+    
+    # [POPRAWKA] Usypiamy stygnięcie. Gdy maszyna udarowa staje — ciepło nie ma cyrkulacji, obudowa
+    # w parę minut dogrzewa się na bezruchu resztkowym ciepłem generując strome gradienty.
+    if 'is_rundown' in df.columns:
+        gradient_for_alarm[df['is_rundown'] & ~is_extreme] = 0.0
     gradient_for_alarm[df['is_break'] & ~is_extreme] = 0.0          # Przerwa — ignoruj
     # Zabezpieczenie przed "Cold Startem" - pożar zawsze powoduje wyższą temperaturę.
     

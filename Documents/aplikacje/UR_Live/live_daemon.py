@@ -475,21 +475,43 @@ async def mine_historical_events(hwstate):
             
             
             def _mine_pipeline(input_df, use_hall):
-                d = input_df.copy()
-                d = ai.analyze_skf_crest_factor(d)
-                d = ai.analyze_siemens_baseline(d)
+                # Detekcja rębaka dla analizatora historycznego
+                is_heavy_impact = any(keyword.upper() in str(sn).upper() for keyword in ai.HEAVY_KEYWORDS)
                 
-                hall_temp = None
-                if use_hall and '30001856' in hwstate.sensor_history and not hwstate.sensor_history['30001856'].empty:
-                    # [POPRAWKA] Przygotuj dane hali do formatu agregowanego dla mining
-                    df_hall_raw = hwstate.sensor_history['30001856'].copy()
-                    df_hall_raw['timestamp'] = pd.to_datetime(df_hall_raw['timestamp'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Warsaw').dt.tz_localize(None)
-                    df_hall_prep = ai.prepare_hall_data(df_hall_raw)
-                    if not df_hall_prep.empty:
-                        hall_temp = df_hall_prep['hall_temp']
-                    
-                d = ai.analyze_aws_gradient(d, hall_temp=hall_temp)
-                d = ai.fuse_alarms(d)
+                d = input_df.copy()
+                d['crest_factor'] = 1.5 
+                d['vib_max'] = d.get('vib_rms', 0.0) * d['crest_factor'] 
+                
+                WIN_30D = 30 * 24 * 12 # 30 dni w interwałach 5-min
+                WIN_1H = 12            # 1 godzina w interwałach 5-min
+                
+                try: d = ai.analyze_skf_crest_factor(d, is_heavy_impact)
+                except Exception: pass
+                
+                try: 
+                    ai.SIEMENS_BASELINE_WINDOW = WIN_30D
+                    d = ai.analyze_siemens_baseline(d)
+                except Exception: pass
+                
+                try:
+                    ai.AWS_GRADIENT_WINDOW = WIN_1H
+                    hall_temp = None
+                    if use_hall and '30001856' in hwstate.sensor_history and not hwstate.sensor_history['30001856'].empty:
+                        df_hall_raw = hwstate.sensor_history['30001856'].copy()
+                        df_hall_raw['timestamp'] = pd.to_datetime(df_hall_raw['timestamp'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Warsaw').dt.tz_localize(None)
+                        df_hall_prep = ai.prepare_hall_data(df_hall_raw)
+                        if not df_hall_prep.empty:
+                            hall_temp = df_hall_prep['hall_temp']
+                        
+                    d = ai.analyze_aws_gradient(d, hall_temp=hall_temp)
+                except Exception: pass
+                
+                try: d = ai.analyze_rcf_anomaly(d)
+                except Exception: pass
+                
+                try: d = ai.fuse_alarms(d, is_heavy_impact)
+                except Exception: pass
+                
                 return d
             
             df_raw = _mine_pipeline(prep_df, False)

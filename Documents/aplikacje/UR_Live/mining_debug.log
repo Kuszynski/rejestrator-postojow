@@ -1,0 +1,1162 @@
+SN: 21001530 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.873 | Max temp: nan
+SN: 21001530 AI Verdicts before filter: {'IDLE': 13568, '🟢 MONITORING': 3702}
+SN: 21001530 AI Verdicts before filter: {'IDLE': 13568, '🟢 MONITORING': 3702}
+SN: 21001564 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.978 | Max temp: nan
+SN: 21001564 AI Verdicts before filter: {'IDLE': 13447, '🟢 MONITORING': 3824}
+SN: 21001564 AI Verdicts before filter: {'IDLE': 13447, '🟢 MONITORING': 3824}
+SN: 21001657 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.924 | Max temp: nan
+SN: 21001657 AI Verdicts before filter: {'IDLE': 14539, '🟢 MONITORING': 2732}
+SN: 21001657 AI Verdicts before filter: {'IDLE': 14539, '🟢 MONITORING': 2732}
+SN: 21001668 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.073 | Max temp: nan
+SN: 21001668 AI Verdicts before filter: {'IDLE': 13396, '🟢 MONITORING': 3875}
+SN: 21001668 AI Verdicts before filter: {'IDLE': 13396, '🟢 MONITORING': 3875}
+SN: 21001694 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.352 | Max temp: nan
+SN: 21001694 AI Verdicts before filter: {'IDLE': 13526, '🟢 MONITORING': 3745}
+SN: 21001694 AI Verdicts before filter: {'IDLE': 13526, '🟢 MONITORING': 3745}
+SN: 21001704 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.143 | Max temp: nan
+SN: 21001704 AI Verdicts before filter: {'IDLE': 13185, '🟢 MONITORING': 4053, '🟡 PLANLEGG SERVICE': 33}
+Error mining 21001704: 'Index' object has no attribute 'date'
+SN: 21001775 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.760 | Max temp: nan
+SN: 21001775 AI Verdicts before filter: {'IDLE': 13392, '🟢 MONITORING': 3879}
+SN: 21001775 AI Verdicts before filter: {'IDLE': 13392, '🟢 MONITORING': 3879}
+SN: 21001788 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.776 | Max temp: nan
+SN: 21001788 AI Verdicts before filter: {'IDLE': 13411, '🟢 MONITORING': 3859, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21001788: 'Index' object has no attribute 'date'
+SN: 21001855 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.141 | Max temp: nan
+SN: 21001855 AI Verdicts before filter: {'IDLE': 13435, '🟢 MONITORING': 3836}
+SN: 21001855 AI Verdicts before filter: {'IDLE': 13435, '🟢 MONITORING': 3836}
+SN: 21001916 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.760 | Max temp: nan
+SN: 21001916 AI Verdicts before filter: {'IDLE': 13308, '🟢 MONITORING': 3963}
+SN: 21001916 AI Verdicts before filter: {'IDLE': 13308, '🟢 MONITORING': 3963}
+SN: 21001944 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.760 | Max temp: nan
+SN: 21001944 AI Verdicts before filter: {'IDLE': 13428, '🟢 MONITORING': 3843}
+SN: 21001944 AI Verdicts before filter: {'IDLE': 13428, '🟢 MONITORING': 3843}
+SN: 21001955 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.265 | Max temp: nan
+SN: 21001955 AI Verdicts before filter: {'IDLE': 4381, '🟢 MONITORING': 523}
+SN: 21001955 AI Verdicts before filter: {'IDLE': 4381, '🟢 MONITORING': 523}
+SN: 21001984 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.960 | Max temp: nan
+SN: 21001984 AI Verdicts before filter: {'IDLE': 13440, '🟢 MONITORING': 3830, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21001984: 'Index' object has no attribute 'date'
+SN: 21002039 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.331 | Max temp: nan
+SN: 21002039 AI Verdicts before filter: {'IDLE': 13518, '🟢 MONITORING': 3749, '🟡 PLANLEGG SERVICE': 4}
+Error mining 21002039: 'Index' object has no attribute 'date'
+SN: 21002166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.029 | Max temp: nan
+SN: 21002166 AI Verdicts before filter: {'IDLE': 13365, '🟢 MONITORING': 3906}
+SN: 21002166 AI Verdicts before filter: {'IDLE': 13365, '🟢 MONITORING': 3906}
+SN: 21002189 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.707 | Max temp: nan
+SN: 21002189 AI Verdicts before filter: {'IDLE': 12484, '🟢 MONITORING': 4764, '🟡 PLANLEGG SERVICE': 22, '🔴 KRITISK ALARM': 1}
+Error mining 21002189: 'Index' object has no attribute 'date'
+SN: 21002210 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.596 | Max temp: nan
+SN: 21002210 AI Verdicts before filter: {'IDLE': 13383, '🟢 MONITORING': 3888}
+SN: 21002210 AI Verdicts before filter: {'IDLE': 13383, '🟢 MONITORING': 3888}
+SN: 21002292 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.728 | Max temp: nan
+SN: 21002292 AI Verdicts before filter: {'IDLE': 14292, '🟢 MONITORING': 2979}
+SN: 21002292 AI Verdicts before filter: {'IDLE': 14292, '🟢 MONITORING': 2979}
+SN: 21002314 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.981 | Max temp: nan
+SN: 21002314 AI Verdicts before filter: {'IDLE': 13635, '🟢 MONITORING': 3634, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21002314: 'Index' object has no attribute 'date'
+SN: 21002337 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.790 | Max temp: nan
+SN: 21002337 AI Verdicts before filter: {'IDLE': 13443, '🟢 MONITORING': 3828}
+SN: 21002337 AI Verdicts before filter: {'IDLE': 13443, '🟢 MONITORING': 3828}
+SN: 21002378 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.848 | Max temp: nan
+SN: 21002378 AI Verdicts before filter: {'IDLE': 12433, '🟢 MONITORING': 4806, '🟡 PLANLEGG SERVICE': 29, '🔴 KRITISK ALARM': 3}
+Error mining 21002378: 'Index' object has no attribute 'date'
+SN: 21002395 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.981 | Max temp: nan
+SN: 21002395 AI Verdicts before filter: {'IDLE': 13376, '🟢 MONITORING': 3895}
+SN: 21002395 AI Verdicts before filter: {'IDLE': 13376, '🟢 MONITORING': 3895}
+SN: 21002409 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.133 | Max temp: nan
+SN: 21002409 AI Verdicts before filter: {'IDLE': 12500, '🟢 MONITORING': 4770, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21002409: 'Index' object has no attribute 'date'
+SN: 21002437 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.984 | Max temp: nan
+SN: 21002437 AI Verdicts before filter: {'IDLE': 13089, '🟢 MONITORING': 4181}
+SN: 21002437 AI Verdicts before filter: {'IDLE': 13089, '🟢 MONITORING': 4181}
+SN: 21002446 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.854 | Max temp: nan
+SN: 21002446 AI Verdicts before filter: {'IDLE': 12428, '🟢 MONITORING': 4827, '🟡 PLANLEGG SERVICE': 15}
+Error mining 21002446: 'Index' object has no attribute 'date'
+SN: 21002488 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.731 | Max temp: nan
+SN: 21002488 AI Verdicts before filter: {'IDLE': 13629, '🟢 MONITORING': 3609, '🟡 PLANLEGG SERVICE': 33}
+Error mining 21002488: 'Index' object has no attribute 'date'
+SN: 21002511 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.788 | Max temp: nan
+SN: 21002511 AI Verdicts before filter: {'IDLE': 14282, '🟢 MONITORING': 2986, '🟡 PLANLEGG SERVICE': 3}
+Error mining 21002511: 'Index' object has no attribute 'date'
+SN: 21002942 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.074 | Max temp: nan
+SN: 21002942 AI Verdicts before filter: {'IDLE': 13313, '🟢 MONITORING': 3958}
+SN: 21002942 AI Verdicts before filter: {'IDLE': 13313, '🟢 MONITORING': 3958}
+SN: 21003043 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.215 | Max temp: nan
+SN: 21003043 AI Verdicts before filter: {'IDLE': 13190, '🟢 MONITORING': 4081}
+SN: 21003043 AI Verdicts before filter: {'IDLE': 13190, '🟢 MONITORING': 4081}
+SN: 21003166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.707 | Max temp: nan
+SN: 21003166 AI Verdicts before filter: {'IDLE': 13317, '🟢 MONITORING': 3953}
+SN: 21003166 AI Verdicts before filter: {'IDLE': 13317, '🟢 MONITORING': 3953}
+SN: 21003212 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.055 | Max temp: nan
+SN: 21003212 AI Verdicts before filter: {'IDLE': 13321, '🟢 MONITORING': 3950}
+SN: 21003212 AI Verdicts before filter: {'IDLE': 13321, '🟢 MONITORING': 3950}
+SN: 21008084 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.442 | Max temp: nan
+SN: 21008084 AI Verdicts before filter: {'IDLE': 12142, '🟢 MONITORING': 5129}
+SN: 21008084 AI Verdicts before filter: {'IDLE': 12142, '🟢 MONITORING': 5129}
+SN: 21008085 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.696 | Max temp: nan
+SN: 21008085 AI Verdicts before filter: {'IDLE': 13417, '🟢 MONITORING': 3851, '🔴 KRITISK ALARM': 2, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008085: 'Index' object has no attribute 'date'
+SN: 21008091 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.524 | Max temp: nan
+SN: 21008091 AI Verdicts before filter: {'IDLE': 15943, '🟢 MONITORING': 1328}
+SN: 21008091 AI Verdicts before filter: {'IDLE': 15943, '🟢 MONITORING': 1328}
+SN: 21008095 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.902 | Max temp: nan
+SN: 21008095 AI Verdicts before filter: {'IDLE': 13497, '🟢 MONITORING': 3773}
+SN: 21008095 AI Verdicts before filter: {'IDLE': 13497, '🟢 MONITORING': 3773}
+SN: 21008097 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.890 | Max temp: nan
+SN: 21008097 AI Verdicts before filter: {'IDLE': 13460, '🟢 MONITORING': 3789, '🟡 PLANLEGG SERVICE': 21}
+Error mining 21008097: 'Index' object has no attribute 'date'
+SN: 21008117 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.435 | Max temp: nan
+SN: 21008117 AI Verdicts before filter: {'IDLE': 14464, '🟢 MONITORING': 2807}
+SN: 21008117 AI Verdicts before filter: {'IDLE': 14464, '🟢 MONITORING': 2807}
+SN: 21008118 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.445 | Max temp: nan
+SN: 21008118 AI Verdicts before filter: {'IDLE': 13653, '🟢 MONITORING': 3617, '🔴 KRITISK ALARM': 1}
+Error mining 21008118: 'Index' object has no attribute 'date'
+SN: 21008121 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.090 | Max temp: nan
+SN: 21008121 AI Verdicts before filter: {'IDLE': 11913, '🟢 MONITORING': 5324, '🟡 PLANLEGG SERVICE': 32, '🔴 KRITISK ALARM': 2}
+Error mining 21008121: 'Index' object has no attribute 'date'
+SN: 21008127 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.381 | Max temp: nan
+SN: 21008127 AI Verdicts before filter: {'IDLE': 13450, '🟢 MONITORING': 3821}
+SN: 21008127 AI Verdicts before filter: {'IDLE': 13450, '🟢 MONITORING': 3821}
+SN: 21008128 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.393 | Max temp: nan
+SN: 21008128 AI Verdicts before filter: {'IDLE': 14418, '🟢 MONITORING': 2853}
+SN: 21008128 AI Verdicts before filter: {'IDLE': 14418, '🟢 MONITORING': 2853}
+SN: 21008145 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.580 | Max temp: nan
+SN: 21008145 AI Verdicts before filter: {'IDLE': 13438, '🟢 MONITORING': 3825, '🟡 PLANLEGG SERVICE': 8}
+Error mining 21008145: 'Index' object has no attribute 'date'
+SN: 21008148 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.034 | Max temp: nan
+SN: 21008148 AI Verdicts before filter: {'IDLE': 13438, '🟢 MONITORING': 3832}
+SN: 21008148 AI Verdicts before filter: {'IDLE': 13438, '🟢 MONITORING': 3832}
+SN: 21008152 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.668 | Max temp: nan
+SN: 21008152 AI Verdicts before filter: {'IDLE': 13390, '🟢 MONITORING': 3862, '🟡 PLANLEGG SERVICE': 15, '🔴 KRITISK ALARM': 4}
+Error mining 21008152: 'Index' object has no attribute 'date'
+SN: 21008153 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.963 | Max temp: nan
+SN: 21008153 AI Verdicts before filter: {'IDLE': 13304, '🟢 MONITORING': 3941, '🟡 PLANLEGG SERVICE': 19, '🔴 KRITISK ALARM': 7}
+Error mining 21008153: 'Index' object has no attribute 'date'
+SN: 21008155 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.313 | Max temp: nan
+SN: 21008155 AI Verdicts before filter: {'IDLE': 13636, '🟢 MONITORING': 3633, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008155: 'Index' object has no attribute 'date'
+SN: 21008159 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.717 | Max temp: nan
+SN: 21008159 AI Verdicts before filter: {'IDLE': 11900, '🟢 MONITORING': 5367, '🔴 KRITISK ALARM': 2, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008159: 'Index' object has no attribute 'date'
+SN: 21008166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.064 | Max temp: nan
+SN: 21008166 AI Verdicts before filter: {'IDLE': 13480, '🟢 MONITORING': 3791}
+SN: 21008166 AI Verdicts before filter: {'IDLE': 13480, '🟢 MONITORING': 3791}
+SN: 21008169 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.808 | Max temp: nan
+SN: 21008169 AI Verdicts before filter: {'IDLE': 13461, '🟢 MONITORING': 3782, '🟡 PLANLEGG SERVICE': 28}
+Error mining 21008169: 'Index' object has no attribute 'date'
+SN: 21008174 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.331 | Max temp: nan
+SN: 21008174 AI Verdicts before filter: {'IDLE': 13505, '🟢 MONITORING': 3766}
+SN: 21008174 AI Verdicts before filter: {'IDLE': 13505, '🟢 MONITORING': 3766}
+SN: 21008183 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.215 | Max temp: nan
+SN: 21008183 AI Verdicts before filter: {'IDLE': 12087, '🟢 MONITORING': 5182, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21008183: 'Index' object has no attribute 'date'
+SN: 21008185 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.087 | Max temp: nan
+SN: 21008185 AI Verdicts before filter: {'IDLE': 13482, '🟢 MONITORING': 3783, '🟡 PLANLEGG SERVICE': 6}
+Error mining 21008185: 'Index' object has no attribute 'date'
+SN: 21008211 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.546 | Max temp: nan
+SN: 21008211 AI Verdicts before filter: {'IDLE': 13429, '🟢 MONITORING': 3825, '🟡 PLANLEGG SERVICE': 17}
+Error mining 21008211: 'Index' object has no attribute 'date'
+SN: 21008244 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.024 | Max temp: nan
+SN: 21008244 AI Verdicts before filter: {'IDLE': 13447, '🟢 MONITORING': 3821, '🔴 KRITISK ALARM': 2}
+Error mining 21008244: 'Index' object has no attribute 'date'
+SN: 21008258 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.383 | Max temp: nan
+SN: 21008258 AI Verdicts before filter: {'IDLE': 13502, '🟢 MONITORING': 3769}
+SN: 21008258 AI Verdicts before filter: {'IDLE': 13502, '🟢 MONITORING': 3769}
+SN: 21008260 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.091 | Max temp: nan
+SN: 21008260 AI Verdicts before filter: {'IDLE': 13414, '🟢 MONITORING': 3847, '🟡 PLANLEGG SERVICE': 10}
+Error mining 21008260: 'Index' object has no attribute 'date'
+SN: 21008264 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.576 | Max temp: nan
+SN: 21008264 AI Verdicts before filter: {'IDLE': 11888, '🟢 MONITORING': 5383}
+SN: 21008264 AI Verdicts before filter: {'IDLE': 11888, '🟢 MONITORING': 5383}
+SN: 21008276 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.743 | Max temp: nan
+SN: 21008276 AI Verdicts before filter: {'IDLE': 12779, '🟢 MONITORING': 4489, '🟡 PLANLEGG SERVICE': 2, '🔴 KRITISK ALARM': 1}
+Error mining 21008276: 'Index' object has no attribute 'date'
+SN: 21008295 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.960 | Max temp: nan
+SN: 21008295 AI Verdicts before filter: {'IDLE': 13450, '🟢 MONITORING': 3803, '🔴 KRITISK ALARM': 9, '🟡 PLANLEGG SERVICE': 9}
+Error mining 21008295: 'Index' object has no attribute 'date'
+SN: 21008296 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.179 | Max temp: nan
+SN: 21008296 AI Verdicts before filter: {'IDLE': 17238, '🟢 MONITORING': 33}
+SN: 21008296 AI Verdicts before filter: {'IDLE': 17238, '🟢 MONITORING': 33}
+SN: 21008299 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.769 | Max temp: nan
+SN: 21008299 AI Verdicts before filter: {'IDLE': 12438, '🟢 MONITORING': 4832}
+SN: 21008299 AI Verdicts before filter: {'IDLE': 12438, '🟢 MONITORING': 4832}
+SN: 21008302 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.558 | Max temp: nan
+SN: 21008302 AI Verdicts before filter: {'IDLE': 13421, '🟢 MONITORING': 3848, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21008302: 'Index' object has no attribute 'date'
+SN: 21008303 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.661 | Max temp: nan
+SN: 21008303 AI Verdicts before filter: {'IDLE': 9326, '🟢 MONITORING': 7943, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21008303: 'Index' object has no attribute 'date'
+SN: 21008304 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.095 | Max temp: nan
+SN: 21008304 AI Verdicts before filter: {'IDLE': 13386, '🟢 MONITORING': 3869, '🟡 PLANLEGG SERVICE': 16}
+Error mining 21008304: 'Index' object has no attribute 'date'
+SN: 21008309 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.027 | Max temp: nan
+SN: 21008309 AI Verdicts before filter: {'IDLE': 13503, '🟢 MONITORING': 3768}
+SN: 21008309 AI Verdicts before filter: {'IDLE': 13503, '🟢 MONITORING': 3768}
+SN: 21009224 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.351 | Max temp: nan
+SN: 21009224 AI Verdicts before filter: {'IDLE': 13612, '🟢 MONITORING': 3653, '🟡 PLANLEGG SERVICE': 6}
+Error mining 21009224: 'Index' object has no attribute 'date'
+SN: 21009277 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.925 | Max temp: nan
+SN: 21009277 AI Verdicts before filter: {'IDLE': 13649, '🟢 MONITORING': 3615, '🟡 PLANLEGG SERVICE': 5, '🔴 KRITISK ALARM': 2}
+Error mining 21009277: 'Index' object has no attribute 'date'
+SN: 21009377 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.283 | Max temp: nan
+SN: 21009377 AI Verdicts before filter: {'IDLE': 13396, '🟢 MONITORING': 3871, '🟡 PLANLEGG SERVICE': 4}
+Error mining 21009377: 'Index' object has no attribute 'date'
+SN: 21009390 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.624 | Max temp: nan
+SN: 21009390 AI Verdicts before filter: {'IDLE': 13393, '🟢 MONITORING': 3874, '🟡 PLANLEGG SERVICE': 4}
+Error mining 21009390: 'Index' object has no attribute 'date'
+SN: 21009909 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.935 | Max temp: nan
+SN: 21009909 AI Verdicts before filter: {'IDLE': 13394, '🟢 MONITORING': 3877}
+SN: 21009909 AI Verdicts before filter: {'IDLE': 13394, '🟢 MONITORING': 3877}
+SN: 21009914 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.766 | Max temp: nan
+SN: 21009914 AI Verdicts before filter: {'IDLE': 172, '🟢 MONITORING': 84}
+SN: 21009914 AI Verdicts before filter: {'IDLE': 172, '🟢 MONITORING': 84}
+SN: 21010297 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.360 | Max temp: nan
+SN: 21010297 AI Verdicts before filter: {'IDLE': 175, '🟢 MONITORING': 81}
+SN: 21010297 AI Verdicts before filter: {'IDLE': 175, '🟢 MONITORING': 81}
+SN: 30012319 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.751 | Max temp: nan
+SN: 30012319 AI Verdicts before filter: {'IDLE': 11593, '🟢 MONITORING': 5673, '🟡 PLANLEGG SERVICE': 5}
+Error mining 30012319: 'Index' object has no attribute 'date'
+SN: 30012325 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.754 | Max temp: nan
+SN: 30012325 AI Verdicts before filter: {'IDLE': 13845, '🟢 MONITORING': 3426}
+SN: 30012325 AI Verdicts before filter: {'IDLE': 13845, '🟢 MONITORING': 3426}
+SN: 30012332 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.514 | Max temp: nan
+SN: 30012332 AI Verdicts before filter: {'IDLE': 14184, '🟢 MONITORING': 3086}
+SN: 30012332 AI Verdicts before filter: {'IDLE': 14184, '🟢 MONITORING': 3086}
+SN: 30012342 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.857 | Max temp: nan
+SN: 30012342 AI Verdicts before filter: {'IDLE': 12538, '🟢 MONITORING': 4732, '🟡 PLANLEGG SERVICE': 1}
+Error mining 30012342: 'Index' object has no attribute 'date'
+SN: 30012349 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.705 | Max temp: nan
+SN: 30012349 AI Verdicts before filter: {'IDLE': 14537, '🟢 MONITORING': 2733}
+SN: 30012349 AI Verdicts before filter: {'IDLE': 14537, '🟢 MONITORING': 2733}
+SN: 30012361 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.020 | Max temp: nan
+SN: 30012361 AI Verdicts before filter: {'IDLE': 14506, '🟢 MONITORING': 2765}
+SN: 30012361 AI Verdicts before filter: {'IDLE': 14506, '🟢 MONITORING': 2765}
+SN: 30012362 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.193 | Max temp: nan
+SN: 30012362 AI Verdicts before filter: {'IDLE': 14491, '🟢 MONITORING': 2780}
+SN: 30012362 AI Verdicts before filter: {'IDLE': 14491, '🟢 MONITORING': 2780}
+SN: 30012363 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.549 | Max temp: nan
+SN: 30012363 AI Verdicts before filter: {'IDLE': 12482, '🟢 MONITORING': 4789}
+SN: 30012363 AI Verdicts before filter: {'IDLE': 12482, '🟢 MONITORING': 4789}
+SN: 21001530 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.873 | Max temp: nan
+SN: 21001530 AI Verdicts before filter: {'IDLE': 13564, '🟢 MONITORING': 3706}
+SN: 21001530 AI Verdicts before filter: {'IDLE': 13564, '🟢 MONITORING': 3706}
+SN: 21001564 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.978 | Max temp: nan
+SN: 21001564 AI Verdicts before filter: {'IDLE': 13442, '🟢 MONITORING': 3828}
+SN: 21001564 AI Verdicts before filter: {'IDLE': 13442, '🟢 MONITORING': 3828}
+SN: 21001657 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.924 | Max temp: nan
+SN: 21001657 AI Verdicts before filter: {'IDLE': 14537, '🟢 MONITORING': 2734}
+SN: 21001657 AI Verdicts before filter: {'IDLE': 14537, '🟢 MONITORING': 2734}
+SN: 21001668 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.073 | Max temp: nan
+SN: 21001668 AI Verdicts before filter: {'IDLE': 13391, '🟢 MONITORING': 3879}
+SN: 21001668 AI Verdicts before filter: {'IDLE': 13391, '🟢 MONITORING': 3879}
+SN: 21001694 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.352 | Max temp: nan
+SN: 21001694 AI Verdicts before filter: {'IDLE': 13521, '🟢 MONITORING': 3749}
+SN: 21001694 AI Verdicts before filter: {'IDLE': 13521, '🟢 MONITORING': 3749}
+SN: 21001704 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.143 | Max temp: nan
+SN: 21001704 AI Verdicts before filter: {'IDLE': 13181, '🟢 MONITORING': 4057, '🟡 PLANLEGG SERVICE': 33}
+Error mining 21001704: 'Index' object has no attribute 'date'
+SN: 21001775 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.760 | Max temp: nan
+SN: 21001775 AI Verdicts before filter: {'IDLE': 13387, '🟢 MONITORING': 3883}
+SN: 21001775 AI Verdicts before filter: {'IDLE': 13387, '🟢 MONITORING': 3883}
+SN: 21001788 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.776 | Max temp: nan
+SN: 21001788 AI Verdicts before filter: {'IDLE': 13406, '🟢 MONITORING': 3863, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21001788: 'Index' object has no attribute 'date'
+SN: 21001855 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.141 | Max temp: nan
+SN: 21001855 AI Verdicts before filter: {'IDLE': 13430, '🟢 MONITORING': 3840}
+SN: 21001855 AI Verdicts before filter: {'IDLE': 13430, '🟢 MONITORING': 3840}
+SN: 21001916 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.760 | Max temp: nan
+SN: 21001916 AI Verdicts before filter: {'IDLE': 13303, '🟢 MONITORING': 3967}
+SN: 21001916 AI Verdicts before filter: {'IDLE': 13303, '🟢 MONITORING': 3967}
+SN: 21001944 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.760 | Max temp: nan
+SN: 21001944 AI Verdicts before filter: {'IDLE': 13423, '🟢 MONITORING': 3847}
+SN: 21001944 AI Verdicts before filter: {'IDLE': 13423, '🟢 MONITORING': 3847}
+SN: 21001955 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.265 | Max temp: nan
+SN: 21001955 AI Verdicts before filter: {'IDLE': 4377, '🟢 MONITORING': 523}
+SN: 21001955 AI Verdicts before filter: {'IDLE': 4377, '🟢 MONITORING': 523}
+SN: 21001984 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.960 | Max temp: nan
+SN: 21001984 AI Verdicts before filter: {'IDLE': 13435, '🟢 MONITORING': 3834, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21001984: 'Index' object has no attribute 'date'
+SN: 21002039 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.331 | Max temp: nan
+SN: 21002039 AI Verdicts before filter: {'IDLE': 13513, '🟢 MONITORING': 3753, '🟡 PLANLEGG SERVICE': 4}
+Error mining 21002039: 'Index' object has no attribute 'date'
+SN: 21002166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.029 | Max temp: nan
+SN: 21002166 AI Verdicts before filter: {'IDLE': 13361, '🟢 MONITORING': 3910}
+SN: 21002166 AI Verdicts before filter: {'IDLE': 13361, '🟢 MONITORING': 3910}
+SN: 21002189 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.707 | Max temp: nan
+SN: 21002189 AI Verdicts before filter: {'IDLE': 12480, '🟢 MONITORING': 4768, '🟡 PLANLEGG SERVICE': 22, '🔴 KRITISK ALARM': 1}
+Error mining 21002189: 'Index' object has no attribute 'date'
+SN: 21002210 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.596 | Max temp: nan
+SN: 21002210 AI Verdicts before filter: {'IDLE': 13378, '🟢 MONITORING': 3892}
+SN: 21002210 AI Verdicts before filter: {'IDLE': 13378, '🟢 MONITORING': 3892}
+SN: 21002292 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.728 | Max temp: nan
+SN: 21002292 AI Verdicts before filter: {'IDLE': 14289, '🟢 MONITORING': 2981}
+SN: 21002292 AI Verdicts before filter: {'IDLE': 14289, '🟢 MONITORING': 2981}
+SN: 21002314 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.981 | Max temp: nan
+SN: 21002314 AI Verdicts before filter: {'IDLE': 13632, '🟢 MONITORING': 3638, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21002314: 'Index' object has no attribute 'date'
+SN: 21002337 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.790 | Max temp: nan
+SN: 21002337 AI Verdicts before filter: {'IDLE': 13439, '🟢 MONITORING': 3832}
+SN: 21002337 AI Verdicts before filter: {'IDLE': 13439, '🟢 MONITORING': 3832}
+SN: 21002378 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.848 | Max temp: nan
+SN: 21002378 AI Verdicts before filter: {'IDLE': 12428, '🟢 MONITORING': 4810, '🟡 PLANLEGG SERVICE': 29, '🔴 KRITISK ALARM': 3}
+Error mining 21002378: 'Index' object has no attribute 'date'
+SN: 21002395 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.981 | Max temp: nan
+SN: 21002395 AI Verdicts before filter: {'IDLE': 13372, '🟢 MONITORING': 3899}
+SN: 21002395 AI Verdicts before filter: {'IDLE': 13372, '🟢 MONITORING': 3899}
+SN: 21002409 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.133 | Max temp: nan
+SN: 21002409 AI Verdicts before filter: {'IDLE': 12495, '🟢 MONITORING': 4774, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21002409: 'Index' object has no attribute 'date'
+SN: 21002437 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.984 | Max temp: nan
+SN: 21002437 AI Verdicts before filter: {'IDLE': 13087, '🟢 MONITORING': 4184}
+SN: 21002437 AI Verdicts before filter: {'IDLE': 13087, '🟢 MONITORING': 4184}
+SN: 21002446 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.854 | Max temp: nan
+SN: 21002446 AI Verdicts before filter: {'IDLE': 12424, '🟢 MONITORING': 4831, '🟡 PLANLEGG SERVICE': 15}
+Error mining 21002446: 'Index' object has no attribute 'date'
+SN: 21002488 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.731 | Max temp: nan
+SN: 21002488 AI Verdicts before filter: {'IDLE': 13624, '🟢 MONITORING': 3613, '🟡 PLANLEGG SERVICE': 33}
+Error mining 21002488: 'Index' object has no attribute 'date'
+SN: 21002511 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.788 | Max temp: nan
+SN: 21002511 AI Verdicts before filter: {'IDLE': 14277, '🟢 MONITORING': 2990, '🟡 PLANLEGG SERVICE': 3}
+Error mining 21002511: 'Index' object has no attribute 'date'
+SN: 21002942 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.074 | Max temp: nan
+SN: 21002942 AI Verdicts before filter: {'IDLE': 13309, '🟢 MONITORING': 3962}
+SN: 21002942 AI Verdicts before filter: {'IDLE': 13309, '🟢 MONITORING': 3962}
+SN: 21003043 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.215 | Max temp: nan
+SN: 21003043 AI Verdicts before filter: {'IDLE': 13186, '🟢 MONITORING': 4085}
+SN: 21003043 AI Verdicts before filter: {'IDLE': 13186, '🟢 MONITORING': 4085}
+SN: 21003166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.707 | Max temp: nan
+SN: 21003166 AI Verdicts before filter: {'IDLE': 13313, '🟢 MONITORING': 3957}
+SN: 21003166 AI Verdicts before filter: {'IDLE': 13313, '🟢 MONITORING': 3957}
+SN: 21003212 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.055 | Max temp: nan
+SN: 21003212 AI Verdicts before filter: {'IDLE': 13316, '🟢 MONITORING': 3954}
+SN: 21003212 AI Verdicts before filter: {'IDLE': 13316, '🟢 MONITORING': 3954}
+SN: 21008084 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.442 | Max temp: nan
+SN: 21008084 AI Verdicts before filter: {'IDLE': 12137, '🟢 MONITORING': 5133}
+SN: 21008084 AI Verdicts before filter: {'IDLE': 12137, '🟢 MONITORING': 5133}
+SN: 21008085 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.696 | Max temp: nan
+SN: 21008085 AI Verdicts before filter: {'IDLE': 13413, '🟢 MONITORING': 3855, '🔴 KRITISK ALARM': 2, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008085: 'Index' object has no attribute 'date'
+SN: 21008091 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.524 | Max temp: nan
+SN: 21008091 AI Verdicts before filter: {'IDLE': 15941, '🟢 MONITORING': 1329}
+SN: 21008091 AI Verdicts before filter: {'IDLE': 15941, '🟢 MONITORING': 1329}
+SN: 21008095 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.902 | Max temp: nan
+SN: 21008095 AI Verdicts before filter: {'IDLE': 13493, '🟢 MONITORING': 3777}
+SN: 21008095 AI Verdicts before filter: {'IDLE': 13493, '🟢 MONITORING': 3777}
+SN: 21008097 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.890 | Max temp: nan
+SN: 21008097 AI Verdicts before filter: {'IDLE': 13456, '🟢 MONITORING': 3793, '🟡 PLANLEGG SERVICE': 21}
+Error mining 21008097: 'Index' object has no attribute 'date'
+SN: 21008117 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.435 | Max temp: nan
+SN: 21008117 AI Verdicts before filter: {'IDLE': 14462, '🟢 MONITORING': 2809}
+SN: 21008117 AI Verdicts before filter: {'IDLE': 14462, '🟢 MONITORING': 2809}
+SN: 21008118 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.445 | Max temp: nan
+SN: 21008118 AI Verdicts before filter: {'IDLE': 13649, '🟢 MONITORING': 3621, '🔴 KRITISK ALARM': 1}
+Error mining 21008118: 'Index' object has no attribute 'date'
+SN: 21008121 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.090 | Max temp: nan
+SN: 21008121 AI Verdicts before filter: {'IDLE': 11908, '🟢 MONITORING': 5328, '🟡 PLANLEGG SERVICE': 32, '🔴 KRITISK ALARM': 2}
+Error mining 21008121: 'Index' object has no attribute 'date'
+SN: 21008127 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.381 | Max temp: nan
+SN: 21008127 AI Verdicts before filter: {'IDLE': 13445, '🟢 MONITORING': 3825}
+SN: 21008127 AI Verdicts before filter: {'IDLE': 13445, '🟢 MONITORING': 3825}
+SN: 21008128 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.393 | Max temp: nan
+SN: 21008128 AI Verdicts before filter: {'IDLE': 14416, '🟢 MONITORING': 2855}
+SN: 21008128 AI Verdicts before filter: {'IDLE': 14416, '🟢 MONITORING': 2855}
+SN: 21008145 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.580 | Max temp: nan
+SN: 21008145 AI Verdicts before filter: {'IDLE': 13433, '🟢 MONITORING': 3829, '🟡 PLANLEGG SERVICE': 8}
+Error mining 21008145: 'Index' object has no attribute 'date'
+SN: 21008148 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.034 | Max temp: nan
+SN: 21008148 AI Verdicts before filter: {'IDLE': 13434, '🟢 MONITORING': 3836}
+SN: 21008148 AI Verdicts before filter: {'IDLE': 13434, '🟢 MONITORING': 3836}
+SN: 21008152 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.668 | Max temp: nan
+SN: 21008152 AI Verdicts before filter: {'IDLE': 13386, '🟢 MONITORING': 3866, '🟡 PLANLEGG SERVICE': 15, '🔴 KRITISK ALARM': 4}
+Error mining 21008152: 'Index' object has no attribute 'date'
+SN: 21008153 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.963 | Max temp: nan
+SN: 21008153 AI Verdicts before filter: {'IDLE': 13299, '🟢 MONITORING': 3945, '🟡 PLANLEGG SERVICE': 19, '🔴 KRITISK ALARM': 7}
+Error mining 21008153: 'Index' object has no attribute 'date'
+SN: 21008155 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.313 | Max temp: nan
+SN: 21008155 AI Verdicts before filter: {'IDLE': 13632, '🟢 MONITORING': 3637, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008155: 'Index' object has no attribute 'date'
+SN: 21008159 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.717 | Max temp: nan
+SN: 21008159 AI Verdicts before filter: {'IDLE': 11897, '🟢 MONITORING': 5371, '🔴 KRITISK ALARM': 2, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008159: 'Index' object has no attribute 'date'
+SN: 21008166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.064 | Max temp: nan
+SN: 21008166 AI Verdicts before filter: {'IDLE': 13476, '🟢 MONITORING': 3795}
+SN: 21008166 AI Verdicts before filter: {'IDLE': 13476, '🟢 MONITORING': 3795}
+SN: 21008169 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.808 | Max temp: nan
+SN: 21008169 AI Verdicts before filter: {'IDLE': 13457, '🟢 MONITORING': 3786, '🟡 PLANLEGG SERVICE': 28}
+Error mining 21008169: 'Index' object has no attribute 'date'
+SN: 21008174 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.331 | Max temp: nan
+SN: 21008174 AI Verdicts before filter: {'IDLE': 13500, '🟢 MONITORING': 3770}
+SN: 21008174 AI Verdicts before filter: {'IDLE': 13500, '🟢 MONITORING': 3770}
+SN: 21008183 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.215 | Max temp: nan
+SN: 21008183 AI Verdicts before filter: {'IDLE': 12082, '🟢 MONITORING': 5186, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21008183: 'Index' object has no attribute 'date'
+SN: 21008185 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.087 | Max temp: nan
+SN: 21008185 AI Verdicts before filter: {'IDLE': 13477, '🟢 MONITORING': 3787, '🟡 PLANLEGG SERVICE': 6}
+Error mining 21008185: 'Index' object has no attribute 'date'
+SN: 21008211 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.546 | Max temp: nan
+SN: 21008211 AI Verdicts before filter: {'IDLE': 13424, '🟢 MONITORING': 3829, '🟡 PLANLEGG SERVICE': 17}
+Error mining 21008211: 'Index' object has no attribute 'date'
+SN: 21008244 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.024 | Max temp: nan
+SN: 21008244 AI Verdicts before filter: {'IDLE': 13443, '🟢 MONITORING': 3825, '🔴 KRITISK ALARM': 2}
+Error mining 21008244: 'Index' object has no attribute 'date'
+SN: 21008258 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.383 | Max temp: nan
+SN: 21008258 AI Verdicts before filter: {'IDLE': 13498, '🟢 MONITORING': 3773}
+SN: 21008258 AI Verdicts before filter: {'IDLE': 13498, '🟢 MONITORING': 3773}
+SN: 21008260 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.091 | Max temp: nan
+SN: 21008260 AI Verdicts before filter: {'IDLE': 13409, '🟢 MONITORING': 3851, '🟡 PLANLEGG SERVICE': 10}
+Error mining 21008260: 'Index' object has no attribute 'date'
+SN: 21008264 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.576 | Max temp: nan
+SN: 21008264 AI Verdicts before filter: {'IDLE': 11884, '🟢 MONITORING': 5387}
+SN: 21008264 AI Verdicts before filter: {'IDLE': 11884, '🟢 MONITORING': 5387}
+SN: 21008276 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.743 | Max temp: nan
+SN: 21008276 AI Verdicts before filter: {'IDLE': 12775, '🟢 MONITORING': 4493, '🟡 PLANLEGG SERVICE': 2, '🔴 KRITISK ALARM': 1}
+Error mining 21008276: 'Index' object has no attribute 'date'
+SN: 21008295 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.960 | Max temp: nan
+SN: 21008295 AI Verdicts before filter: {'IDLE': 13446, '🟢 MONITORING': 3806, '🔴 KRITISK ALARM': 9, '🟡 PLANLEGG SERVICE': 9}
+Error mining 21008295: 'Index' object has no attribute 'date'
+SN: 21008296 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.179 | Max temp: nan
+SN: 21008296 AI Verdicts before filter: {'IDLE': 17236, '🟢 MONITORING': 33}
+SN: 21008296 AI Verdicts before filter: {'IDLE': 17236, '🟢 MONITORING': 33}
+SN: 21008299 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.769 | Max temp: nan
+SN: 21008299 AI Verdicts before filter: {'IDLE': 12435, '🟢 MONITORING': 4835}
+SN: 21008299 AI Verdicts before filter: {'IDLE': 12435, '🟢 MONITORING': 4835}
+SN: 21008302 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.558 | Max temp: nan
+SN: 21008302 AI Verdicts before filter: {'IDLE': 13417, '🟢 MONITORING': 3852, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21008302: 'Index' object has no attribute 'date'
+SN: 21008303 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.661 | Max temp: nan
+SN: 21008303 AI Verdicts before filter: {'IDLE': 9321, '🟢 MONITORING': 7947, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21008303: 'Index' object has no attribute 'date'
+SN: 21008304 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.095 | Max temp: nan
+SN: 21008304 AI Verdicts before filter: {'IDLE': 13381, '🟢 MONITORING': 3873, '🟡 PLANLEGG SERVICE': 16}
+Error mining 21008304: 'Index' object has no attribute 'date'
+SN: 21008309 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.027 | Max temp: nan
+SN: 21008309 AI Verdicts before filter: {'IDLE': 13499, '🟢 MONITORING': 3772}
+SN: 21008309 AI Verdicts before filter: {'IDLE': 13499, '🟢 MONITORING': 3772}
+SN: 21009224 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.351 | Max temp: nan
+SN: 21009224 AI Verdicts before filter: {'IDLE': 13607, '🟢 MONITORING': 3657, '🟡 PLANLEGG SERVICE': 6}
+Error mining 21009224: 'Index' object has no attribute 'date'
+SN: 21009277 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.925 | Max temp: nan
+SN: 21009277 AI Verdicts before filter: {'IDLE': 13644, '🟢 MONITORING': 3619, '🟡 PLANLEGG SERVICE': 5, '🔴 KRITISK ALARM': 2}
+Error mining 21009277: 'Index' object has no attribute 'date'
+SN: 21009377 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.283 | Max temp: nan
+SN: 21009377 AI Verdicts before filter: {'IDLE': 13392, '🟢 MONITORING': 3875, '🟡 PLANLEGG SERVICE': 4}
+Error mining 21009377: 'Index' object has no attribute 'date'
+SN: 21009390 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.624 | Max temp: nan
+SN: 21009390 AI Verdicts before filter: {'IDLE': 13388, '🟢 MONITORING': 3878, '🟡 PLANLEGG SERVICE': 4}
+Error mining 21009390: 'Index' object has no attribute 'date'
+SN: 21009909 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.935 | Max temp: nan
+SN: 21009909 AI Verdicts before filter: {'IDLE': 13389, '🟢 MONITORING': 3881}
+SN: 21009909 AI Verdicts before filter: {'IDLE': 13389, '🟢 MONITORING': 3881}
+SN: 21009914 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.910 | Max temp: nan
+SN: 21009914 AI Verdicts before filter: {'IDLE': 172, '🟢 MONITORING': 88}
+SN: 21009914 AI Verdicts before filter: {'IDLE': 172, '🟢 MONITORING': 88}
+SN: 21010297 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.360 | Max temp: nan
+SN: 21010297 AI Verdicts before filter: {'IDLE': 175, '🟢 MONITORING': 85}
+SN: 21010297 AI Verdicts before filter: {'IDLE': 175, '🟢 MONITORING': 85}
+SN: 30012319 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.751 | Max temp: nan
+SN: 30012319 AI Verdicts before filter: {'IDLE': 11588, '🟢 MONITORING': 5677, '🟡 PLANLEGG SERVICE': 5}
+Error mining 30012319: 'Index' object has no attribute 'date'
+SN: 30012325 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.754 | Max temp: nan
+SN: 30012325 AI Verdicts before filter: {'IDLE': 13842, '🟢 MONITORING': 3429}
+SN: 30012325 AI Verdicts before filter: {'IDLE': 13842, '🟢 MONITORING': 3429}
+SN: 30012332 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.514 | Max temp: nan
+SN: 30012332 AI Verdicts before filter: {'IDLE': 14180, '🟢 MONITORING': 3090}
+SN: 30012332 AI Verdicts before filter: {'IDLE': 14180, '🟢 MONITORING': 3090}
+SN: 30012342 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.857 | Max temp: nan
+SN: 30012342 AI Verdicts before filter: {'IDLE': 12534, '🟢 MONITORING': 4736, '🟡 PLANLEGG SERVICE': 1}
+Error mining 30012342: 'Index' object has no attribute 'date'
+SN: 30012349 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.946 | Max temp: nan
+SN: 30012349 AI Verdicts before filter: {'IDLE': 14535, '🟢 MONITORING': 2735}
+SN: 30012349 AI Verdicts before filter: {'IDLE': 14535, '🟢 MONITORING': 2735}
+SN: 30012361 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.020 | Max temp: nan
+SN: 30012361 AI Verdicts before filter: {'IDLE': 14504, '🟢 MONITORING': 2767}
+SN: 30012361 AI Verdicts before filter: {'IDLE': 14504, '🟢 MONITORING': 2767}
+SN: 30012362 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.193 | Max temp: nan
+SN: 30012362 AI Verdicts before filter: {'IDLE': 14487, '🟢 MONITORING': 2783}
+SN: 30012362 AI Verdicts before filter: {'IDLE': 14487, '🟢 MONITORING': 2783}
+SN: 30012363 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.549 | Max temp: nan
+SN: 30012363 AI Verdicts before filter: {'IDLE': 12477, '🟢 MONITORING': 4793}
+SN: 30012363 AI Verdicts before filter: {'IDLE': 12477, '🟢 MONITORING': 4793}
+SN: 21001530 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.873 | Max temp: nan
+SN: 21001530 AI Verdicts before filter: {'IDLE': 13561, '🟢 MONITORING': 3710}
+SN: 21001530 AI Verdicts before filter: {'IDLE': 13561, '🟢 MONITORING': 3710}
+SN: 21001564 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.978 | Max temp: nan
+SN: 21001564 AI Verdicts before filter: {'IDLE': 13438, '🟢 MONITORING': 3831}
+SN: 21001564 AI Verdicts before filter: {'IDLE': 13438, '🟢 MONITORING': 3831}
+SN: 21001657 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.924 | Max temp: nan
+SN: 21001657 AI Verdicts before filter: {'IDLE': 14532, '🟢 MONITORING': 2738}
+SN: 21001657 AI Verdicts before filter: {'IDLE': 14532, '🟢 MONITORING': 2738}
+SN: 21001668 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.073 | Max temp: nan
+SN: 21001668 AI Verdicts before filter: {'IDLE': 13388, '🟢 MONITORING': 3883}
+SN: 21001668 AI Verdicts before filter: {'IDLE': 13388, '🟢 MONITORING': 3883}
+SN: 21001694 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.352 | Max temp: nan
+SN: 21001694 AI Verdicts before filter: {'IDLE': 13518, '🟢 MONITORING': 3753}
+SN: 21001694 AI Verdicts before filter: {'IDLE': 13518, '🟢 MONITORING': 3753}
+SN: 21001704 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.143 | Max temp: nan
+SN: 21001704 AI Verdicts before filter: {'IDLE': 13177, '🟢 MONITORING': 4060, '🟡 PLANLEGG SERVICE': 33}
+Error mining 21001704: 'Index' object has no attribute 'date'
+SN: 21001775 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.760 | Max temp: nan
+SN: 21001775 AI Verdicts before filter: {'IDLE': 13384, '🟢 MONITORING': 3887}
+SN: 21001775 AI Verdicts before filter: {'IDLE': 13384, '🟢 MONITORING': 3887}
+SN: 21001788 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.776 | Max temp: nan
+SN: 21001788 AI Verdicts before filter: {'IDLE': 13403, '🟢 MONITORING': 3866, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21001788: 'Index' object has no attribute 'date'
+SN: 21001855 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.141 | Max temp: nan
+SN: 21001855 AI Verdicts before filter: {'IDLE': 13427, '🟢 MONITORING': 3844}
+SN: 21001855 AI Verdicts before filter: {'IDLE': 13427, '🟢 MONITORING': 3844}
+SN: 21001916 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.760 | Max temp: nan
+SN: 21001916 AI Verdicts before filter: {'IDLE': 13300, '🟢 MONITORING': 3971}
+SN: 21001916 AI Verdicts before filter: {'IDLE': 13300, '🟢 MONITORING': 3971}
+SN: 21001944 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.760 | Max temp: nan
+SN: 21001944 AI Verdicts before filter: {'IDLE': 13420, '🟢 MONITORING': 3851}
+SN: 21001944 AI Verdicts before filter: {'IDLE': 13420, '🟢 MONITORING': 3851}
+SN: 21001955 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.265 | Max temp: nan
+SN: 21001955 AI Verdicts before filter: {'IDLE': 4374, '🟢 MONITORING': 523}
+SN: 21001955 AI Verdicts before filter: {'IDLE': 4374, '🟢 MONITORING': 523}
+SN: 21001984 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.960 | Max temp: nan
+SN: 21001984 AI Verdicts before filter: {'IDLE': 13432, '🟢 MONITORING': 3838, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21001984: 'Index' object has no attribute 'date'
+SN: 21002039 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.331 | Max temp: nan
+SN: 21002039 AI Verdicts before filter: {'IDLE': 13509, '🟢 MONITORING': 3756, '🟡 PLANLEGG SERVICE': 4}
+Error mining 21002039: 'Index' object has no attribute 'date'
+SN: 21002166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.029 | Max temp: nan
+SN: 21002166 AI Verdicts before filter: {'IDLE': 13357, '🟢 MONITORING': 3914}
+SN: 21002166 AI Verdicts before filter: {'IDLE': 13357, '🟢 MONITORING': 3914}
+SN: 21002189 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.707 | Max temp: nan
+SN: 21002189 AI Verdicts before filter: {'IDLE': 12476, '🟢 MONITORING': 4771, '🟡 PLANLEGG SERVICE': 22, '🔴 KRITISK ALARM': 1}
+Error mining 21002189: 'Index' object has no attribute 'date'
+SN: 21002210 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.596 | Max temp: nan
+SN: 21002210 AI Verdicts before filter: {'IDLE': 13375, '🟢 MONITORING': 3896}
+SN: 21002210 AI Verdicts before filter: {'IDLE': 13375, '🟢 MONITORING': 3896}
+SN: 21002292 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.728 | Max temp: nan
+SN: 21002292 AI Verdicts before filter: {'IDLE': 14285, '🟢 MONITORING': 2984}
+SN: 21002292 AI Verdicts before filter: {'IDLE': 14285, '🟢 MONITORING': 2984}
+SN: 21002314 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.981 | Max temp: nan
+SN: 21002314 AI Verdicts before filter: {'IDLE': 13628, '🟢 MONITORING': 3642, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21002314: 'Index' object has no attribute 'date'
+SN: 21002337 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.790 | Max temp: nan
+SN: 21002337 AI Verdicts before filter: {'IDLE': 13435, '🟢 MONITORING': 3835}
+SN: 21002337 AI Verdicts before filter: {'IDLE': 13435, '🟢 MONITORING': 3835}
+SN: 21002378 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.848 | Max temp: nan
+SN: 21002378 AI Verdicts before filter: {'IDLE': 12425, '🟢 MONITORING': 4814, '🟡 PLANLEGG SERVICE': 29, '🔴 KRITISK ALARM': 3}
+Error mining 21002378: 'Index' object has no attribute 'date'
+SN: 21002395 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.981 | Max temp: nan
+SN: 21002395 AI Verdicts before filter: {'IDLE': 13368, '🟢 MONITORING': 3903}
+SN: 21002395 AI Verdicts before filter: {'IDLE': 13368, '🟢 MONITORING': 3903}
+SN: 21002409 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.133 | Max temp: nan
+SN: 21002409 AI Verdicts before filter: {'IDLE': 12492, '🟢 MONITORING': 4778, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21002409: 'Index' object has no attribute 'date'
+SN: 21002437 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.984 | Max temp: nan
+SN: 21002437 AI Verdicts before filter: {'IDLE': 13083, '🟢 MONITORING': 4188}
+SN: 21002437 AI Verdicts before filter: {'IDLE': 13083, '🟢 MONITORING': 4188}
+SN: 21002446 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.854 | Max temp: nan
+SN: 21002446 AI Verdicts before filter: {'IDLE': 12421, '🟢 MONITORING': 4834, '🟡 PLANLEGG SERVICE': 15}
+Error mining 21002446: 'Index' object has no attribute 'date'
+SN: 21002488 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.731 | Max temp: nan
+SN: 21002488 AI Verdicts before filter: {'IDLE': 13621, '🟢 MONITORING': 3615, '🟡 PLANLEGG SERVICE': 35}
+Error mining 21002488: 'Index' object has no attribute 'date'
+SN: 21002511 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.788 | Max temp: nan
+SN: 21002511 AI Verdicts before filter: {'IDLE': 14274, '🟢 MONITORING': 2994, '🟡 PLANLEGG SERVICE': 3}
+Error mining 21002511: 'Index' object has no attribute 'date'
+SN: 21002942 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.074 | Max temp: nan
+SN: 21002942 AI Verdicts before filter: {'IDLE': 13305, '🟢 MONITORING': 3966}
+SN: 21002942 AI Verdicts before filter: {'IDLE': 13305, '🟢 MONITORING': 3966}
+SN: 21003043 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.215 | Max temp: nan
+SN: 21003043 AI Verdicts before filter: {'IDLE': 13182, '🟢 MONITORING': 4089}
+SN: 21003043 AI Verdicts before filter: {'IDLE': 13182, '🟢 MONITORING': 4089}
+SN: 21003166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.707 | Max temp: nan
+SN: 21003166 AI Verdicts before filter: {'IDLE': 13310, '🟢 MONITORING': 3961}
+SN: 21003166 AI Verdicts before filter: {'IDLE': 13310, '🟢 MONITORING': 3961}
+SN: 21003212 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.055 | Max temp: nan
+SN: 21003212 AI Verdicts before filter: {'IDLE': 13313, '🟢 MONITORING': 3958}
+SN: 21003212 AI Verdicts before filter: {'IDLE': 13313, '🟢 MONITORING': 3958}
+SN: 21008084 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.442 | Max temp: nan
+SN: 21008084 AI Verdicts before filter: {'IDLE': 12134, '🟢 MONITORING': 5137}
+SN: 21008084 AI Verdicts before filter: {'IDLE': 12134, '🟢 MONITORING': 5137}
+SN: 21008085 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.696 | Max temp: nan
+SN: 21008085 AI Verdicts before filter: {'IDLE': 13409, '🟢 MONITORING': 3859, '🔴 KRITISK ALARM': 2, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008085: 'Index' object has no attribute 'date'
+SN: 21008091 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.524 | Max temp: nan
+SN: 21008091 AI Verdicts before filter: {'IDLE': 15941, '🟢 MONITORING': 1330}
+SN: 21008091 AI Verdicts before filter: {'IDLE': 15941, '🟢 MONITORING': 1330}
+SN: 21008095 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.902 | Max temp: nan
+SN: 21008095 AI Verdicts before filter: {'IDLE': 13490, '🟢 MONITORING': 3780}
+SN: 21008095 AI Verdicts before filter: {'IDLE': 13490, '🟢 MONITORING': 3780}
+SN: 21008097 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.890 | Max temp: nan
+SN: 21008097 AI Verdicts before filter: {'IDLE': 13453, '🟢 MONITORING': 3797, '🟡 PLANLEGG SERVICE': 21}
+Error mining 21008097: 'Index' object has no attribute 'date'
+SN: 21008117 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.435 | Max temp: nan
+SN: 21008117 AI Verdicts before filter: {'IDLE': 14458, '🟢 MONITORING': 2811}
+SN: 21008117 AI Verdicts before filter: {'IDLE': 14458, '🟢 MONITORING': 2811}
+SN: 21008118 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.445 | Max temp: nan
+SN: 21008118 AI Verdicts before filter: {'IDLE': 13645, '🟢 MONITORING': 3625, '🔴 KRITISK ALARM': 1}
+Error mining 21008118: 'Index' object has no attribute 'date'
+SN: 21008121 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.090 | Max temp: nan
+SN: 21008121 AI Verdicts before filter: {'IDLE': 11905, '🟢 MONITORING': 5331, '🟡 PLANLEGG SERVICE': 32, '🔴 KRITISK ALARM': 2}
+Error mining 21008121: 'Index' object has no attribute 'date'
+SN: 21008127 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.381 | Max temp: nan
+SN: 21008127 AI Verdicts before filter: {'IDLE': 13442, '🟢 MONITORING': 3829}
+SN: 21008127 AI Verdicts before filter: {'IDLE': 13442, '🟢 MONITORING': 3829}
+SN: 21008128 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.393 | Max temp: nan
+SN: 21008128 AI Verdicts before filter: {'IDLE': 14412, '🟢 MONITORING': 2858}
+SN: 21008128 AI Verdicts before filter: {'IDLE': 14412, '🟢 MONITORING': 2858}
+SN: 21008145 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.580 | Max temp: nan
+SN: 21008145 AI Verdicts before filter: {'IDLE': 13430, '🟢 MONITORING': 3832, '🟡 PLANLEGG SERVICE': 8}
+Error mining 21008145: 'Index' object has no attribute 'date'
+SN: 21008148 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.034 | Max temp: nan
+SN: 21008148 AI Verdicts before filter: {'IDLE': 13431, '🟢 MONITORING': 3839}
+SN: 21008148 AI Verdicts before filter: {'IDLE': 13431, '🟢 MONITORING': 3839}
+SN: 21008152 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.668 | Max temp: nan
+SN: 21008152 AI Verdicts before filter: {'IDLE': 13382, '🟢 MONITORING': 3869, '🟡 PLANLEGG SERVICE': 15, '🔴 KRITISK ALARM': 4}
+Error mining 21008152: 'Index' object has no attribute 'date'
+SN: 21008153 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.963 | Max temp: nan
+SN: 21008153 AI Verdicts before filter: {'IDLE': 13296, '🟢 MONITORING': 3949, '🟡 PLANLEGG SERVICE': 19, '🔴 KRITISK ALARM': 7}
+Error mining 21008153: 'Index' object has no attribute 'date'
+SN: 21008155 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.313 | Max temp: nan
+SN: 21008155 AI Verdicts before filter: {'IDLE': 13629, '🟢 MONITORING': 3641, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008155: 'Index' object has no attribute 'date'
+SN: 21008159 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.717 | Max temp: nan
+SN: 21008159 AI Verdicts before filter: {'IDLE': 11893, '🟢 MONITORING': 5374, '🔴 KRITISK ALARM': 2, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008159: 'Index' object has no attribute 'date'
+SN: 21008166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.064 | Max temp: nan
+SN: 21008166 AI Verdicts before filter: {'IDLE': 13472, '🟢 MONITORING': 3799}
+SN: 21008166 AI Verdicts before filter: {'IDLE': 13472, '🟢 MONITORING': 3799}
+SN: 21008169 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.808 | Max temp: nan
+SN: 21008169 AI Verdicts before filter: {'IDLE': 13453, '🟢 MONITORING': 3790, '🟡 PLANLEGG SERVICE': 28}
+Error mining 21008169: 'Index' object has no attribute 'date'
+SN: 21008174 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.331 | Max temp: nan
+SN: 21008174 AI Verdicts before filter: {'IDLE': 13496, '🟢 MONITORING': 3774}
+SN: 21008174 AI Verdicts before filter: {'IDLE': 13496, '🟢 MONITORING': 3774}
+SN: 21008183 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.215 | Max temp: nan
+SN: 21008183 AI Verdicts before filter: {'IDLE': 12079, '🟢 MONITORING': 5190, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21008183: 'Index' object has no attribute 'date'
+SN: 21008185 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.087 | Max temp: nan
+SN: 21008185 AI Verdicts before filter: {'IDLE': 13474, '🟢 MONITORING': 3791, '🟡 PLANLEGG SERVICE': 6}
+Error mining 21008185: 'Index' object has no attribute 'date'
+SN: 21008211 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.546 | Max temp: nan
+SN: 21008211 AI Verdicts before filter: {'IDLE': 13421, '🟢 MONITORING': 3833, '🟡 PLANLEGG SERVICE': 17}
+Error mining 21008211: 'Index' object has no attribute 'date'
+SN: 21008244 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.024 | Max temp: nan
+SN: 21008244 AI Verdicts before filter: {'IDLE': 13440, '🟢 MONITORING': 3828, '🔴 KRITISK ALARM': 2}
+Error mining 21008244: 'Index' object has no attribute 'date'
+SN: 21008258 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.383 | Max temp: nan
+SN: 21008258 AI Verdicts before filter: {'IDLE': 13494, '🟢 MONITORING': 3777}
+SN: 21008258 AI Verdicts before filter: {'IDLE': 13494, '🟢 MONITORING': 3777}
+SN: 21008260 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.091 | Max temp: nan
+SN: 21008260 AI Verdicts before filter: {'IDLE': 13406, '🟢 MONITORING': 3855, '🟡 PLANLEGG SERVICE': 10}
+Error mining 21008260: 'Index' object has no attribute 'date'
+SN: 21008264 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.576 | Max temp: nan
+SN: 21008264 AI Verdicts before filter: {'IDLE': 11880, '🟢 MONITORING': 5390}
+SN: 21008264 AI Verdicts before filter: {'IDLE': 11880, '🟢 MONITORING': 5390}
+SN: 21008276 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.743 | Max temp: nan
+SN: 21008276 AI Verdicts before filter: {'IDLE': 12771, '🟢 MONITORING': 4497, '🟡 PLANLEGG SERVICE': 2, '🔴 KRITISK ALARM': 1}
+Error mining 21008276: 'Index' object has no attribute 'date'
+SN: 21008295 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.960 | Max temp: nan
+SN: 21008295 AI Verdicts before filter: {'IDLE': 13442, '🟢 MONITORING': 3809, '🔴 KRITISK ALARM': 9, '🟡 PLANLEGG SERVICE': 9}
+Error mining 21008295: 'Index' object has no attribute 'date'
+SN: 21008296 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.179 | Max temp: nan
+SN: 21008296 AI Verdicts before filter: {'IDLE': 17238, '🟢 MONITORING': 33}
+SN: 21008296 AI Verdicts before filter: {'IDLE': 17238, '🟢 MONITORING': 33}
+SN: 21008299 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.769 | Max temp: nan
+SN: 21008299 AI Verdicts before filter: {'IDLE': 12432, '🟢 MONITORING': 4838}
+SN: 21008299 AI Verdicts before filter: {'IDLE': 12432, '🟢 MONITORING': 4838}
+SN: 21008302 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.558 | Max temp: nan
+SN: 21008302 AI Verdicts before filter: {'IDLE': 13413, '🟢 MONITORING': 3855, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21008302: 'Index' object has no attribute 'date'
+SN: 21008303 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.661 | Max temp: nan
+SN: 21008303 AI Verdicts before filter: {'IDLE': 9318, '🟢 MONITORING': 7951, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21008303: 'Index' object has no attribute 'date'
+SN: 21008304 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.095 | Max temp: nan
+SN: 21008304 AI Verdicts before filter: {'IDLE': 13377, '🟢 MONITORING': 3874, '🟡 PLANLEGG SERVICE': 18}
+Error mining 21008304: 'Index' object has no attribute 'date'
+SN: 21008309 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.027 | Max temp: nan
+SN: 21008309 AI Verdicts before filter: {'IDLE': 13495, '🟢 MONITORING': 3776}
+SN: 21008309 AI Verdicts before filter: {'IDLE': 13495, '🟢 MONITORING': 3776}
+SN: 21009224 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.351 | Max temp: nan
+SN: 21009224 AI Verdicts before filter: {'IDLE': 13604, '🟢 MONITORING': 3661, '🟡 PLANLEGG SERVICE': 6}
+Error mining 21009224: 'Index' object has no attribute 'date'
+SN: 21009277 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.925 | Max temp: nan
+SN: 21009277 AI Verdicts before filter: {'IDLE': 13641, '🟢 MONITORING': 3623, '🟡 PLANLEGG SERVICE': 5, '🔴 KRITISK ALARM': 2}
+Error mining 21009277: 'Index' object has no attribute 'date'
+SN: 21009377 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.283 | Max temp: nan
+SN: 21009377 AI Verdicts before filter: {'IDLE': 13388, '🟢 MONITORING': 3879, '🟡 PLANLEGG SERVICE': 4}
+Error mining 21009377: 'Index' object has no attribute 'date'
+SN: 21009390 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.624 | Max temp: nan
+SN: 21009390 AI Verdicts before filter: {'IDLE': 13385, '🟢 MONITORING': 3881, '🟡 PLANLEGG SERVICE': 4}
+Error mining 21009390: 'Index' object has no attribute 'date'
+SN: 21009909 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.935 | Max temp: nan
+SN: 21009909 AI Verdicts before filter: {'IDLE': 13386, '🟢 MONITORING': 3885}
+SN: 21009909 AI Verdicts before filter: {'IDLE': 13386, '🟢 MONITORING': 3885}
+SN: 21009914 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.364 | Max temp: nan
+SN: 21009914 AI Verdicts before filter: {'IDLE': 172, '🟢 MONITORING': 92}
+SN: 21009914 AI Verdicts before filter: {'IDLE': 172, '🟢 MONITORING': 92}
+SN: 21010297 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.360 | Max temp: nan
+SN: 21010297 AI Verdicts before filter: {'IDLE': 175, '🟢 MONITORING': 88}
+SN: 21010297 AI Verdicts before filter: {'IDLE': 175, '🟢 MONITORING': 88}
+SN: 30012319 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.751 | Max temp: nan
+SN: 30012319 AI Verdicts before filter: {'IDLE': 11585, '🟢 MONITORING': 5681, '🟡 PLANLEGG SERVICE': 5}
+Error mining 30012319: 'Index' object has no attribute 'date'
+SN: 30012325 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.754 | Max temp: nan
+SN: 30012325 AI Verdicts before filter: {'IDLE': 13838, '🟢 MONITORING': 3432}
+SN: 30012325 AI Verdicts before filter: {'IDLE': 13838, '🟢 MONITORING': 3432}
+SN: 30012332 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.514 | Max temp: nan
+SN: 30012332 AI Verdicts before filter: {'IDLE': 14176, '🟢 MONITORING': 3093}
+SN: 30012332 AI Verdicts before filter: {'IDLE': 14176, '🟢 MONITORING': 3093}
+SN: 30012342 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.857 | Max temp: nan
+SN: 30012342 AI Verdicts before filter: {'IDLE': 12530, '🟢 MONITORING': 4740, '🟡 PLANLEGG SERVICE': 1}
+Error mining 30012342: 'Index' object has no attribute 'date'
+SN: 30012349 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.946 | Max temp: nan
+SN: 30012349 AI Verdicts before filter: {'IDLE': 14532, '🟢 MONITORING': 2739}
+SN: 30012349 AI Verdicts before filter: {'IDLE': 14532, '🟢 MONITORING': 2739}
+SN: 30012361 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.020 | Max temp: nan
+SN: 30012361 AI Verdicts before filter: {'IDLE': 14500, '🟢 MONITORING': 2771}
+SN: 30012361 AI Verdicts before filter: {'IDLE': 14500, '🟢 MONITORING': 2771}
+SN: 30012362 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.193 | Max temp: nan
+SN: 30012362 AI Verdicts before filter: {'IDLE': 14484, '🟢 MONITORING': 2787}
+SN: 30012362 AI Verdicts before filter: {'IDLE': 14484, '🟢 MONITORING': 2787}
+SN: 30012363 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.549 | Max temp: nan
+SN: 30012363 AI Verdicts before filter: {'IDLE': 12474, '🟢 MONITORING': 4796}
+SN: 30012363 AI Verdicts before filter: {'IDLE': 12474, '🟢 MONITORING': 4796}
+SN: 21001530 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.873 | Max temp: nan
+SN: 21001530 AI Verdicts before filter: {'IDLE': 12740, '🟢 MONITORING': 4532}
+SN: 21001530 AI Verdicts before filter: {'IDLE': 12740, '🟢 MONITORING': 4532}
+SN: 21001564 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.978 | Max temp: nan
+SN: 21001564 AI Verdicts before filter: {'IDLE': 12678, '🟢 MONITORING': 4593}
+SN: 21001564 AI Verdicts before filter: {'IDLE': 12678, '🟢 MONITORING': 4593}
+SN: 21001657 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.924 | Max temp: nan
+SN: 21001657 AI Verdicts before filter: {'IDLE': 13295, '🟢 MONITORING': 3976}
+SN: 21001657 AI Verdicts before filter: {'IDLE': 13295, '🟢 MONITORING': 3976}
+SN: 21001668 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.073 | Max temp: nan
+SN: 21001668 AI Verdicts before filter: {'IDLE': 12671, '🟢 MONITORING': 4596, '🟡 PLANLEGG SERVICE': 4, '🔴 KRITISK ALARM': 1}
+Error mining 21001668: 'Index' object has no attribute 'date'
+SN: 21001694 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.352 | Max temp: nan
+SN: 21001694 AI Verdicts before filter: {'IDLE': 12520, '🟢 MONITORING': 4751}
+SN: 21001694 AI Verdicts before filter: {'IDLE': 12520, '🟢 MONITORING': 4751}
+SN: 21001704 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.143 | Max temp: nan
+SN: 21001704 AI Verdicts before filter: {'IDLE': 12750, '🟢 MONITORING': 4521}
+SN: 21001704 AI Verdicts before filter: {'IDLE': 12750, '🟢 MONITORING': 4521}
+SN: 21001775 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.760 | Max temp: nan
+SN: 21001775 AI Verdicts before filter: {'IDLE': 12669, '🟢 MONITORING': 4603}
+SN: 21001775 AI Verdicts before filter: {'IDLE': 12669, '🟢 MONITORING': 4603}
+SN: 21001788 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.776 | Max temp: nan
+SN: 21001788 AI Verdicts before filter: {'IDLE': 12659, '🟢 MONITORING': 4612}
+SN: 21001788 AI Verdicts before filter: {'IDLE': 12659, '🟢 MONITORING': 4612}
+SN: 21001855 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.141 | Max temp: nan
+SN: 21001855 AI Verdicts before filter: {'IDLE': 12668, '🟢 MONITORING': 4603}
+SN: 21001855 AI Verdicts before filter: {'IDLE': 12668, '🟢 MONITORING': 4603}
+SN: 21001916 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.760 | Max temp: nan
+SN: 21001916 AI Verdicts before filter: {'IDLE': 12622, '🟢 MONITORING': 4649}
+SN: 21001916 AI Verdicts before filter: {'IDLE': 12622, '🟢 MONITORING': 4649}
+SN: 21001944 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.760 | Max temp: nan
+SN: 21001944 AI Verdicts before filter: {'IDLE': 12661, '🟢 MONITORING': 4610}
+SN: 21001944 AI Verdicts before filter: {'IDLE': 12661, '🟢 MONITORING': 4610}
+SN: 21001955 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.265 | Max temp: nan
+SN: 21001955 AI Verdicts before filter: {'IDLE': 4288, '🟢 MONITORING': 600}
+SN: 21001955 AI Verdicts before filter: {'IDLE': 4288, '🟢 MONITORING': 600}
+SN: 21001984 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.960 | Max temp: nan
+SN: 21001984 AI Verdicts before filter: {'IDLE': 12661, '🟢 MONITORING': 4609, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21001984: 'Index' object has no attribute 'date'
+SN: 21002039 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.331 | Max temp: nan
+SN: 21002039 AI Verdicts before filter: {'IDLE': 12715, '🟢 MONITORING': 4557}
+SN: 21002039 AI Verdicts before filter: {'IDLE': 12715, '🟢 MONITORING': 4557}
+SN: 21002166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.029 | Max temp: nan
+SN: 21002166 AI Verdicts before filter: {'IDLE': 12647, '🟢 MONITORING': 4625}
+SN: 21002166 AI Verdicts before filter: {'IDLE': 12647, '🟢 MONITORING': 4625}
+SN: 21002189 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.707 | Max temp: nan
+SN: 21002189 AI Verdicts before filter: {'IDLE': 12167, '🟢 MONITORING': 5090, '🟡 PLANLEGG SERVICE': 13, '🔴 KRITISK ALARM': 1}
+Error mining 21002189: 'Index' object has no attribute 'date'
+SN: 21002210 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.596 | Max temp: nan
+SN: 21002210 AI Verdicts before filter: {'IDLE': 12662, '🟢 MONITORING': 4610}
+SN: 21002210 AI Verdicts before filter: {'IDLE': 12662, '🟢 MONITORING': 4610}
+SN: 21002292 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.728 | Max temp: nan
+SN: 21002292 AI Verdicts before filter: {'IDLE': 12152, '🟢 MONITORING': 5119}
+SN: 21002292 AI Verdicts before filter: {'IDLE': 12152, '🟢 MONITORING': 5119}
+SN: 21002314 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.981 | Max temp: nan
+SN: 21002314 AI Verdicts before filter: {'IDLE': 12768, '🟢 MONITORING': 4503}
+SN: 21002314 AI Verdicts before filter: {'IDLE': 12768, '🟢 MONITORING': 4503}
+SN: 21002337 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.790 | Max temp: nan
+SN: 21002337 AI Verdicts before filter: {'IDLE': 12675, '🟢 MONITORING': 4597}
+SN: 21002337 AI Verdicts before filter: {'IDLE': 12675, '🟢 MONITORING': 4597}
+SN: 21002378 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.848 | Max temp: nan
+SN: 21002378 AI Verdicts before filter: {'IDLE': 12115, '🟢 MONITORING': 5128, '🟡 PLANLEGG SERVICE': 27, '🔴 KRITISK ALARM': 1}
+Error mining 21002378: 'Index' object has no attribute 'date'
+SN: 21002395 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.981 | Max temp: nan
+SN: 21002395 AI Verdicts before filter: {'IDLE': 12659, '🟢 MONITORING': 4613}
+SN: 21002395 AI Verdicts before filter: {'IDLE': 12659, '🟢 MONITORING': 4613}
+SN: 21002409 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.133 | Max temp: nan
+SN: 21002409 AI Verdicts before filter: {'IDLE': 12174, '🟢 MONITORING': 5096, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21002409: 'Index' object has no attribute 'date'
+SN: 21002437 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.984 | Max temp: nan
+SN: 21002437 AI Verdicts before filter: {'IDLE': 12358, '🟢 MONITORING': 4913}
+SN: 21002437 AI Verdicts before filter: {'IDLE': 12358, '🟢 MONITORING': 4913}
+SN: 21002446 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.854 | Max temp: nan
+SN: 21002446 AI Verdicts before filter: {'IDLE': 12111, '🟢 MONITORING': 5155, '🟡 PLANLEGG SERVICE': 5}
+Error mining 21002446: 'Index' object has no attribute 'date'
+SN: 21002488 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.731 | Max temp: nan
+SN: 21002488 AI Verdicts before filter: {'IDLE': 12771, '🟢 MONITORING': 4501}
+SN: 21002488 AI Verdicts before filter: {'IDLE': 12771, '🟢 MONITORING': 4501}
+SN: 21002511 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.788 | Max temp: nan
+SN: 21002511 AI Verdicts before filter: {'IDLE': 13075, '🟢 MONITORING': 4196}
+SN: 21002511 AI Verdicts before filter: {'IDLE': 13075, '🟢 MONITORING': 4196}
+SN: 21002942 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.074 | Max temp: nan
+SN: 21002942 AI Verdicts before filter: {'IDLE': 12632, '🟢 MONITORING': 4640}
+SN: 21002942 AI Verdicts before filter: {'IDLE': 12632, '🟢 MONITORING': 4640}
+SN: 21003043 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.215 | Max temp: nan
+SN: 21003043 AI Verdicts before filter: {'IDLE': 12758, '🟢 MONITORING': 4514}
+SN: 21003043 AI Verdicts before filter: {'IDLE': 12758, '🟢 MONITORING': 4514}
+SN: 21003166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.707 | Max temp: nan
+SN: 21003166 AI Verdicts before filter: {'IDLE': 12633, '🟢 MONITORING': 4638}
+SN: 21003166 AI Verdicts before filter: {'IDLE': 12633, '🟢 MONITORING': 4638}
+SN: 21003212 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.055 | Max temp: nan
+SN: 21003212 AI Verdicts before filter: {'IDLE': 12630, '🟢 MONITORING': 4641}
+SN: 21003212 AI Verdicts before filter: {'IDLE': 12630, '🟢 MONITORING': 4641}
+SN: 21008084 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.442 | Max temp: nan
+SN: 21008084 AI Verdicts before filter: {'IDLE': 9649, '🟢 MONITORING': 7622}
+SN: 21008084 AI Verdicts before filter: {'IDLE': 9649, '🟢 MONITORING': 7622}
+SN: 21008085 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.696 | Max temp: nan
+SN: 21008085 AI Verdicts before filter: {'IDLE': 12694, '🟢 MONITORING': 4577}
+SN: 21008085 AI Verdicts before filter: {'IDLE': 12694, '🟢 MONITORING': 4577}
+SN: 21008091 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.524 | Max temp: nan
+SN: 21008091 AI Verdicts before filter: {'IDLE': 14055, '🟢 MONITORING': 3216}
+SN: 21008091 AI Verdicts before filter: {'IDLE': 14055, '🟢 MONITORING': 3216}
+SN: 21008095 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.902 | Max temp: nan
+SN: 21008095 AI Verdicts before filter: {'IDLE': 12707, '🟢 MONITORING': 4565}
+SN: 21008095 AI Verdicts before filter: {'IDLE': 12707, '🟢 MONITORING': 4565}
+SN: 21008097 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.890 | Max temp: nan
+SN: 21008097 AI Verdicts before filter: {'IDLE': 12675, '🟢 MONITORING': 4596}
+SN: 21008097 AI Verdicts before filter: {'IDLE': 12675, '🟢 MONITORING': 4596}
+SN: 21008117 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.435 | Max temp: nan
+SN: 21008117 AI Verdicts before filter: {'IDLE': 12653, '🟢 MONITORING': 4619}
+SN: 21008117 AI Verdicts before filter: {'IDLE': 12653, '🟢 MONITORING': 4619}
+SN: 21008118 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.445 | Max temp: nan
+SN: 21008118 AI Verdicts before filter: {'IDLE': 12781, '🟢 MONITORING': 4490, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008118: 'Index' object has no attribute 'date'
+SN: 21008121 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.090 | Max temp: nan
+SN: 21008121 AI Verdicts before filter: {'IDLE': 9069, '🟢 MONITORING': 8170, '🟡 PLANLEGG SERVICE': 32}
+Error mining 21008121: 'Index' object has no attribute 'date'
+SN: 21008127 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.381 | Max temp: nan
+SN: 21008127 AI Verdicts before filter: {'IDLE': 12672, '🟢 MONITORING': 4600}
+SN: 21008127 AI Verdicts before filter: {'IDLE': 12672, '🟢 MONITORING': 4600}
+SN: 21008128 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.393 | Max temp: nan
+SN: 21008128 AI Verdicts before filter: {'IDLE': 13135, '🟢 MONITORING': 4136}
+SN: 21008128 AI Verdicts before filter: {'IDLE': 13135, '🟢 MONITORING': 4136}
+SN: 21008145 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.580 | Max temp: nan
+SN: 21008145 AI Verdicts before filter: {'IDLE': 12646, '🟢 MONITORING': 4625}
+SN: 21008145 AI Verdicts before filter: {'IDLE': 12646, '🟢 MONITORING': 4625}
+SN: 21008148 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.034 | Max temp: nan
+SN: 21008148 AI Verdicts before filter: {'IDLE': 12711, '🟢 MONITORING': 4560}
+SN: 21008148 AI Verdicts before filter: {'IDLE': 12711, '🟢 MONITORING': 4560}
+SN: 21008152 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.668 | Max temp: nan
+SN: 21008152 AI Verdicts before filter: {'IDLE': 12668, '🟢 MONITORING': 4603, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008152: 'Index' object has no attribute 'date'
+SN: 21008153 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.963 | Max temp: nan
+SN: 21008153 AI Verdicts before filter: {'IDLE': 12536, '🟢 MONITORING': 4735}
+SN: 21008153 AI Verdicts before filter: {'IDLE': 12536, '🟢 MONITORING': 4735}
+SN: 21008155 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.313 | Max temp: nan
+SN: 21008155 AI Verdicts before filter: {'IDLE': 12749, '🟢 MONITORING': 4522}
+SN: 21008155 AI Verdicts before filter: {'IDLE': 12749, '🟢 MONITORING': 4522}
+SN: 21008159 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.717 | Max temp: nan
+SN: 21008159 AI Verdicts before filter: {'IDLE': 9166, '🟢 MONITORING': 8103, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21008159: 'Index' object has no attribute 'date'
+SN: 21008166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.064 | Max temp: nan
+SN: 21008166 AI Verdicts before filter: {'IDLE': 12699, '🟢 MONITORING': 4572}
+SN: 21008166 AI Verdicts before filter: {'IDLE': 12699, '🟢 MONITORING': 4572}
+SN: 21008169 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.276 | Max temp: nan
+SN: 21008169 AI Verdicts before filter: {'IDLE': 12662, '🟢 MONITORING': 4609}
+SN: 21008169 AI Verdicts before filter: {'IDLE': 12662, '🟢 MONITORING': 4609}
+SN: 21008174 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.331 | Max temp: nan
+SN: 21008174 AI Verdicts before filter: {'IDLE': 12711, '🟢 MONITORING': 4561}
+SN: 21008174 AI Verdicts before filter: {'IDLE': 12711, '🟢 MONITORING': 4561}
+SN: 21008183 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.215 | Max temp: nan
+SN: 21008183 AI Verdicts before filter: {'IDLE': 10027, '🟢 MONITORING': 7245}
+SN: 21008183 AI Verdicts before filter: {'IDLE': 10027, '🟢 MONITORING': 7245}
+SN: 21008185 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.087 | Max temp: nan
+SN: 21008185 AI Verdicts before filter: {'IDLE': 12690, '🟢 MONITORING': 4582}
+SN: 21008185 AI Verdicts before filter: {'IDLE': 12690, '🟢 MONITORING': 4582}
+SN: 21008211 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.546 | Max temp: nan
+SN: 21008211 AI Verdicts before filter: {'IDLE': 12645, '🟢 MONITORING': 4627}
+SN: 21008211 AI Verdicts before filter: {'IDLE': 12645, '🟢 MONITORING': 4627}
+SN: 21008244 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.024 | Max temp: nan
+SN: 21008244 AI Verdicts before filter: {'IDLE': 12649, '🟢 MONITORING': 4623}
+SN: 21008244 AI Verdicts before filter: {'IDLE': 12649, '🟢 MONITORING': 4623}
+SN: 21008258 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.383 | Max temp: nan
+SN: 21008258 AI Verdicts before filter: {'IDLE': 12700, '🟢 MONITORING': 4571}
+SN: 21008258 AI Verdicts before filter: {'IDLE': 12700, '🟢 MONITORING': 4571}
+SN: 21008260 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.091 | Max temp: nan
+SN: 21008260 AI Verdicts before filter: {'IDLE': 12700, '🟢 MONITORING': 4571}
+SN: 21008260 AI Verdicts before filter: {'IDLE': 12700, '🟢 MONITORING': 4571}
+SN: 21008264 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.576 | Max temp: nan
+SN: 21008264 AI Verdicts before filter: {'IDLE': 9001, '🟢 MONITORING': 8270}
+SN: 21008264 AI Verdicts before filter: {'IDLE': 9001, '🟢 MONITORING': 8270}
+SN: 21008276 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.743 | Max temp: nan
+SN: 21008276 AI Verdicts before filter: {'IDLE': 10802, '🟢 MONITORING': 6468, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008276: 'Index' object has no attribute 'date'
+SN: 21008295 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.960 | Max temp: nan
+SN: 21008295 AI Verdicts before filter: {'IDLE': 12592, '🟢 MONITORING': 4674, '🟡 PLANLEGG SERVICE': 5}
+Error mining 21008295: 'Index' object has no attribute 'date'
+SN: 21008296 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.179 | Max temp: nan
+SN: 21008296 AI Verdicts before filter: {'IDLE': 17135, '🟢 MONITORING': 136}
+SN: 21008296 AI Verdicts before filter: {'IDLE': 17135, '🟢 MONITORING': 136}
+SN: 21008299 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.769 | Max temp: nan
+SN: 21008299 AI Verdicts before filter: {'🟢 MONITORING': 9767, 'IDLE': 7504}
+SN: 21008299 AI Verdicts before filter: {'🟢 MONITORING': 9767, 'IDLE': 7504}
+SN: 21008302 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.558 | Max temp: nan
+SN: 21008302 AI Verdicts before filter: {'IDLE': 12700, '🟢 MONITORING': 4571}
+SN: 21008302 AI Verdicts before filter: {'IDLE': 12700, '🟢 MONITORING': 4571}
+SN: 21008303 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.661 | Max temp: nan
+SN: 21008303 AI Verdicts before filter: {'IDLE': 9123, '🟢 MONITORING': 8148}
+SN: 21008303 AI Verdicts before filter: {'IDLE': 9123, '🟢 MONITORING': 8148}
+SN: 21008304 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.095 | Max temp: nan
+SN: 21008304 AI Verdicts before filter: {'IDLE': 12671, '🟢 MONITORING': 4601}
+SN: 21008304 AI Verdicts before filter: {'IDLE': 12671, '🟢 MONITORING': 4601}
+SN: 21008309 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.027 | Max temp: nan
+SN: 21008309 AI Verdicts before filter: {'IDLE': 12707, '🟢 MONITORING': 4564}
+SN: 21008309 AI Verdicts before filter: {'IDLE': 12707, '🟢 MONITORING': 4564}
+SN: 21009224 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.351 | Max temp: nan
+SN: 21009224 AI Verdicts before filter: {'IDLE': 12738, '🟢 MONITORING': 4533}
+SN: 21009224 AI Verdicts before filter: {'IDLE': 12738, '🟢 MONITORING': 4533}
+SN: 21009277 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.925 | Max temp: nan
+SN: 21009277 AI Verdicts before filter: {'IDLE': 12757, '🟢 MONITORING': 4515}
+SN: 21009277 AI Verdicts before filter: {'IDLE': 12757, '🟢 MONITORING': 4515}
+SN: 21009377 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.283 | Max temp: nan
+SN: 21009377 AI Verdicts before filter: {'IDLE': 12678, '🟢 MONITORING': 4593}
+SN: 21009377 AI Verdicts before filter: {'IDLE': 12678, '🟢 MONITORING': 4593}
+SN: 21009390 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.624 | Max temp: nan
+SN: 21009390 AI Verdicts before filter: {'IDLE': 12679, '🟢 MONITORING': 4592}
+SN: 21009390 AI Verdicts before filter: {'IDLE': 12679, '🟢 MONITORING': 4592}
+SN: 21009909 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.935 | Max temp: nan
+SN: 21009909 AI Verdicts before filter: {'IDLE': 12684, '🟢 MONITORING': 4588}
+SN: 21009909 AI Verdicts before filter: {'IDLE': 12684, '🟢 MONITORING': 4588}
+SN: 21009914 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.161 | Max temp: nan
+SN: 21009914 AI Verdicts before filter: {'IDLE': 146, '🟢 MONITORING': 127}
+SN: 21009914 AI Verdicts before filter: {'IDLE': 146, '🟢 MONITORING': 127}
+SN: 21010297 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.204 | Max temp: nan
+SN: 21010297 AI Verdicts before filter: {'IDLE': 152, '🟢 MONITORING': 121}
+SN: 21010297 AI Verdicts before filter: {'IDLE': 152, '🟢 MONITORING': 121}
+SN: 30012319 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.751 | Max temp: nan
+SN: 30012319 AI Verdicts before filter: {'IDLE': 11362, '🟢 MONITORING': 5907, '🟡 PLANLEGG SERVICE': 2}
+Error mining 30012319: 'Index' object has no attribute 'date'
+SN: 30012325 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.754 | Max temp: nan
+SN: 30012325 AI Verdicts before filter: {'IDLE': 12742, '🟢 MONITORING': 4529}
+SN: 30012325 AI Verdicts before filter: {'IDLE': 12742, '🟢 MONITORING': 4529}
+SN: 30012332 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.514 | Max temp: nan
+SN: 30012332 AI Verdicts before filter: {'IDLE': 12953, '🟢 MONITORING': 4318}
+SN: 30012332 AI Verdicts before filter: {'IDLE': 12953, '🟢 MONITORING': 4318}
+SN: 30012342 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.857 | Max temp: nan
+SN: 30012342 AI Verdicts before filter: {'IDLE': 12010, '🟢 MONITORING': 5261}
+SN: 30012342 AI Verdicts before filter: {'IDLE': 12010, '🟢 MONITORING': 5261}
+SN: 30012349 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.946 | Max temp: nan
+SN: 30012349 AI Verdicts before filter: {'IDLE': 13309, '🟢 MONITORING': 3962}
+SN: 30012349 AI Verdicts before filter: {'IDLE': 13309, '🟢 MONITORING': 3962}
+SN: 30012361 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.020 | Max temp: nan
+SN: 30012361 AI Verdicts before filter: {'IDLE': 13269, '🟢 MONITORING': 4002}
+SN: 30012361 AI Verdicts before filter: {'IDLE': 13269, '🟢 MONITORING': 4002}
+SN: 30012362 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.193 | Max temp: nan
+SN: 30012362 AI Verdicts before filter: {'IDLE': 13255, '🟢 MONITORING': 4016}
+SN: 30012362 AI Verdicts before filter: {'IDLE': 13255, '🟢 MONITORING': 4016}
+SN: 30012363 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.549 | Max temp: nan
+SN: 30012363 AI Verdicts before filter: {'IDLE': 11985, '🟢 MONITORING': 5287}
+SN: 30012363 AI Verdicts before filter: {'IDLE': 11985, '🟢 MONITORING': 5287}
+SN: 21001530 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.873 | Max temp: nan
+SN: 21001530 AI Verdicts before filter: {'IDLE': 12735, '🟢 MONITORING': 4535, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21001530: 'Index' object has no attribute 'date'
+SN: 21001564 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.978 | Max temp: nan
+SN: 21001564 AI Verdicts before filter: {'IDLE': 12672, '🟢 MONITORING': 4599}
+SN: 21001564 AI Verdicts before filter: {'IDLE': 12672, '🟢 MONITORING': 4599}
+SN: 21001657 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.924 | Max temp: nan
+SN: 21001657 AI Verdicts before filter: {'IDLE': 13290, '🟢 MONITORING': 3981, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21001657: 'Index' object has no attribute 'date'
+SN: 21001668 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.073 | Max temp: nan
+SN: 21001668 AI Verdicts before filter: {'IDLE': 12666, '🟢 MONITORING': 4602, '🟡 PLANLEGG SERVICE': 4, '🔴 KRITISK ALARM': 1}
+Error mining 21001668: 'Index' object has no attribute 'date'
+SN: 21001694 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.352 | Max temp: nan
+SN: 21001694 AI Verdicts before filter: {'IDLE': 12515, '🟢 MONITORING': 4755, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21001694: 'Index' object has no attribute 'date'
+SN: 21001704 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.143 | Max temp: nan
+SN: 21001704 AI Verdicts before filter: {'IDLE': 12745, '🟢 MONITORING': 4528}
+SN: 21001704 AI Verdicts before filter: {'IDLE': 12745, '🟢 MONITORING': 4528}
+SN: 21001775 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.760 | Max temp: nan
+SN: 21001775 AI Verdicts before filter: {'IDLE': 12664, '🟢 MONITORING': 4608}
+SN: 21001775 AI Verdicts before filter: {'IDLE': 12664, '🟢 MONITORING': 4608}
+SN: 21001788 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.776 | Max temp: nan
+SN: 21001788 AI Verdicts before filter: {'IDLE': 12654, '🟢 MONITORING': 4618}
+SN: 21001788 AI Verdicts before filter: {'IDLE': 12654, '🟢 MONITORING': 4618}
+SN: 21001855 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.141 | Max temp: nan
+SN: 21001855 AI Verdicts before filter: {'IDLE': 12663, '🟢 MONITORING': 4609}
+SN: 21001855 AI Verdicts before filter: {'IDLE': 12663, '🟢 MONITORING': 4609}
+SN: 21001916 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.760 | Max temp: nan
+SN: 21001916 AI Verdicts before filter: {'IDLE': 12617, '🟢 MONITORING': 4655}
+SN: 21001916 AI Verdicts before filter: {'IDLE': 12617, '🟢 MONITORING': 4655}
+SN: 21001944 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.760 | Max temp: nan
+SN: 21001944 AI Verdicts before filter: {'IDLE': 12656, '🟢 MONITORING': 4614, '🟡 PLANLEGG SERVICE': 3}
+Error mining 21001944: 'Index' object has no attribute 'date'
+SN: 21001955 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.265 | Max temp: nan
+SN: 21001955 AI Verdicts before filter: {'IDLE': 4283, '🟢 MONITORING': 600}
+SN: 21001955 AI Verdicts before filter: {'IDLE': 4283, '🟢 MONITORING': 600}
+SN: 21001984 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.960 | Max temp: nan
+SN: 21001984 AI Verdicts before filter: {'IDLE': 12656, '🟢 MONITORING': 4613, '🟡 PLANLEGG SERVICE': 3}
+Error mining 21001984: 'Index' object has no attribute 'date'
+SN: 21002039 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.331 | Max temp: nan
+SN: 21002039 AI Verdicts before filter: {'IDLE': 12710, '🟢 MONITORING': 4563}
+SN: 21002039 AI Verdicts before filter: {'IDLE': 12710, '🟢 MONITORING': 4563}
+SN: 21002166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.029 | Max temp: nan
+SN: 21002166 AI Verdicts before filter: {'IDLE': 12642, '🟢 MONITORING': 4629, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21002166: 'Index' object has no attribute 'date'
+SN: 21002189 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.707 | Max temp: nan
+SN: 21002189 AI Verdicts before filter: {'IDLE': 12162, '🟢 MONITORING': 5096, '🟡 PLANLEGG SERVICE': 13, '🔴 KRITISK ALARM': 1}
+Error mining 21002189: 'Index' object has no attribute 'date'
+SN: 21002210 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.596 | Max temp: nan
+SN: 21002210 AI Verdicts before filter: {'IDLE': 12657, '🟢 MONITORING': 4613, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21002210: 'Index' object has no attribute 'date'
+SN: 21002292 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.728 | Max temp: nan
+SN: 21002292 AI Verdicts before filter: {'IDLE': 12147, '🟢 MONITORING': 5125}
+SN: 21002292 AI Verdicts before filter: {'IDLE': 12147, '🟢 MONITORING': 5125}
+SN: 21002314 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.981 | Max temp: nan
+SN: 21002314 AI Verdicts before filter: {'IDLE': 12763, '🟢 MONITORING': 4507, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21002314: 'Index' object has no attribute 'date'
+SN: 21002337 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.790 | Max temp: nan
+SN: 21002337 AI Verdicts before filter: {'IDLE': 12670, '🟢 MONITORING': 4603}
+SN: 21002337 AI Verdicts before filter: {'IDLE': 12670, '🟢 MONITORING': 4603}
+SN: 21002378 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.848 | Max temp: nan
+SN: 21002378 AI Verdicts before filter: {'IDLE': 12110, '🟢 MONITORING': 5133, '🟡 PLANLEGG SERVICE': 28, '🔴 KRITISK ALARM': 1}
+Error mining 21002378: 'Index' object has no attribute 'date'
+SN: 21002395 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.981 | Max temp: nan
+SN: 21002395 AI Verdicts before filter: {'IDLE': 12654, '🟢 MONITORING': 4617, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21002395: 'Index' object has no attribute 'date'
+SN: 21002409 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.133 | Max temp: nan
+SN: 21002409 AI Verdicts before filter: {'IDLE': 12169, '🟢 MONITORING': 5100, '🟡 PLANLEGG SERVICE': 3}
+Error mining 21002409: 'Index' object has no attribute 'date'
+SN: 21002437 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.984 | Max temp: nan
+SN: 21002437 AI Verdicts before filter: {'IDLE': 12353, '🟢 MONITORING': 4918, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21002437: 'Index' object has no attribute 'date'
+SN: 21002446 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.854 | Max temp: nan
+SN: 21002446 AI Verdicts before filter: {'IDLE': 12106, '🟢 MONITORING': 5159, '🟡 PLANLEGG SERVICE': 7}
+Error mining 21002446: 'Index' object has no attribute 'date'
+SN: 21002488 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.731 | Max temp: nan
+SN: 21002488 AI Verdicts before filter: {'IDLE': 12766, '🟢 MONITORING': 4506}
+SN: 21002488 AI Verdicts before filter: {'IDLE': 12766, '🟢 MONITORING': 4506}
+SN: 21002511 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.788 | Max temp: nan
+SN: 21002511 AI Verdicts before filter: {'IDLE': 13070, '🟢 MONITORING': 4201, '🔴 KRITISK ALARM': 1}
+Error mining 21002511: 'Index' object has no attribute 'date'
+SN: 21002942 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.074 | Max temp: nan
+SN: 21002942 AI Verdicts before filter: {'IDLE': 12627, '🟢 MONITORING': 4646}
+SN: 21002942 AI Verdicts before filter: {'IDLE': 12627, '🟢 MONITORING': 4646}
+SN: 21003043 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.215 | Max temp: nan
+SN: 21003043 AI Verdicts before filter: {'IDLE': 12753, '🟢 MONITORING': 4519}
+SN: 21003043 AI Verdicts before filter: {'IDLE': 12753, '🟢 MONITORING': 4519}
+SN: 21003166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 7.707 | Max temp: nan
+SN: 21003166 AI Verdicts before filter: {'IDLE': 12628, '🟢 MONITORING': 4644}
+SN: 21003166 AI Verdicts before filter: {'IDLE': 12628, '🟢 MONITORING': 4644}
+SN: 21003212 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.055 | Max temp: nan
+SN: 21003212 AI Verdicts before filter: {'IDLE': 12625, '🟢 MONITORING': 4647, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21003212: 'Index' object has no attribute 'date'
+SN: 21008084 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.442 | Max temp: nan
+SN: 21008084 AI Verdicts before filter: {'IDLE': 9644, '🟢 MONITORING': 7627, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008084: 'Index' object has no attribute 'date'
+SN: 21008085 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.696 | Max temp: nan
+SN: 21008085 AI Verdicts before filter: {'IDLE': 12689, '🟢 MONITORING': 4582, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008085: 'Index' object has no attribute 'date'
+SN: 21008091 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.524 | Max temp: nan
+SN: 21008091 AI Verdicts before filter: {'IDLE': 14050, '🟢 MONITORING': 3222}
+SN: 21008091 AI Verdicts before filter: {'IDLE': 14050, '🟢 MONITORING': 3222}
+SN: 21008095 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.902 | Max temp: nan
+SN: 21008095 AI Verdicts before filter: {'IDLE': 12702, '🟢 MONITORING': 4568, '🟡 PLANLEGG SERVICE': 3}
+Error mining 21008095: 'Index' object has no attribute 'date'
+SN: 21008097 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.890 | Max temp: nan
+SN: 21008097 AI Verdicts before filter: {'IDLE': 12670, '🟢 MONITORING': 4601, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008097: 'Index' object has no attribute 'date'
+SN: 21008117 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.435 | Max temp: nan
+SN: 21008117 AI Verdicts before filter: {'IDLE': 12648, '🟢 MONITORING': 4624}
+SN: 21008117 AI Verdicts before filter: {'IDLE': 12648, '🟢 MONITORING': 4624}
+SN: 21008118 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.445 | Max temp: nan
+SN: 21008118 AI Verdicts before filter: {'IDLE': 12776, '🟢 MONITORING': 4493, '🟡 PLANLEGG SERVICE': 3}
+Error mining 21008118: 'Index' object has no attribute 'date'
+SN: 21008121 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.090 | Max temp: nan
+SN: 21008121 AI Verdicts before filter: {'IDLE': 9063, '🟢 MONITORING': 8175, '🟡 PLANLEGG SERVICE': 33}
+Error mining 21008121: 'Index' object has no attribute 'date'
+SN: 21008127 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.381 | Max temp: nan
+SN: 21008127 AI Verdicts before filter: {'IDLE': 12667, '🟢 MONITORING': 4605}
+SN: 21008127 AI Verdicts before filter: {'IDLE': 12667, '🟢 MONITORING': 4605}
+SN: 21008128 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.393 | Max temp: nan
+SN: 21008128 AI Verdicts before filter: {'IDLE': 13130, '🟢 MONITORING': 4141, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008128: 'Index' object has no attribute 'date'
+SN: 21008145 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.580 | Max temp: nan
+SN: 21008145 AI Verdicts before filter: {'IDLE': 12641, '🟢 MONITORING': 4632}
+SN: 21008145 AI Verdicts before filter: {'IDLE': 12641, '🟢 MONITORING': 4632}
+SN: 21008148 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.034 | Max temp: nan
+SN: 21008148 AI Verdicts before filter: {'IDLE': 12706, '🟢 MONITORING': 4566}
+SN: 21008148 AI Verdicts before filter: {'IDLE': 12706, '🟢 MONITORING': 4566}
+SN: 21008152 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.668 | Max temp: nan
+SN: 21008152 AI Verdicts before filter: {'IDLE': 12663, '🟢 MONITORING': 4608, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008152: 'Index' object has no attribute 'date'
+SN: 21008153 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.963 | Max temp: nan
+SN: 21008153 AI Verdicts before filter: {'IDLE': 12531, '🟢 MONITORING': 4741, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008153: 'Index' object has no attribute 'date'
+SN: 21008155 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.313 | Max temp: nan
+SN: 21008155 AI Verdicts before filter: {'IDLE': 12744, '🟢 MONITORING': 4523, '🟡 PLANLEGG SERVICE': 4, '🔴 KRITISK ALARM': 1}
+Error mining 21008155: 'Index' object has no attribute 'date'
+SN: 21008159 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.717 | Max temp: nan
+SN: 21008159 AI Verdicts before filter: {'IDLE': 9161, '🟢 MONITORING': 8109, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21008159: 'Index' object has no attribute 'date'
+SN: 21008166 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.064 | Max temp: nan
+SN: 21008166 AI Verdicts before filter: {'IDLE': 12694, '🟢 MONITORING': 4578}
+SN: 21008166 AI Verdicts before filter: {'IDLE': 12694, '🟢 MONITORING': 4578}
+SN: 21008169 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.075 | Max temp: nan
+SN: 21008169 AI Verdicts before filter: {'IDLE': 12657, '🟢 MONITORING': 4613, '🟡 PLANLEGG SERVICE': 2}
+Error mining 21008169: 'Index' object has no attribute 'date'
+SN: 21008174 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.331 | Max temp: nan
+SN: 21008174 AI Verdicts before filter: {'IDLE': 12706, '🟢 MONITORING': 4565, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008174: 'Index' object has no attribute 'date'
+SN: 21008183 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 1.215 | Max temp: nan
+SN: 21008183 AI Verdicts before filter: {'IDLE': 10022, '🟢 MONITORING': 7210, '🟡 PLANLEGG SERVICE': 34, '🔴 KRITISK ALARM': 6}
+Error mining 21008183: 'Index' object has no attribute 'date'
+SN: 21008185 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.087 | Max temp: nan
+SN: 21008185 AI Verdicts before filter: {'IDLE': 12685, '🟢 MONITORING': 4587}
+SN: 21008185 AI Verdicts before filter: {'IDLE': 12685, '🟢 MONITORING': 4587}
+SN: 21008211 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 6.546 | Max temp: nan
+SN: 21008211 AI Verdicts before filter: {'IDLE': 12640, '🟢 MONITORING': 4632}
+SN: 21008211 AI Verdicts before filter: {'IDLE': 12640, '🟢 MONITORING': 4632}
+SN: 21008244 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.024 | Max temp: nan
+SN: 21008244 AI Verdicts before filter: {'IDLE': 12644, '🟢 MONITORING': 4627, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008244: 'Index' object has no attribute 'date'
+SN: 21008258 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.383 | Max temp: nan
+SN: 21008258 AI Verdicts before filter: {'IDLE': 12695, '🟢 MONITORING': 4577}
+SN: 21008258 AI Verdicts before filter: {'IDLE': 12695, '🟢 MONITORING': 4577}
+SN: 21008260 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.091 | Max temp: nan
+SN: 21008260 AI Verdicts before filter: {'IDLE': 12695, '🟢 MONITORING': 4576, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008260: 'Index' object has no attribute 'date'
+SN: 21008264 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.576 | Max temp: nan
+SN: 21008264 AI Verdicts before filter: {'IDLE': 8996, '🟢 MONITORING': 8275, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008264: 'Index' object has no attribute 'date'
+SN: 21008276 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.743 | Max temp: nan
+SN: 21008276 AI Verdicts before filter: {'IDLE': 10797, '🟢 MONITORING': 6465, '🔴 KRITISK ALARM': 5, '🟡 PLANLEGG SERVICE': 5}
+Error mining 21008276: 'Index' object has no attribute 'date'
+SN: 21008295 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 0.960 | Max temp: nan
+SN: 21008295 AI Verdicts before filter: {'IDLE': 12587, '🟢 MONITORING': 4677, '🟡 PLANLEGG SERVICE': 8, '🔴 KRITISK ALARM': 1}
+Error mining 21008295: 'Index' object has no attribute 'date'
+SN: 21008296 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.179 | Max temp: nan
+SN: 21008296 AI Verdicts before filter: {'IDLE': 17136, '🟢 MONITORING': 136}
+SN: 21008296 AI Verdicts before filter: {'IDLE': 17136, '🟢 MONITORING': 136}
+SN: 21008299 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.769 | Max temp: nan
+SN: 21008299 AI Verdicts before filter: {'🟢 MONITORING': 9770, 'IDLE': 7499, '🟡 PLANLEGG SERVICE': 2, '🔴 KRITISK ALARM': 1}
+Error mining 21008299: 'Index' object has no attribute 'date'
+SN: 21008302 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 2.558 | Max temp: nan
+SN: 21008302 AI Verdicts before filter: {'IDLE': 12695, '🟢 MONITORING': 4572, '🟡 PLANLEGG SERVICE': 4, '🔴 KRITISK ALARM': 1}
+Error mining 21008302: 'Index' object has no attribute 'date'
+SN: 21008303 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 8.661 | Max temp: nan
+SN: 21008303 AI Verdicts before filter: {'IDLE': 9118, '🟢 MONITORING': 8154}
+SN: 21008303 AI Verdicts before filter: {'IDLE': 9118, '🟢 MONITORING': 8154}
+SN: 21008304 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.095 | Max temp: nan
+SN: 21008304 AI Verdicts before filter: {'IDLE': 12666, '🟢 MONITORING': 4606}
+SN: 21008304 AI Verdicts before filter: {'IDLE': 12666, '🟢 MONITORING': 4606}
+SN: 21008309 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.027 | Max temp: nan
+SN: 21008309 AI Verdicts before filter: {'IDLE': 12702, '🟢 MONITORING': 4569, '🟡 PLANLEGG SERVICE': 1}
+Error mining 21008309: 'Index' object has no attribute 'date'
+SN: 21009224 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 5.351 | Max temp: nan
+SN: 21009224 AI Verdicts before filter: {'IDLE': 12733, '🟢 MONITORING': 4522, '🟡 PLANLEGG SERVICE': 12, '🔴 KRITISK ALARM': 5}
+Error mining 21009224: 'Index' object has no attribute 'date'
+SN: 21009277 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 4.925 | Max temp: nan
+SN: 21009277 AI Verdicts before filter: {'IDLE': 12752, '🟢 MONITORING': 4501, '🟡 PLANLEGG SERVICE': 12, '🔴 KRITISK ALARM': 7}
+Error mining 21009277: 'Index' object has no attribute 'date'
+SN: 21009377 prep_df index type: <class 'pandas.core.indexes.base.Index'> | Max vib_rms: 3.283 | Max temp: nan

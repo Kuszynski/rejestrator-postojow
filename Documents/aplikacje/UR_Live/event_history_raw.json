@@ -1,0 +1,5002 @@
+[
+  {
+    "sn": "21002409",
+    "alias": "1300.40 El motor barkemaskin rotor NDE",
+    "timestamp": "2026-02-23T18:35:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.206334323477534,
+    "temp_mean": 31.3,
+    "temp_gradient": -8.099999999999998
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-02-23T17:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 42.6,
+    "temp_gradient": 13.05
+  },
+  {
+    "sn": "21008244",
+    "alias": "1780 el motor DE QSS-700 Ø.V",
+    "timestamp": "2026-02-23T17:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 41.5,
+    "temp_gradient": 11.0
+  },
+  {
+    "sn": "21009914",
+    "alias": "1780 el motor NDE QSS-700 N.H",
+    "timestamp": "2026-02-23T17:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 35.7,
+    "temp_gradient": 11.850000000000001
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-02-23T14:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.7752647689851786,
+    "temp_mean": 22.299999999999997,
+    "temp_gradient": -9.100000000000005
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-02-23T10:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.502,
+    "temp_mean": 35.4,
+    "temp_gradient": 12.5
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-02-23T10:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5983297585779935,
+    "temp_mean": 39.35,
+    "temp_gradient": 12.550000000000004
+  },
+  {
+    "sn": "21008185",
+    "alias": "1750 P-700 el motor DE nedre venstre",
+    "timestamp": "2026-02-23T10:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.939630506050057,
+    "temp_mean": 21.9,
+    "temp_gradient": 4.733333333333331
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-02-23T10:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8039956467543838,
+    "temp_mean": 34.7,
+    "temp_gradient": 11.600000000000001
+  },
+  {
+    "sn": "21010297",
+    "alias": "1780 el motor DE QSS-700 Ø.H",
+    "timestamp": "2026-02-23T10:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5095779299250182,
+    "temp_mean": 38.5,
+    "temp_gradient": 11.5
+  },
+  {
+    "sn": "21008303",
+    "alias": "2230 El motor ABAC SAG DE",
+    "timestamp": "2026-02-22T11:05:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 3.8899236496363265,
+    "temp_mean": 29.133333333333336,
+    "temp_gradient": 11.433333333333334
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-02-20T11:40:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.002,
+    "temp_mean": 53.8,
+    "temp_gradient": 30.599999999999998
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-02-20T11:35:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0023094010767585028,
+    "temp_mean": 54.86666666666667,
+    "temp_gradient": 32.16666666666667
+  },
+  {
+    "sn": "21008303",
+    "alias": "2230 El motor ABAC SAG DE",
+    "timestamp": "2026-02-19T08:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 3.903556807579467,
+    "temp_mean": 28.725,
+    "temp_gradient": 10.024999999999999
+  },
+  {
+    "sn": "21008303",
+    "alias": "2230 El motor ABAC SAG DE",
+    "timestamp": "2026-02-16T23:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 33.85,
+    "temp_gradient": 11.370000000000001
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-02-13T08:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 37.2,
+    "temp_gradient": 10.066666666666666
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-02-13T08:15:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 4.579738966360419,
+    "temp_mean": 74.5,
+    "temp_gradient": 23.53333333333333
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-02-13T08:15:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5565752419933894,
+    "temp_mean": 68.1,
+    "temp_gradient": 23.499999999999993
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-02-13T06:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.46706851745755673,
+    "temp_mean": 39.05,
+    "temp_gradient": 13.299999999999997
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-02-13T06:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.676332758337196,
+    "temp_mean": 39.93333333333334,
+    "temp_gradient": 12.933333333333337
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-02-13T06:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7640006544499814,
+    "temp_mean": 6.25,
+    "temp_gradient": 10.216666666666667
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-02-13T06:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.3390002137665573,
+    "temp_mean": 7.15,
+    "temp_gradient": 10.183333333333334
+  },
+  {
+    "sn": "21008302",
+    "alias": "1840 el motor P700C V.S DE",
+    "timestamp": "2026-02-13T06:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.5750468247007772,
+    "temp_mean": 22.700000000000003,
+    "temp_gradient": 2.200000000000003
+  },
+  {
+    "sn": "21008295",
+    "alias": "2020 Sponskrue 2",
+    "timestamp": "2026-02-12T22:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 0.7356119901143536,
+    "temp_mean": 26.6,
+    "temp_gradient": 1.1333333333333329
+  },
+  {
+    "sn": "21001984",
+    "alias": "1730 El motor RL-600 V.S NDE",
+    "timestamp": "2026-02-12T14:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 2.943168955394848,
+    "temp_mean": 22.55,
+    "temp_gradient": -0.75
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-02-12T08:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 30.900000000000002,
+    "temp_gradient": 11.100000000000001
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-02-12T08:40:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 45.95,
+    "temp_gradient": 16.250000000000004
+  },
+  {
+    "sn": "21008244",
+    "alias": "1780 el motor DE QSS-700 Ø.V",
+    "timestamp": "2026-02-12T08:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 31.35,
+    "temp_gradient": 11.250000000000004
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-02-12T08:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.001414213562373095,
+    "temp_mean": 40.8,
+    "temp_gradient": 16.5
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-02-12T08:35:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 46.85,
+    "temp_gradient": 16.9
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-02-12T08:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 41.23333333333333,
+    "temp_gradient": 15.283333333333324
+  },
+  {
+    "sn": "21009224",
+    "alias": "1880 QSS-420 Spindel N.V NDE",
+    "timestamp": "2026-02-12T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 29.0,
+    "temp_gradient": 10.5
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-02-12T07:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.33681226224708627,
+    "temp_mean": 14.9,
+    "temp_gradient": 10.2
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-02-12T07:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7635473135307334,
+    "temp_mean": 3.35,
+    "temp_gradient": 10.25
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-02-12T07:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.3284227136268307,
+    "temp_mean": 4.033333333333333,
+    "temp_gradient": 10.133333333333333
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-02-11T08:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 43.63333333333333,
+    "temp_gradient": 12.133333333333333
+  },
+  {
+    "sn": "21001657",
+    "alias": "1300.10 Girkasse Nedre MV1 barkemaskin",
+    "timestamp": "2026-02-11T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8505815657536906,
+    "temp_mean": 24.766666666666666,
+    "temp_gradient": 11.033333333333331
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-02-11T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4354933983426155,
+    "temp_mean": 28.35,
+    "temp_gradient": 13.91666666666667
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-02-11T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5969807367076428,
+    "temp_mean": 27.0,
+    "temp_gradient": 13.466666666666669
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-02-11T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4552614633372783,
+    "temp_mean": 29.933333333333334,
+    "temp_gradient": 14.466666666666667
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-02-11T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4527653917869607,
+    "temp_mean": 28.6,
+    "temp_gradient": 13.8
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-02-11T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.1435439067507056,
+    "temp_mean": 27.766666666666666,
+    "temp_gradient": 14.016666666666666
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-02-11T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.2461923367342425,
+    "temp_mean": 34.46666666666667,
+    "temp_gradient": 13.600000000000005
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-02-11T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.34184353145847296,
+    "temp_mean": 16.05,
+    "temp_gradient": 10.650000000000002
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-02-11T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.754351597952396,
+    "temp_mean": 5.333333333333333,
+    "temp_gradient": 10.433333333333334
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-02-11T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.2970870684412468,
+    "temp_mean": 5.949999999999999,
+    "temp_gradient": 10.283333333333331
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-02-11T06:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 3.1449111275201407,
+    "temp_mean": 30.2,
+    "temp_gradient": 10.399999999999999
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-02-11T06:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6314937318242624,
+    "temp_mean": 39.53333333333333,
+    "temp_gradient": 12.666666666666668
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-02-11T06:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.9221087246089802,
+    "temp_mean": 41.4,
+    "temp_gradient": 13.75
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-02-11T06:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7592019933236915,
+    "temp_mean": 43.300000000000004,
+    "temp_gradient": 13.550000000000004
+  },
+  {
+    "sn": "21009224",
+    "alias": "1880 QSS-420 Spindel N.V NDE",
+    "timestamp": "2026-02-11T06:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.0105773102538964,
+    "temp_mean": 28.049999999999997,
+    "temp_gradient": 12.749999999999996
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-02-11T06:45:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.0995642405032524,
+    "temp_mean": 45.666666666666664,
+    "temp_gradient": 15.133333333333333
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-02-10T12:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6809581484937235,
+    "temp_mean": 39.800000000000004,
+    "temp_gradient": 12.36666666666667
+  },
+  {
+    "sn": "21008244",
+    "alias": "1780 el motor DE QSS-700 Ø.V",
+    "timestamp": "2026-02-10T12:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4482566229293216,
+    "temp_mean": 39.8,
+    "temp_gradient": 10.5
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-02-10T11:05:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 53.4,
+    "temp_gradient": 17.166666666666664
+  },
+  {
+    "sn": "21001657",
+    "alias": "1300.10 Girkasse Nedre MV1 barkemaskin",
+    "timestamp": "2026-02-10T10:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.40387436165223467,
+    "temp_mean": 18.8,
+    "temp_gradient": 10.8
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-02-10T10:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.629,
+    "temp_mean": 19.9,
+    "temp_gradient": 11.366666666666665
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-02-10T10:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.2396977263137888,
+    "temp_mean": 20.433333333333334,
+    "temp_gradient": 13.083333333333334
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-02-10T10:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.15587388064286672,
+    "temp_mean": 21.166666666666668,
+    "temp_gradient": 12.133333333333335
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-02-10T10:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.06,
+    "temp_mean": 20.9,
+    "temp_gradient": 13.299999999999999
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-02-10T10:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.6762089324266145,
+    "temp_mean": 39.475,
+    "temp_gradient": 15.675
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-02-10T10:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.0473072615044736,
+    "temp_mean": 36.900000000000006,
+    "temp_gradient": 14.500000000000007
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-02-10T10:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.765,
+    "temp_mean": 1.35,
+    "temp_gradient": 12.2
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-02-10T10:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.3545153429102985,
+    "temp_mean": 1.85,
+    "temp_gradient": 12.35
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-02-10T10:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.3332662899811123,
+    "temp_mean": 30.28,
+    "temp_gradient": 13.280000000000001
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-02-10T10:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5095551981875958,
+    "temp_mean": 36.5,
+    "temp_gradient": 15.299999999999997
+  },
+  {
+    "sn": "21008084",
+    "alias": "2101 el motor cell leder over silo",
+    "timestamp": "2026-02-10T09:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.1582024020045208,
+    "temp_mean": -4.75,
+    "temp_gradient": 10.85
+  },
+  {
+    "sn": "21008264",
+    "alias": "2080 el motor reimtrsp overgrovt",
+    "timestamp": "2026-02-10T09:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.5913408492570085,
+    "temp_mean": -8.5,
+    "temp_gradient": 8.600000000000001
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-02-10T09:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.6167300868289142,
+    "temp_mean": -10.95,
+    "temp_gradient": 1.450000000000001
+  },
+  {
+    "sn": "21008121",
+    "alias": "2090 el motor sagflisleder til silo",
+    "timestamp": "2026-02-10T09:25:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.5905903825833942,
+    "temp_mean": -13.8,
+    "temp_gradient": 2.599999999999998
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-02-09T17:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 44.6,
+    "temp_gradient": 11.050000000000004
+  },
+  {
+    "sn": "21001668",
+    "alias": "1830 RC-600 Spindel V.S NDE",
+    "timestamp": "2026-02-09T15:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 4.7172844589516405,
+    "temp_mean": 35.7,
+    "temp_gradient": 0.14000000000000057
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-02-09T08:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0011547005383792514,
+    "temp_mean": 39.23333333333333,
+    "temp_gradient": 17.499999999999996
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-02-09T08:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 37.666666666666664,
+    "temp_gradient": 16.866666666666664
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-02-09T08:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 35.166666666666664,
+    "temp_gradient": 15.73333333333333
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-02-09T08:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 17.0,
+    "temp_gradient": 13.05
+  },
+  {
+    "sn": "21008244",
+    "alias": "1780 el motor DE QSS-700 Ø.V",
+    "timestamp": "2026-02-09T08:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 29.95,
+    "temp_gradient": 12.349999999999998
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-02-09T08:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.09608850087289321,
+    "temp_mean": 15.566666666666668,
+    "temp_gradient": 11.216666666666669
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-02-09T08:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.091,
+    "temp_mean": 15.6,
+    "temp_gradient": 10.1
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-02-09T08:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.013,
+    "temp_mean": 7.2,
+    "temp_gradient": 12.4
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-02-09T08:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.05605949220842682,
+    "temp_mean": 15.866666666666667,
+    "temp_gradient": 11.341666666666667
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-02-09T08:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0007071067811865475,
+    "temp_mean": 28.95,
+    "temp_gradient": 11.95
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-02-09T08:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 39.93333333333333,
+    "temp_gradient": 22.2
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-02-09T08:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.9395783046837785,
+    "temp_mean": 5.233333333333333,
+    "temp_gradient": 12.533333333333333
+  },
+  {
+    "sn": "21008299",
+    "alias": "2230 El motor ABAC Barkemaskin DE",
+    "timestamp": "2026-02-09T06:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.012,
+    "temp_mean": 30.2,
+    "temp_gradient": 10.849999999999998
+  },
+  {
+    "sn": "21008303",
+    "alias": "2230 El motor ABAC SAG DE",
+    "timestamp": "2026-02-07T17:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0031622776601683794,
+    "temp_mean": 31.950000000000003,
+    "temp_gradient": 11.583333333333336
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-02-06T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.008596549666912,
+    "temp_mean": 26.03333333333333,
+    "temp_gradient": 11.399999999999999
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-02-06T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8368327192456089,
+    "temp_mean": 26.4,
+    "temp_gradient": 11.349999999999998
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-02-06T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7507799278084091,
+    "temp_mean": 36.7,
+    "temp_gradient": 10.350000000000001
+  },
+  {
+    "sn": "21008299",
+    "alias": "2230 El motor ABAC Barkemaskin DE",
+    "timestamp": "2026-02-06T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4225825363168715,
+    "temp_mean": 47.059999999999995,
+    "temp_gradient": 13.093333333333327
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-02-06T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.352448440809419,
+    "temp_mean": 5.266666666666667,
+    "temp_gradient": 10.416666666666668
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-02-06T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.32307584248903537,
+    "temp_mean": 12.95,
+    "temp_gradient": 10.399999999999999
+  },
+  {
+    "sn": "21008121",
+    "alias": "2090 el motor sagflisleder til silo",
+    "timestamp": "2026-02-06T06:05:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.6325063899545469,
+    "temp_mean": -11.333333333333334,
+    "temp_gradient": -1.833333333333334
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-02-05T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.1753125541744203,
+    "temp_mean": 27.22,
+    "temp_gradient": 11.120000000000001
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-02-05T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5369916200463467,
+    "temp_mean": 27.2,
+    "temp_gradient": 11.433333333333334
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-02-05T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.3550218303147005,
+    "temp_mean": 28.7,
+    "temp_gradient": 11.899999999999999
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-02-05T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6705010564247208,
+    "temp_mean": 27.633333333333336,
+    "temp_gradient": 11.483333333333338
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-02-05T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8636734047080529,
+    "temp_mean": 28.05,
+    "temp_gradient": 12.100000000000001
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-02-05T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.2748035662068453,
+    "temp_mean": 32.75,
+    "temp_gradient": 11.616666666666667
+  },
+  {
+    "sn": "21008299",
+    "alias": "2230 El motor ABAC Barkemaskin DE",
+    "timestamp": "2026-02-05T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7695534419388949,
+    "temp_mean": 45.724999999999994,
+    "temp_gradient": 13.158333333333324
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-02-05T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7627778182406723,
+    "temp_mean": 5.7,
+    "temp_gradient": 10.350000000000001
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-02-05T07:05:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.30300660058817197,
+    "temp_mean": 13.9,
+    "temp_gradient": 10.0
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-02-05T00:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 37.23333333333333,
+    "temp_gradient": 11.383333333333326
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-02-04T21:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 45.9,
+    "temp_gradient": 12.566666666666663
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-02-04T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7790006418482593,
+    "temp_mean": 3.65,
+    "temp_gradient": 10.883333333333333
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-02-04T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.3905276614170354,
+    "temp_mean": 4.75,
+    "temp_gradient": 10.75
+  },
+  {
+    "sn": "21008084",
+    "alias": "2101 el motor cell leder over silo",
+    "timestamp": "2026-02-04T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.24075402385006986,
+    "temp_mean": 2.1,
+    "temp_gradient": 10.5
+  },
+  {
+    "sn": "21008303",
+    "alias": "2230 El motor ABAC SAG DE",
+    "timestamp": "2026-02-04T00:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.001414213562373095,
+    "temp_mean": 38.1,
+    "temp_gradient": 11.400000000000002
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-02-04T00:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 36.166666666666664,
+    "temp_gradient": 12.266666666666666
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-02-03T07:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.9052574219524523,
+    "temp_mean": 25.833333333333332,
+    "temp_gradient": 11.083333333333332
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-02-03T07:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.1114236366030732,
+    "temp_mean": 25.75,
+    "temp_gradient": 11.35
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-02-03T07:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4749192913888983,
+    "temp_mean": 27.066666666666666,
+    "temp_gradient": 11.4
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-02-03T07:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7993295628212435,
+    "temp_mean": 25.175,
+    "temp_gradient": 10.5
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-02-03T07:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7076225453351996,
+    "temp_mean": 25.433333333333334,
+    "temp_gradient": 10.953333333333333
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-02-03T07:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.2907931681911847,
+    "temp_mean": 31.8,
+    "temp_gradient": 11.899999999999999
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-02-03T07:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8700281604637864,
+    "temp_mean": 36.1,
+    "temp_gradient": 11.166666666666668
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-02-03T07:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.9516204024230484,
+    "temp_mean": 41.5,
+    "temp_gradient": 13.833333333333332
+  },
+  {
+    "sn": "21008299",
+    "alias": "2230 El motor ABAC Barkemaskin DE",
+    "timestamp": "2026-02-03T07:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8408082421099355,
+    "temp_mean": 44.8,
+    "temp_gradient": 11.599999999999994
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-02-03T00:05:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 39.36666666666667,
+    "temp_gradient": 13.100000000000001
+  },
+  {
+    "sn": "21001668",
+    "alias": "1830 RC-600 Spindel V.S NDE",
+    "timestamp": "2026-02-02T22:35:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 5.017197923143954,
+    "temp_mean": 32.266666666666666,
+    "temp_gradient": 1.2666666666666657
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-02-02T11:05:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.005099019513592785,
+    "temp_mean": 36.45,
+    "temp_gradient": 12.500000000000004
+  },
+  {
+    "sn": "21008244",
+    "alias": "1780 el motor DE QSS-700 Ø.V",
+    "timestamp": "2026-02-02T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 31.15,
+    "temp_gradient": 11.149999999999999
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-02-02T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.062128898268036276,
+    "temp_mean": 18.95,
+    "temp_gradient": 10.116666666666665
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-02-02T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.002886751345948129,
+    "temp_mean": 28.166666666666668,
+    "temp_gradient": 10.06666666666667
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-02-02T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0025819888974716113,
+    "temp_mean": 32.63333333333333,
+    "temp_gradient": 13.066666666666666
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-02-02T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 31.625,
+    "temp_gradient": 11.425
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-02-02T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 36.199999999999996,
+    "temp_gradient": 14.833333333333332
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-02-02T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 42.13333333333333,
+    "temp_gradient": 18.93333333333333
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-02-02T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0825378700960959,
+    "temp_mean": 19.1,
+    "temp_gradient": 10.600000000000001
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-02-02T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7890310513534939,
+    "temp_mean": 6.95,
+    "temp_gradient": 10.716666666666667
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-02-02T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.08050155278005512,
+    "temp_mean": 25.799999999999997,
+    "temp_gradient": 13.499999999999996
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-02-02T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.428644580831045,
+    "temp_mean": 7.0,
+    "temp_gradient": 11.5
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-02-02T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.3150396800404673,
+    "temp_mean": 12.600000000000001,
+    "temp_gradient": 12.250000000000002
+  },
+  {
+    "sn": "21008155",
+    "alias": "1880 QSS-420 Spindel Ø.V NDE",
+    "timestamp": "2026-02-02T06:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 3.1783419157374073,
+    "temp_mean": 22.866666666666664,
+    "temp_gradient": 7.666666666666664
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-02-01T08:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 32.95,
+    "temp_gradient": 11.950000000000003
+  },
+  {
+    "sn": "21001657",
+    "alias": "1300.10 Girkasse Nedre MV1 barkemaskin",
+    "timestamp": "2026-02-01T07:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.3663627528374939,
+    "temp_mean": 18.933333333333334,
+    "temp_gradient": 10.633333333333335
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-02-01T07:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8933560320499324,
+    "temp_mean": 18.175,
+    "temp_gradient": 11.008333333333333
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-02-01T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.2148150476512873,
+    "temp_mean": 18.160000000000004,
+    "temp_gradient": 11.110000000000003
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-02-01T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 4.6086933343410905,
+    "temp_mean": 27.825,
+    "temp_gradient": 10.125
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-02-01T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.6276422825670267,
+    "temp_mean": 29.48,
+    "temp_gradient": 11.613333333333337
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-02-01T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.6575872516250527,
+    "temp_mean": 28.700000000000003,
+    "temp_gradient": 11.800000000000004
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-02-01T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.3230808743232592,
+    "temp_mean": 33.675,
+    "temp_gradient": 13.474999999999994
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-02-01T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.0828363218880313,
+    "temp_mean": 15.175,
+    "temp_gradient": 10.175
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-02-01T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.43423112125533636,
+    "temp_mean": 16.9,
+    "temp_gradient": 10.649999999999999
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-02-01T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5228852646613786,
+    "temp_mean": 15.95,
+    "temp_gradient": 10.049999999999999
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-02-01T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5370083798228851,
+    "temp_mean": 23.2,
+    "temp_gradient": 11.1
+  },
+  {
+    "sn": "21001668",
+    "alias": "1830 RC-600 Spindel V.S NDE",
+    "timestamp": "2026-02-01T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 4.496164995489675,
+    "temp_mean": 26.166666666666668,
+    "temp_gradient": 10.426666666666668
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-02-01T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.3050024590064808,
+    "temp_mean": 11.95,
+    "temp_gradient": 10.85
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-02-01T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.1070094850542158,
+    "temp_mean": 34.3,
+    "temp_gradient": 17.24
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-02-01T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7660213225926982,
+    "temp_mean": 5.6000000000000005,
+    "temp_gradient": 12.05
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-02-01T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.410003319499789,
+    "temp_mean": 4.5,
+    "temp_gradient": 11.4
+  },
+  {
+    "sn": "21002437",
+    "alias": "1300.30 El motor MV2 barkemaskin",
+    "timestamp": "2026-02-01T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.2320815719748428,
+    "temp_mean": 11.775,
+    "temp_gradient": 6.275
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-30T12:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 36.2,
+    "temp_gradient": 12.700000000000003
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-30T10:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.2637038418870143,
+    "temp_mean": 19.8,
+    "temp_gradient": 10.55
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-30T10:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4904018760159875,
+    "temp_mean": 21.433333333333334,
+    "temp_gradient": 11.333333333333334
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-01-30T10:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.9406426526582771,
+    "temp_mean": 19.76,
+    "temp_gradient": 10.226666666666668
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-30T10:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.3774505435767919,
+    "temp_mean": 25.5,
+    "temp_gradient": 12.35
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-01-30T10:05:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.29125504287479725,
+    "temp_mean": 19.975,
+    "temp_gradient": 11.425
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-30T10:05:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.20652663266513593,
+    "temp_mean": 19.275,
+    "temp_gradient": 10.974999999999998
+  },
+  {
+    "sn": "21001704",
+    "alias": "2260 Avtrekksvifte El motor stup Høyre",
+    "timestamp": "2026-01-30T08:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 7.5,
+    "temp_gradient": 10.55
+  },
+  {
+    "sn": "21003043",
+    "alias": "2270 Avtrekksvifte El motor stup venstre",
+    "timestamp": "2026-01-30T08:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.001414213562373095,
+    "temp_mean": 5.5,
+    "temp_gradient": 10.533333333333333
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-01-30T08:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.013,
+    "temp_mean": 7.6,
+    "temp_gradient": 10.6
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-29T21:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.688463700132954,
+    "temp_mean": 13.466666666666667,
+    "temp_gradient": 0.06666666666666643
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-01-29T16:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7907616581499132,
+    "temp_mean": 2.266666666666667,
+    "temp_gradient": 12.516666666666667
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-01-29T16:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.4520050978739825,
+    "temp_mean": 1.65,
+    "temp_gradient": 12.316666666666666
+  },
+  {
+    "sn": "21008084",
+    "alias": "2101 el motor cell leder over silo",
+    "timestamp": "2026-01-29T16:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.2552743622066266,
+    "temp_mean": -0.3,
+    "temp_gradient": 11.399999999999999
+  },
+  {
+    "sn": "21008295",
+    "alias": "2020 Sponskrue 2",
+    "timestamp": "2026-01-29T16:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.6668605551387786,
+    "temp_mean": 15.166666666666666,
+    "temp_gradient": 2.3666666666666654
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-01-29T15:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.5876125424120898,
+    "temp_mean": -10.6,
+    "temp_gradient": 0.3000000000000007
+  },
+  {
+    "sn": "21003043",
+    "alias": "2270 Avtrekksvifte El motor stup venstre",
+    "timestamp": "2026-01-28T21:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.002,
+    "temp_mean": 6.25,
+    "temp_gradient": 10.1
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-28T21:20:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 48.699999999999996,
+    "temp_gradient": 17.749999999999996
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-28T12:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 41.333333333333336,
+    "temp_gradient": 11.900000000000002
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-28T09:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0681175454637056,
+    "temp_mean": 23.75,
+    "temp_gradient": 11.3
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-01-28T09:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.35421697681882314,
+    "temp_mean": 22.633333333333336,
+    "temp_gradient": 11.133333333333336
+  },
+  {
+    "sn": "21008295",
+    "alias": "2020 Sponskrue 2",
+    "timestamp": "2026-01-28T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens+RCF)",
+    "vib_rms": 0.7205390343347124,
+    "temp_mean": 22.55,
+    "temp_gradient": 6.0000000000000036
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-01-28T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7980400992431396,
+    "temp_mean": 4.15,
+    "temp_gradient": 10.383333333333333
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-01-28T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.452585676383192,
+    "temp_mean": 3.65,
+    "temp_gradient": 10.416666666666666
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-01-28T06:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.004,
+    "temp_mean": 39.3,
+    "temp_gradient": 12.199999999999996
+  },
+  {
+    "sn": "21008084",
+    "alias": "2101 el motor cell leder over silo",
+    "timestamp": "2026-01-28T06:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.21828421839427606,
+    "temp_mean": 1.8,
+    "temp_gradient": 10.4
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-27T21:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 41.86666666666667,
+    "temp_gradient": 12.466666666666665
+  },
+  {
+    "sn": "21008276",
+    "alias": "2040 Sponskrue 3",
+    "timestamp": "2026-01-27T20:05:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 0.6219332761639307,
+    "temp_mean": 26.4,
+    "temp_gradient": 1.1666666666666643
+  },
+  {
+    "sn": "21008174",
+    "alias": "1750 P-700 el motor DE nedre høyre",
+    "timestamp": "2026-01-27T18:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 2.089075034554767,
+    "temp_mean": 18.2,
+    "temp_gradient": -2.25
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-27T14:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.9996780731815617,
+    "temp_mean": 50.900000000000006,
+    "temp_gradient": 11.650000000000006
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-01-27T12:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6571491459326414,
+    "temp_mean": 32.5,
+    "temp_gradient": 10.766666666666666
+  },
+  {
+    "sn": "21008155",
+    "alias": "1880 QSS-420 Spindel Ø.V NDE",
+    "timestamp": "2026-01-27T12:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.015485351937683,
+    "temp_mean": 32.0,
+    "temp_gradient": 11.25
+  },
+  {
+    "sn": "21009224",
+    "alias": "1880 QSS-420 Spindel N.V NDE",
+    "timestamp": "2026-01-27T12:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.3471432737463378,
+    "temp_mean": 36.36666666666667,
+    "temp_gradient": 15.291666666666668
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-27T12:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.517053369848694,
+    "temp_mean": 35.233333333333334,
+    "temp_gradient": 11.533333333333335
+  },
+  {
+    "sn": "21009390",
+    "alias": "1880 QSS-420 Spindel N.H NDE",
+    "timestamp": "2026-01-27T12:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.3835860411746477,
+    "temp_mean": 33.5,
+    "temp_gradient": 11.100000000000001
+  },
+  {
+    "sn": "21001788",
+    "alias": "1730 RL-600 spindel venstre side NDE",
+    "timestamp": "2026-01-26T16:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 3.320991749462802,
+    "temp_mean": 34.06,
+    "temp_gradient": 8.126666666666669
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-26T10:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.46703345704563826,
+    "temp_mean": 22.225,
+    "temp_gradient": 11.100000000000001
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-01-26T10:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.09200543462209175,
+    "temp_mean": 20.15,
+    "temp_gradient": 11.25
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-26T10:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.053391634800469136,
+    "temp_mean": 20.466666666666665,
+    "temp_gradient": 11.516666666666666
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-01-26T10:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5003678646755805,
+    "temp_mean": 20.2,
+    "temp_gradient": 11.633333333333331
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-26T10:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4090990100208017,
+    "temp_mean": 19.65,
+    "temp_gradient": 11.049999999999999
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-26T10:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.2309415908157464,
+    "temp_mean": 22.5,
+    "temp_gradient": 11.766666666666666
+  },
+  {
+    "sn": "21003043",
+    "alias": "2270 Avtrekksvifte El motor stup venstre",
+    "timestamp": "2026-01-26T08:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.831,
+    "temp_mean": -2.2,
+    "temp_gradient": 10.05
+  },
+  {
+    "sn": "21001704",
+    "alias": "2260 Avtrekksvifte El motor stup Høyre",
+    "timestamp": "2026-01-26T08:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.001414213562373095,
+    "temp_mean": 0.6499999999999999,
+    "temp_gradient": 10.750000000000002
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-26T08:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 29.950000000000003,
+    "temp_gradient": 11.683333333333337
+  },
+  {
+    "sn": "21008244",
+    "alias": "1780 el motor DE QSS-700 Ø.V",
+    "timestamp": "2026-01-26T08:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 31.7,
+    "temp_gradient": 11.399999999999999
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-26T08:35:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 48.0,
+    "temp_gradient": 18.8
+  },
+  {
+    "sn": "21001668",
+    "alias": "1830 RC-600 Spindel V.S NDE",
+    "timestamp": "2026-01-26T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.36005971726923297,
+    "temp_mean": 28.433333333333334,
+    "temp_gradient": 10.366666666666667
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-01-26T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.15990622251807465,
+    "temp_mean": 33.5,
+    "temp_gradient": 15.850000000000001
+  },
+  {
+    "sn": "21001944",
+    "alias": "1730 Spindel RL-600 NDE H.S",
+    "timestamp": "2026-01-26T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5772906546965748,
+    "temp_mean": 28.299999999999997,
+    "temp_gradient": 10.349999999999994
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-26T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.49941065266972434,
+    "temp_mean": 39.56666666666666,
+    "temp_gradient": 18.61666666666666
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-01-26T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.7394826817189069,
+    "temp_mean": 34.2,
+    "temp_gradient": 15.050000000000004
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-01-26T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6674169111832073,
+    "temp_mean": 33.96666666666667,
+    "temp_gradient": 14.666666666666671
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-01-26T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.28525251970841553,
+    "temp_mean": 5.699999999999999,
+    "temp_gradient": 10.25
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-26T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4348706704297267,
+    "temp_mean": 43.15,
+    "temp_gradient": 17.716666666666665
+  },
+  {
+    "sn": "21009390",
+    "alias": "1880 QSS-420 Spindel N.H NDE",
+    "timestamp": "2026-01-26T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.866,
+    "temp_mean": 38.7,
+    "temp_gradient": 15.600000000000005
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-01-26T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.454137730446276,
+    "temp_mean": -1.9500000000000002,
+    "temp_gradient": 10.2
+  },
+  {
+    "sn": "21009224",
+    "alias": "1880 QSS-420 Spindel N.V NDE",
+    "timestamp": "2026-01-26T08:25:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.5478547250953496,
+    "temp_mean": 45.225,
+    "temp_gradient": 24.275000000000002
+  },
+  {
+    "sn": "21008264",
+    "alias": "2080 el motor reimtrsp overgrovt",
+    "timestamp": "2026-01-26T08:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.6057642555758249,
+    "temp_mean": -6.666666666666667,
+    "temp_gradient": 10.283333333333335
+  },
+  {
+    "sn": "21008155",
+    "alias": "1880 QSS-420 Spindel Ø.V NDE",
+    "timestamp": "2026-01-26T08:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.4396013337031888,
+    "temp_mean": 38.0,
+    "temp_gradient": 23.43333333333333
+  },
+  {
+    "sn": "21009277",
+    "alias": "1880 QSS-420 Spindel N.V DE",
+    "timestamp": "2026-01-26T08:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.8462373899366247,
+    "temp_mean": 20.4,
+    "temp_gradient": 8.399999999999999
+  },
+  {
+    "sn": "21008084",
+    "alias": "2101 el motor cell leder over silo",
+    "timestamp": "2026-01-26T08:05:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.32986436606581193,
+    "temp_mean": -4.5,
+    "temp_gradient": 10.3
+  },
+  {
+    "sn": "21008299",
+    "alias": "2230 El motor ABAC Barkemaskin DE",
+    "timestamp": "2026-01-26T08:05:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.32346457817407664,
+    "temp_mean": 28.3,
+    "temp_gradient": 13.8
+  },
+  {
+    "sn": "21008303",
+    "alias": "2230 El motor ABAC SAG DE",
+    "timestamp": "2026-01-25T20:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.001632993161855452,
+    "temp_mean": 32.5,
+    "temp_gradient": 12.433333333333334
+  },
+  {
+    "sn": "21008303",
+    "alias": "2230 El motor ABAC SAG DE",
+    "timestamp": "2026-01-23T22:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 33.75,
+    "temp_gradient": 10.0
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-23T07:40:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.0281587426073857,
+    "temp_mean": 45.67999999999999,
+    "temp_gradient": 16.129999999999995
+  },
+  {
+    "sn": "21002292",
+    "alias": "1280 El motor Akk kjerrat 2 før barker",
+    "timestamp": "2026-01-23T07:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.34706435522344653,
+    "temp_mean": 29.333333333333332,
+    "temp_gradient": 11.299999999999997
+  },
+  {
+    "sn": "21001657",
+    "alias": "1300.10 Girkasse Nedre MV1 barkemaskin",
+    "timestamp": "2026-01-23T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5553089230329367,
+    "temp_mean": 30.049999999999997,
+    "temp_gradient": 10.41666666666666
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-23T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.029792373895502,
+    "temp_mean": 33.300000000000004,
+    "temp_gradient": 13.550000000000004
+  },
+  {
+    "sn": "21008299",
+    "alias": "2230 El motor ABAC Barkemaskin DE",
+    "timestamp": "2026-01-23T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.45828948275080456,
+    "temp_mean": 46.65,
+    "temp_gradient": 12.550000000000004
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-01-23T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.9185754187871565,
+    "temp_mean": 32.42,
+    "temp_gradient": 12.995000000000001
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-23T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.44865688448969554,
+    "temp_mean": 35.15,
+    "temp_gradient": 14.45
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-01-23T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.2471900416536368,
+    "temp_mean": 33.300000000000004,
+    "temp_gradient": 13.800000000000004
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-23T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.9535794670608213,
+    "temp_mean": 32.4,
+    "temp_gradient": 12.75
+  },
+  {
+    "sn": "21001668",
+    "alias": "1830 RC-600 Spindel V.S NDE",
+    "timestamp": "2026-01-23T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.531921750370655,
+    "temp_mean": 32.9,
+    "temp_gradient": 10.266666666666662
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-01-23T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.7235640253168274,
+    "temp_mean": 37.1,
+    "temp_gradient": 12.75
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-23T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7430060565029063,
+    "temp_mean": 43.150000000000006,
+    "temp_gradient": 13.01666666666667
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-23T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.8898775092582059,
+    "temp_mean": 44.95,
+    "temp_gradient": 15.650000000000002
+  },
+  {
+    "sn": "21009390",
+    "alias": "1880 QSS-420 Spindel N.H NDE",
+    "timestamp": "2026-01-23T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.6134016858798679,
+    "temp_mean": 41.1,
+    "temp_gradient": 13.350000000000001
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-23T00:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 45.800000000000004,
+    "temp_gradient": 12.700000000000003
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-23T00:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 63.05,
+    "temp_gradient": 14.81666666666667
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-22T23:55:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 63.3,
+    "temp_gradient": 15.149999999999991
+  },
+  {
+    "sn": "21001788",
+    "alias": "1730 RL-600 spindel venstre side NDE",
+    "timestamp": "2026-01-22T15:25:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 4.06514556934927,
+    "temp_mean": 34.849999999999994,
+    "temp_gradient": 5.249999999999993
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-22T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 40.73333333333333,
+    "temp_gradient": 12.63333333333333
+  },
+  {
+    "sn": "21001657",
+    "alias": "1300.10 Girkasse Nedre MV1 barkemaskin",
+    "timestamp": "2026-01-22T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.31422868530206893,
+    "temp_mean": 33.333333333333336,
+    "temp_gradient": 11.833333333333336
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-22T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.40588237212276174,
+    "temp_mean": 37.425,
+    "temp_gradient": 15.305
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-22T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.3730564445790274,
+    "temp_mean": 36.75,
+    "temp_gradient": 15.23
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-01-22T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.880977352335748,
+    "temp_mean": 37.46,
+    "temp_gradient": 14.46
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-22T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7461968015655566,
+    "temp_mean": 41.56666666666667,
+    "temp_gradient": 12.433333333333334
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-01-22T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 3.56796622741864,
+    "temp_mean": 42.266666666666666,
+    "temp_gradient": 10.133333333333333
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-01-22T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.6969155842292214,
+    "temp_mean": 46.599999999999994,
+    "temp_gradient": 13.999999999999993
+  },
+  {
+    "sn": "21008299",
+    "alias": "2230 El motor ABAC Barkemaskin DE",
+    "timestamp": "2026-01-22T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6484944101532409,
+    "temp_mean": 46.95,
+    "temp_gradient": 12.550000000000004
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-22T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.030454875144976,
+    "temp_mean": 44.93333333333334,
+    "temp_gradient": 17.066666666666674
+  },
+  {
+    "sn": "21009390",
+    "alias": "1880 QSS-420 Spindel N.H NDE",
+    "timestamp": "2026-01-22T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.1635573715526935,
+    "temp_mean": 39.4,
+    "temp_gradient": 13.399999999999999
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-01-22T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5938133825818792,
+    "temp_mean": 35.5,
+    "temp_gradient": 15.399999999999999
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-22T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.3962987088884679,
+    "temp_mean": 38.0,
+    "temp_gradient": 16.5
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-01-22T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.308349978662692,
+    "temp_mean": 36.699999999999996,
+    "temp_gradient": 16.574999999999996
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-22T07:15:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6929675317069335,
+    "temp_mean": 46.46666666666667,
+    "temp_gradient": 19.233333333333334
+  },
+  {
+    "sn": "21002292",
+    "alias": "1280 El motor Akk kjerrat 2 før barker",
+    "timestamp": "2026-01-22T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.26542418879974,
+    "temp_mean": 28.55,
+    "temp_gradient": 11.900000000000002
+  },
+  {
+    "sn": "21008244",
+    "alias": "1780 el motor DE QSS-700 Ø.V",
+    "timestamp": "2026-01-21T17:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6009414835628063,
+    "temp_mean": 38.733333333333334,
+    "temp_gradient": 10.099999999999998
+  },
+  {
+    "sn": "21002292",
+    "alias": "1280 El motor Akk kjerrat 2 før barker",
+    "timestamp": "2026-01-21T17:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.004301162633521313,
+    "temp_mean": 30.45,
+    "temp_gradient": 14.349999999999998
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-01-21T11:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4734335574643324,
+    "temp_mean": 31.266666666666666,
+    "temp_gradient": 11.433333333333334
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-21T11:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.050345473149695064,
+    "temp_mean": 31.733333333333334,
+    "temp_gradient": 11.866666666666667
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-21T11:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7029850638527109,
+    "temp_mean": 38.333333333333336,
+    "temp_gradient": 13.26666666666667
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-01-21T11:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.10208329931972222,
+    "temp_mean": 30.25,
+    "temp_gradient": 11.174999999999997
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-21T11:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.46836791094181507,
+    "temp_mean": 30.7,
+    "temp_gradient": 12.266666666666666
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-21T11:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.3217530108639234,
+    "temp_mean": 30.950000000000003,
+    "temp_gradient": 12.000000000000004
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-01-21T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.005686240703077327,
+    "temp_mean": 37.266666666666666,
+    "temp_gradient": 13.033333333333331
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-21T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.001632993161855452,
+    "temp_mean": 46.23333333333333,
+    "temp_gradient": 13.983333333333327
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-21T07:15:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 52.0,
+    "temp_gradient": 16.299999999999997
+  },
+  {
+    "sn": "21001944",
+    "alias": "1730 Spindel RL-600 NDE H.S",
+    "timestamp": "2026-01-21T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4699978723356096,
+    "temp_mean": 32.86,
+    "temp_gradient": 10.759999999999998
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-01-21T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5508361825443205,
+    "temp_mean": 45.15,
+    "temp_gradient": 13.083333333333329
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-21T07:10:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 46.333333333333336,
+    "temp_gradient": 17.666666666666668
+  },
+  {
+    "sn": "21009390",
+    "alias": "1880 QSS-420 Spindel N.H NDE",
+    "timestamp": "2026-01-21T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 41.4,
+    "temp_gradient": 15.333333333333332
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-21T00:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 45.36666666666667,
+    "temp_gradient": 11.19166666666667
+  },
+  {
+    "sn": "21002437",
+    "alias": "1300.30 El motor MV2 barkemaskin",
+    "timestamp": "2026-01-20T22:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 2.2402037109751127,
+    "temp_mean": 31.366666666666664,
+    "temp_gradient": -4.966666666666672
+  },
+  {
+    "sn": "21002511",
+    "alias": "1290 El motor inn mat transport barker",
+    "timestamp": "2026-01-20T18:35:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.7365459970873216,
+    "temp_mean": 26.35,
+    "temp_gradient": -6.083333333333329
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-20T08:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0034641016151377548,
+    "temp_mean": 40.36666666666667,
+    "temp_gradient": 12.399999999999999
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-20T08:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.09263098833543773,
+    "temp_mean": 55.75,
+    "temp_gradient": 11.299999999999997
+  },
+  {
+    "sn": "21008152",
+    "alias": "1880 QSS-420 Spindel Ø.H DE",
+    "timestamp": "2026-01-20T08:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 2.2308837262394476,
+    "temp_mean": 32.8,
+    "temp_gradient": 5.099999999999998
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-20T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8236708484987597,
+    "temp_mean": 34.13333333333333,
+    "temp_gradient": 10.108333333333334
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-01-20T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7089630925983853,
+    "temp_mean": 34.53333333333333,
+    "temp_gradient": 12.23333333333333
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-20T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4301612100906667,
+    "temp_mean": 35.96666666666666,
+    "temp_gradient": 11.316666666666663
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-01-20T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.358772828695069,
+    "temp_mean": 34.26,
+    "temp_gradient": 10.709999999999997
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-20T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.683375280005422,
+    "temp_mean": 34.93333333333333,
+    "temp_gradient": 12.333333333333332
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-20T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7953739162599353,
+    "temp_mean": 41.5,
+    "temp_gradient": 11.524999999999999
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-20T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.271044766915292,
+    "temp_mean": 39.93333333333333,
+    "temp_gradient": 10.983333333333327
+  },
+  {
+    "sn": "21001564",
+    "alias": "1730 El motor RL-600 H.S NDE",
+    "timestamp": "2026-01-20T00:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0036055512754639895,
+    "temp_mean": 43.5,
+    "temp_gradient": 11.049999999999997
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-19T12:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 44.833333333333336,
+    "temp_gradient": 12.783333333333339
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-01-19T11:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.06012764200709465,
+    "temp_mean": 36.733333333333334,
+    "temp_gradient": 11.833333333333336
+  },
+  {
+    "sn": "21002292",
+    "alias": "1280 El motor Akk kjerrat 2 før barker",
+    "timestamp": "2026-01-19T11:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.19817668884104409,
+    "temp_mean": 31.0,
+    "temp_gradient": 10.7
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-19T11:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.16376812876747418,
+    "temp_mean": 38.7,
+    "temp_gradient": 13.025000000000002
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-19T11:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6501778602813233,
+    "temp_mean": 35.474999999999994,
+    "temp_gradient": 11.274999999999995
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-19T11:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6600062499704075,
+    "temp_mean": 34.55,
+    "temp_gradient": 11.349999999999998
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-01-19T11:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7302754617266007,
+    "temp_mean": 34.15,
+    "temp_gradient": 10.649999999999999
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-19T11:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.312557194766014,
+    "temp_mean": 39.65,
+    "temp_gradient": 12.516666666666662
+  },
+  {
+    "sn": "21001668",
+    "alias": "1830 RC-600 Spindel V.S NDE",
+    "timestamp": "2026-01-19T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.0889556923952417,
+    "temp_mean": 31.75,
+    "temp_gradient": 12.600000000000001
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-01-19T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8151543821060319,
+    "temp_mean": 32.800000000000004,
+    "temp_gradient": 13.133333333333336
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-19T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.9045142342716338,
+    "temp_mean": 40.699999999999996,
+    "temp_gradient": 15.799999999999994
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-01-19T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 3.90963335876908,
+    "temp_mean": 36.1,
+    "temp_gradient": 12.850000000000001
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-01-19T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.4075853437713821,
+    "temp_mean": 36.75,
+    "temp_gradient": 13.75
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-01-19T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.33669174824063236,
+    "temp_mean": 18.333333333333332,
+    "temp_gradient": 11.233333333333333
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-19T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8567654288076754,
+    "temp_mean": 43.13333333333333,
+    "temp_gradient": 13.533333333333331
+  },
+  {
+    "sn": "21001944",
+    "alias": "1730 Spindel RL-600 NDE H.S",
+    "timestamp": "2026-01-19T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.1480754176704315,
+    "temp_mean": 32.35,
+    "temp_gradient": 13.55
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-19T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.7330464506181016,
+    "temp_mean": 34.666666666666664,
+    "temp_gradient": 11.416666666666664
+  },
+  {
+    "sn": "21009390",
+    "alias": "1880 QSS-420 Spindel N.H NDE",
+    "timestamp": "2026-01-19T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.4974812185800528,
+    "temp_mean": 33.13333333333333,
+    "temp_gradient": 10.383333333333333
+  },
+  {
+    "sn": "21008244",
+    "alias": "1780 el motor DE QSS-700 Ø.V",
+    "timestamp": "2026-01-18T14:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 40.75,
+    "temp_gradient": 10.600000000000001
+  },
+  {
+    "sn": "21008121",
+    "alias": "2090 el motor sagflisleder til silo",
+    "timestamp": "2026-01-18T13:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 0.41348397792417546,
+    "temp_mean": 14.5,
+    "temp_gradient": -0.3000000000000007
+  },
+  {
+    "sn": "21009277",
+    "alias": "1880 QSS-420 Spindel N.V DE",
+    "timestamp": "2026-01-18T13:10:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 4.925012994906714,
+    "temp_mean": 31.8,
+    "temp_gradient": -4.199999999999999
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-18T11:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 43.06666666666666,
+    "temp_gradient": 12.299999999999997
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-18T10:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.090610150328705,
+    "temp_mean": 51.349999999999994,
+    "temp_gradient": 10.449999999999996
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-18T08:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7384148562969194,
+    "temp_mean": 33.35,
+    "temp_gradient": 10.225000000000001
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-01-18T08:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.672902110265676,
+    "temp_mean": 33.875,
+    "temp_gradient": 10.308333333333334
+  },
+  {
+    "sn": "21009224",
+    "alias": "1880 QSS-420 Spindel N.V NDE",
+    "timestamp": "2026-01-18T08:00:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.742892997289277,
+    "temp_mean": 49.525,
+    "temp_gradient": 15.425000000000004
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-18T07:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.25771819234711907,
+    "temp_mean": 26.433333333333334,
+    "temp_gradient": 11.233333333333334
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-01-18T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 3.0928719339798083,
+    "temp_mean": 29.419999999999998,
+    "temp_gradient": 11.286666666666665
+  },
+  {
+    "sn": "21002378",
+    "alias": "1300.20 El motor RE rotor NDE",
+    "timestamp": "2026-01-18T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 2.2298506676457057,
+    "temp_mean": 15.5,
+    "temp_gradient": 3.4000000000000004
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-18T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.3097076009552666,
+    "temp_mean": 35.1,
+    "temp_gradient": 13.950000000000003
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-01-18T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.6793470286620207,
+    "temp_mean": 31.6,
+    "temp_gradient": 11.833333333333336
+  },
+  {
+    "sn": "21008155",
+    "alias": "1880 QSS-420 Spindel Ø.V NDE",
+    "timestamp": "2026-01-18T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.0488817855220862,
+    "temp_mean": 34.900000000000006,
+    "temp_gradient": 12.750000000000007
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-01-18T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.6566528000761052,
+    "temp_mean": 31.1,
+    "temp_gradient": 11.340000000000003
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-01-18T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.331576034517977,
+    "temp_mean": 14.633333333333333,
+    "temp_gradient": 10.933333333333334
+  },
+  {
+    "sn": "21008299",
+    "alias": "2230 El motor ABAC Barkemaskin DE",
+    "timestamp": "2026-01-18T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5536280339722692,
+    "temp_mean": 42.300000000000004,
+    "temp_gradient": 13.175000000000004
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-18T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.7772635332630518,
+    "temp_mean": 35.300000000000004,
+    "temp_gradient": 11.93333333333334
+  },
+  {
+    "sn": "21009390",
+    "alias": "1880 QSS-420 Spindel N.H NDE",
+    "timestamp": "2026-01-18T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.0635688745472005,
+    "temp_mean": 33.400000000000006,
+    "temp_gradient": 10.466666666666672
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-18T07:00:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 46.03333333333334,
+    "temp_gradient": 31.13333333333334
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-16T08:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 41.13333333333333,
+    "temp_gradient": 12.466666666666665
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-16T08:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.045916591046519704,
+    "temp_mean": 34.86666666666667,
+    "temp_gradient": 10.446666666666669
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-16T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.05443956894269706,
+    "temp_mean": 33.46666666666667,
+    "temp_gradient": 10.133333333333336
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-16T08:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.3782803193400365,
+    "temp_mean": 34.800000000000004,
+    "temp_gradient": 11.250000000000004
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-01-16T08:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.652290834929737,
+    "temp_mean": 33.5,
+    "temp_gradient": 10.8
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-16T07:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.051858782605585074,
+    "temp_mean": 34.833333333333336,
+    "temp_gradient": 10.500000000000004
+  },
+  {
+    "sn": "21008155",
+    "alias": "1880 QSS-420 Spindel Ø.V NDE",
+    "timestamp": "2026-01-16T07:30:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.107532693272152,
+    "temp_mean": 45.13333333333333,
+    "temp_gradient": 16.366666666666667
+  },
+  {
+    "sn": "21009224",
+    "alias": "1880 QSS-420 Spindel N.V NDE",
+    "timestamp": "2026-01-16T07:30:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.591011313598995,
+    "temp_mean": 45.35,
+    "temp_gradient": 16.183333333333334
+  },
+  {
+    "sn": "21002039",
+    "alias": "1880 QSS-420 el motor V.S øvre DE",
+    "timestamp": "2026-01-16T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 6.641352522892708,
+    "temp_mean": 37.699999999999996,
+    "temp_gradient": 10.449999999999996
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-16T07:20:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6003378215638258,
+    "temp_mean": 46.025,
+    "temp_gradient": 17.924999999999997
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-01-16T07:20:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.002,
+    "temp_mean": 45.7,
+    "temp_gradient": 15.075000000000003
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-16T07:20:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.24595121467478057,
+    "temp_mean": 51.300000000000004,
+    "temp_gradient": 21.700000000000003
+  },
+  {
+    "sn": "21001668",
+    "alias": "1830 RC-600 Spindel V.S NDE",
+    "timestamp": "2026-01-16T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8503985340219413,
+    "temp_mean": 31.166666666666668,
+    "temp_gradient": 11.26666666666667
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-01-16T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 3.1304109953806383,
+    "temp_mean": 34.46666666666666,
+    "temp_gradient": 12.86666666666666
+  },
+  {
+    "sn": "21001944",
+    "alias": "1730 Spindel RL-600 NDE H.S",
+    "timestamp": "2026-01-16T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.8609078395968415,
+    "temp_mean": 32.199999999999996,
+    "temp_gradient": 11.099999999999994
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-01-16T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.6002427940784485,
+    "temp_mean": 42.333333333333336,
+    "temp_gradient": 12.833333333333336
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-16T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.761223249146267,
+    "temp_mean": 41.5,
+    "temp_gradient": 19.75
+  },
+  {
+    "sn": "21009390",
+    "alias": "1880 QSS-420 Spindel N.H NDE",
+    "timestamp": "2026-01-16T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.188454820187065,
+    "temp_mean": 38.4,
+    "temp_gradient": 18.7
+  },
+  {
+    "sn": "30012319",
+    "alias": "1300.10 El motor MV1 Barkemaskin",
+    "timestamp": "2026-01-15T20:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 0.8208783913183081,
+    "temp_mean": 27.933333333333334,
+    "temp_gradient": -1.1916666666666664
+  },
+  {
+    "sn": "21008121",
+    "alias": "2090 el motor sagflisleder til silo",
+    "timestamp": "2026-01-15T15:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 0.41864662903217076,
+    "temp_mean": 13.350000000000001,
+    "temp_gradient": -0.5499999999999989
+  },
+  {
+    "sn": "21002166",
+    "alias": "1830 RC-600 El motor V.S NDE",
+    "timestamp": "2026-01-15T12:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0007071067811865475,
+    "temp_mean": 37.3,
+    "temp_gradient": 10.819999999999997
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-15T12:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 44.23333333333333,
+    "temp_gradient": 12.066666666666663
+  },
+  {
+    "sn": "21009277",
+    "alias": "1880 QSS-420 Spindel N.V DE",
+    "timestamp": "2026-01-15T07:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 2.3205225704569217,
+    "temp_mean": 31.200000000000003,
+    "temp_gradient": 6.740000000000002
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-15T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.35948157115490637,
+    "temp_mean": 31.333333333333332,
+    "temp_gradient": 10.23333333333333
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-15T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5778511919170887,
+    "temp_mean": 35.96,
+    "temp_gradient": 11.510000000000002
+  },
+  {
+    "sn": "21008118",
+    "alias": "1880 QSS-420 Spindel Ø.V DE",
+    "timestamp": "2026-01-15T07:05:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens+RCF)",
+    "vib_rms": 1.2582959376341747,
+    "temp_mean": 31.53333333333333,
+    "temp_gradient": 7.493333333333332
+  },
+  {
+    "sn": "21008155",
+    "alias": "1880 QSS-420 Spindel Ø.V NDE",
+    "timestamp": "2026-01-15T07:05:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.0911913978155559,
+    "temp_mean": 46.43333333333334,
+    "temp_gradient": 24.28333333333334
+  },
+  {
+    "sn": "21002039",
+    "alias": "1880 QSS-420 el motor V.S øvre DE",
+    "timestamp": "2026-01-15T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 6.336978486103084,
+    "temp_mean": 36.53333333333333,
+    "temp_gradient": 10.908333333333331
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-15T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.6701124712625395,
+    "temp_mean": 40.666666666666664,
+    "temp_gradient": 20.941666666666663
+  },
+  {
+    "sn": "21001668",
+    "alias": "1830 RC-600 Spindel V.S NDE",
+    "timestamp": "2026-01-15T06:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.844736941301847,
+    "temp_mean": 31.85,
+    "temp_gradient": 10.783333333333335
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-01-15T06:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7622624220043909,
+    "temp_mean": 36.599999999999994,
+    "temp_gradient": 13.849999999999994
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-15T06:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.004,
+    "temp_mean": 42.650000000000006,
+    "temp_gradient": 14.08333333333334
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-15T06:55:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 49.05,
+    "temp_gradient": 15.516666666666666
+  },
+  {
+    "sn": "21009390",
+    "alias": "1880 QSS-420 Spindel N.H NDE",
+    "timestamp": "2026-01-15T06:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.1565900310827515,
+    "temp_mean": 36.05,
+    "temp_gradient": 11.049999999999997
+  },
+  {
+    "sn": "21009224",
+    "alias": "1880 QSS-420 Spindel N.V NDE",
+    "timestamp": "2026-01-15T06:50:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.6363827870777796,
+    "temp_mean": 45.06,
+    "temp_gradient": 19.610000000000003
+  },
+  {
+    "sn": "21001564",
+    "alias": "1730 El motor RL-600 H.S NDE",
+    "timestamp": "2026-01-15T00:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0007071067811865475,
+    "temp_mean": 45.4,
+    "temp_gradient": 10.899999999999999
+  },
+  {
+    "sn": "21008121",
+    "alias": "2090 el motor sagflisleder til silo",
+    "timestamp": "2026-01-14T20:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 0.3797104159751218,
+    "temp_mean": 12.9,
+    "temp_gradient": -1.549999999999999
+  },
+  {
+    "sn": "21008244",
+    "alias": "1780 el motor DE QSS-700 Ø.V",
+    "timestamp": "2026-01-14T08:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 38.5,
+    "temp_gradient": 10.666666666666668
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-14T08:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 37.13333333333333,
+    "temp_gradient": 12.399999999999999
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-14T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 54.76666666666667,
+    "temp_gradient": 12.916666666666679
+  },
+  {
+    "sn": "21001657",
+    "alias": "1300.10 Girkasse Nedre MV1 barkemaskin",
+    "timestamp": "2026-01-14T08:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.608309542913803,
+    "temp_mean": 28.175,
+    "temp_gradient": 11.408333333333335
+  },
+  {
+    "sn": "21002292",
+    "alias": "1280 El motor Akk kjerrat 2 før barker",
+    "timestamp": "2026-01-14T08:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.13186988536685193,
+    "temp_mean": 24.46666666666667,
+    "temp_gradient": 11.26666666666667
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-14T08:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.3474140181397406,
+    "temp_mean": 31.0,
+    "temp_gradient": 14.850000000000001
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-01-14T08:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.36566104523178294,
+    "temp_mean": 29.366666666666664,
+    "temp_gradient": 13.016666666666662
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-01-14T08:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.14214253409869967,
+    "temp_mean": 31.25,
+    "temp_gradient": 15.549999999999999
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-14T08:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4421159350215733,
+    "temp_mean": 30.7,
+    "temp_gradient": 14.260000000000002
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-14T08:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.15615590500095303,
+    "temp_mean": 37.96666666666667,
+    "temp_gradient": 18.616666666666667
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-14T08:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7419342962823595,
+    "temp_mean": 29.8,
+    "temp_gradient": 14.0
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-01-14T07:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5675508787765199,
+    "temp_mean": 33.599999999999994,
+    "temp_gradient": 12.999999999999993
+  },
+  {
+    "sn": "21001944",
+    "alias": "1730 Spindel RL-600 NDE H.S",
+    "timestamp": "2026-01-14T07:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.5024887612135247,
+    "temp_mean": 29.366666666666664,
+    "temp_gradient": 10.166666666666664
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-14T07:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7368930270624993,
+    "temp_mean": 41.300000000000004,
+    "temp_gradient": 14.100000000000005
+  },
+  {
+    "sn": "21008155",
+    "alias": "1880 QSS-420 Spindel Ø.V NDE",
+    "timestamp": "2026-01-14T07:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.4291410007413543,
+    "temp_mean": 36.13333333333333,
+    "temp_gradient": 11.883333333333333
+  },
+  {
+    "sn": "21009224",
+    "alias": "1880 QSS-420 Spindel N.V NDE",
+    "timestamp": "2026-01-14T07:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.0964861077526846,
+    "temp_mean": 36.075,
+    "temp_gradient": 12.125000000000004
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-14T07:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.6516835350635422,
+    "temp_mean": 35.849999999999994,
+    "temp_gradient": 11.449999999999996
+  },
+  {
+    "sn": "21009390",
+    "alias": "1880 QSS-420 Spindel N.H NDE",
+    "timestamp": "2026-01-14T07:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.8315482219685633,
+    "temp_mean": 35.166666666666664,
+    "temp_gradient": 10.316666666666663
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-01-14T07:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.314984126584182,
+    "temp_mean": 18.400000000000002,
+    "temp_gradient": 11.250000000000002
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-13T08:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 42.95,
+    "temp_gradient": 11.550000000000004
+  },
+  {
+    "sn": "21001657",
+    "alias": "1300.10 Girkasse Nedre MV1 barkemaskin",
+    "timestamp": "2026-01-13T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4326264747639315,
+    "temp_mean": 22.633333333333336,
+    "temp_gradient": 11.933333333333337
+  },
+  {
+    "sn": "21002292",
+    "alias": "1280 El motor Akk kjerrat 2 før barker",
+    "timestamp": "2026-01-13T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.34320984834354623,
+    "temp_mean": 17.85,
+    "temp_gradient": 10.000000000000002
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-13T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6330513407299599,
+    "temp_mean": 24.366666666666664,
+    "temp_gradient": 15.191666666666663
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-01-13T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4757047403589752,
+    "temp_mean": 23.775,
+    "temp_gradient": 14.5
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-13T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.32533162567857843,
+    "temp_mean": 25.8,
+    "temp_gradient": 16.06666666666667
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-01-13T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.9645053136193704,
+    "temp_mean": 24.65,
+    "temp_gradient": 15.583333333333332
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-13T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.750746295362155,
+    "temp_mean": 24.7,
+    "temp_gradient": 15.125
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-13T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.39738457443640157,
+    "temp_mean": 32.35,
+    "temp_gradient": 17.55
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-01-13T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 3.6986332610844235,
+    "temp_mean": 34.6,
+    "temp_gradient": 12.625
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-13T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.9945235039957578,
+    "temp_mean": 41.0,
+    "temp_gradient": 12.100000000000001
+  },
+  {
+    "sn": "21008155",
+    "alias": "1880 QSS-420 Spindel Ø.V NDE",
+    "timestamp": "2026-01-13T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.9119901315255554,
+    "temp_mean": 37.6,
+    "temp_gradient": 11.26666666666667
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-13T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8185303903948833,
+    "temp_mean": 43.25,
+    "temp_gradient": 10.016666666666666
+  },
+  {
+    "sn": "21008299",
+    "alias": "2230 El motor ABAC Barkemaskin DE",
+    "timestamp": "2026-01-13T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4718776324429883,
+    "temp_mean": 43.95,
+    "temp_gradient": 14.08333333333334
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-13T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.9676563046765392,
+    "temp_mean": 37.03333333333333,
+    "temp_gradient": 10.133333333333333
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-01-13T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7867689199080842,
+    "temp_mean": 6.7,
+    "temp_gradient": 10.7
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-01-13T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.449013066522921,
+    "temp_mean": 6.75,
+    "temp_gradient": 10.116666666666667
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-12T13:55:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7103168307171103,
+    "temp_mean": 45.56666666666666,
+    "temp_gradient": 15.266666666666662
+  },
+  {
+    "sn": "21001657",
+    "alias": "1300.10 Girkasse Nedre MV1 barkemaskin",
+    "timestamp": "2026-01-12T10:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.3982456528325199,
+    "temp_mean": 11.28,
+    "temp_gradient": 11.446666666666665
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-12T10:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.35865071216063876,
+    "temp_mean": 12.233333333333334,
+    "temp_gradient": 12.433333333333334
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-01-12T10:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.3777269737080828,
+    "temp_mean": 11.733333333333334,
+    "temp_gradient": 12.8
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-01-12T10:05:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5388033036275854,
+    "temp_mean": 11.6,
+    "temp_gradient": 13.95
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-12T10:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.47658997051973306,
+    "temp_mean": 25.575,
+    "temp_gradient": 11.975
+  },
+  {
+    "sn": "21008244",
+    "alias": "1780 el motor DE QSS-700 Ø.V",
+    "timestamp": "2026-01-12T10:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.007071067811865475,
+    "temp_mean": 27.950000000000003,
+    "temp_gradient": 12.783333333333337
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-12T10:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.07,
+    "temp_mean": 11.2,
+    "temp_gradient": 13.899999999999999
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-12T10:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.04403029260255565,
+    "temp_mean": 11.9,
+    "temp_gradient": 15.100000000000001
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-12T10:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.06136231199468721,
+    "temp_mean": 17.866666666666664,
+    "temp_gradient": 17.066666666666663
+  },
+  {
+    "sn": "21001668",
+    "alias": "1830 RC-600 Spindel V.S NDE",
+    "timestamp": "2026-01-12T09:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.9428812226362342,
+    "temp_mean": 25.3,
+    "temp_gradient": 12.4
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-01-12T09:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0011547005383792514,
+    "temp_mean": 26.766666666666666,
+    "temp_gradient": 11.916666666666666
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-12T09:55:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 46.800000000000004,
+    "temp_gradient": 21.53333333333334
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-01-12T09:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7059596305738736,
+    "temp_mean": 26.233333333333334,
+    "temp_gradient": 15.633333333333335
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-01-12T09:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.004,
+    "temp_mean": 28.733333333333334,
+    "temp_gradient": 15.800000000000002
+  },
+  {
+    "sn": "21008155",
+    "alias": "1880 QSS-420 Spindel Ø.V NDE",
+    "timestamp": "2026-01-12T09:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.9340262308950429,
+    "temp_mean": 28.1,
+    "temp_gradient": 14.75
+  },
+  {
+    "sn": "21009224",
+    "alias": "1880 QSS-420 Spindel N.V NDE",
+    "timestamp": "2026-01-12T09:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.3768160734099526,
+    "temp_mean": 28.85,
+    "temp_gradient": 14.0
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-12T09:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.0355764949189865,
+    "temp_mean": 32.1,
+    "temp_gradient": 16.200000000000003
+  },
+  {
+    "sn": "21003212",
+    "alias": "1880 QSS-420 el motor H.S nedre NDE",
+    "timestamp": "2026-01-12T09:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 4.294636228289113,
+    "temp_mean": 12.4,
+    "temp_gradient": 4.299999999999999
+  },
+  {
+    "sn": "21008152",
+    "alias": "1880 QSS-420 Spindel Ø.H DE",
+    "timestamp": "2026-01-12T09:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.4652319497836055,
+    "temp_mean": 15.9,
+    "temp_gradient": 7.25
+  },
+  {
+    "sn": "21008258",
+    "alias": "1750 P-700L el motor DE vertikal venstre",
+    "timestamp": "2026-01-12T09:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.7873645915330458,
+    "temp_mean": 19.599999999999998,
+    "temp_gradient": 8.724999999999998
+  },
+  {
+    "sn": "21001944",
+    "alias": "1730 Spindel RL-600 NDE H.S",
+    "timestamp": "2026-01-12T09:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 3.6397201128658234,
+    "temp_mean": 21.1,
+    "temp_gradient": 12.500000000000002
+  },
+  {
+    "sn": "21002189",
+    "alias": "1300.40 El motor barkemaskin rotor DE",
+    "timestamp": "2026-01-12T09:35:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.151601710662154,
+    "temp_mean": 4.6,
+    "temp_gradient": 7.6
+  },
+  {
+    "sn": "21008304",
+    "alias": "1880 QSS-420 Spindel N.H DE",
+    "timestamp": "2026-01-12T09:35:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 2.1754516006261015,
+    "temp_mean": 14.133333333333333,
+    "temp_gradient": 8.333333333333332
+  },
+  {
+    "sn": "21008085",
+    "alias": "1840 el motor P700C H.S DE",
+    "timestamp": "2026-01-12T09:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.5600437482911491,
+    "temp_mean": 18.700000000000003,
+    "temp_gradient": 8.300000000000002
+  },
+  {
+    "sn": "21008148",
+    "alias": "1840 el motor P700C V.S NDE",
+    "timestamp": "2026-01-12T09:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.5542499436174984,
+    "temp_mean": 16.1,
+    "temp_gradient": 5.200000000000001
+  },
+  {
+    "sn": "21008166",
+    "alias": "1750 P-700 el motor DE øvre venstre",
+    "timestamp": "2026-01-12T09:30:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.8312379322432296,
+    "temp_mean": 14.6,
+    "temp_gradient": 5.5
+  },
+  {
+    "sn": "21008260",
+    "alias": "1840 el motor P700C H.S NDE",
+    "timestamp": "2026-01-12T09:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.8957415922016796,
+    "temp_mean": 16.325,
+    "temp_gradient": 5.125
+  },
+  {
+    "sn": "21001916",
+    "alias": "1880 QSS-420 el motor H.S øvre DE",
+    "timestamp": "2026-01-12T09:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 6.995714140338593,
+    "temp_mean": 20.2,
+    "temp_gradient": 9.500000000000002
+  },
+  {
+    "sn": "21002210",
+    "alias": "1830 RC-600 Spindel H.S DE",
+    "timestamp": "2026-01-12T09:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 3.316665305694863,
+    "temp_mean": 16.3,
+    "temp_gradient": 7.600000000000001
+  },
+  {
+    "sn": "21001530",
+    "alias": "1880 QSS-420 el motor V.S øvre NDE",
+    "timestamp": "2026-01-12T09:25:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 6.319302216226093,
+    "temp_mean": 15.6,
+    "temp_gradient": 5.1
+  },
+  {
+    "sn": "21001694",
+    "alias": "1300.50 El motor MV3 barkemaskin",
+    "timestamp": "2026-01-12T09:25:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 2.663685886135976,
+    "temp_mean": 4.4,
+    "temp_gradient": -1.0
+  },
+  {
+    "sn": "21008095",
+    "alias": "1750 P-700L el motor DE vertikal høyre",
+    "timestamp": "2026-01-12T09:25:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.1010921850599067,
+    "temp_mean": 18.700000000000003,
+    "temp_gradient": 8.400000000000002
+  },
+  {
+    "sn": "21008174",
+    "alias": "1750 P-700 el motor DE nedre høyre",
+    "timestamp": "2026-01-12T09:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.4780298107858965,
+    "temp_mean": 12.4,
+    "temp_gradient": 4.0
+  },
+  {
+    "sn": "21008276",
+    "alias": "2040 Sponskrue 3",
+    "timestamp": "2026-01-12T09:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.36623080154459975,
+    "temp_mean": 19.65,
+    "temp_gradient": 11.249999999999998
+  },
+  {
+    "sn": "21008309",
+    "alias": "1750 P-700 el motor DE øvre høyre",
+    "timestamp": "2026-01-12T09:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.0865035664920755,
+    "temp_mean": 14.850000000000001,
+    "temp_gradient": 5.750000000000002
+  },
+  {
+    "sn": "21002039",
+    "alias": "1880 QSS-420 el motor V.S øvre DE",
+    "timestamp": "2026-01-12T09:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 6.9506433515179005,
+    "temp_mean": 21.25,
+    "temp_gradient": 11.15
+  },
+  {
+    "sn": "21002314",
+    "alias": "1880 QSS-420 el motor V.S nedre NDE",
+    "timestamp": "2026-01-12T09:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.5767125609951864,
+    "temp_mean": 11.55,
+    "temp_gradient": 3.5
+  },
+  {
+    "sn": "21008185",
+    "alias": "1750 P-700 el motor DE nedre venstre",
+    "timestamp": "2026-01-12T09:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.0907213209615003,
+    "temp_mean": 12.7,
+    "temp_gradient": 4.299999999999999
+  },
+  {
+    "sn": "21009390",
+    "alias": "1880 QSS-420 Spindel N.H NDE",
+    "timestamp": "2026-01-12T09:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 2.832252142730234,
+    "temp_mean": 26.360000000000003,
+    "temp_gradient": 20.560000000000002
+  },
+  {
+    "sn": "21002378",
+    "alias": "1300.20 El motor RE rotor NDE",
+    "timestamp": "2026-01-12T09:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 2.0045140308813005,
+    "temp_mean": -0.9,
+    "temp_gradient": 1.9
+  },
+  {
+    "sn": "21002942",
+    "alias": "1880 QSS-420 el motor H.S nedre DE",
+    "timestamp": "2026-01-12T09:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 6.036365186655515,
+    "temp_mean": 14.966666666666667,
+    "temp_gradient": 7.366666666666667
+  },
+  {
+    "sn": "21008302",
+    "alias": "1840 el motor P700C V.S DE",
+    "timestamp": "2026-01-12T09:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.663730743600144,
+    "temp_mean": 15.7,
+    "temp_gradient": 5.399999999999999
+  },
+  {
+    "sn": "21002488",
+    "alias": "1880 QSS-420 el motor V.S nedre DE",
+    "timestamp": "2026-01-12T09:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 2.8860692992372865,
+    "temp_mean": 16.75,
+    "temp_gradient": 8.75
+  },
+  {
+    "sn": "21008117",
+    "alias": "1080 El motor kjerrat fra detektor",
+    "timestamp": "2026-01-12T09:00:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.7842703615463229,
+    "temp_mean": -18.080000000000002,
+    "temp_gradient": 2.419999999999998
+  },
+  {
+    "sn": "21002446",
+    "alias": "1300.20 El motor RE rotor DE",
+    "timestamp": "2026-01-12T08:55:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 1.9316420475854217,
+    "temp_mean": -2.233333333333333,
+    "temp_gradient": 0.5666666666666669
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-01-12T08:30:00",
+    "type": "🔴 KRITISK ALARM",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.7879321036739142,
+    "temp_mean": -11.66,
+    "temp_gradient": 7.539999999999999
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-01-12T06:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7753356262505505,
+    "temp_mean": -4.3999999999999995,
+    "temp_gradient": 14.05
+  },
+  {
+    "sn": "21008121",
+    "alias": "2090 el motor sagflisleder til silo",
+    "timestamp": "2026-01-12T06:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": -2.75,
+    "temp_gradient": 11.05
+  },
+  {
+    "sn": "21008084",
+    "alias": "2101 el motor cell leder over silo",
+    "timestamp": "2026-01-12T06:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.15192103211866353,
+    "temp_mean": -7.1,
+    "temp_gradient": 10.066666666666668
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-01-12T06:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 2.4270100947462083,
+    "temp_mean": -10.4,
+    "temp_gradient": 12.9
+  },
+  {
+    "sn": "21008299",
+    "alias": "2230 El motor ABAC Barkemaskin DE",
+    "timestamp": "2026-01-12T06:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.6941649659843112,
+    "temp_mean": 8.05,
+    "temp_gradient": 1.6500000000000004
+  },
+  {
+    "sn": "21008264",
+    "alias": "2080 el motor reimtrsp overgrovt",
+    "timestamp": "2026-01-12T06:05:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.806,
+    "temp_mean": -11.899999999999999,
+    "temp_gradient": 6.466666666666669
+  },
+  {
+    "sn": "21008303",
+    "alias": "2230 El motor ABAC SAG DE",
+    "timestamp": "2026-01-09T13:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 3.4851530525932426,
+    "temp_mean": 34.72,
+    "temp_gradient": 13.919999999999998
+  },
+  {
+    "sn": "21008159",
+    "alias": "2100 el motor cell leder til silo",
+    "timestamp": "2026-01-08T11:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 0.41671253080910986,
+    "temp_mean": 4.4,
+    "temp_gradient": 0.5000000000000004
+  },
+  {
+    "sn": "21008121",
+    "alias": "2090 el motor sagflisleder til silo",
+    "timestamp": "2026-01-08T11:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 0.3948398409482001,
+    "temp_mean": 11.4,
+    "temp_gradient": 0.20000000000000107
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-08T08:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 36.9,
+    "temp_gradient": 11.033333333333335
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-08T08:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.06007495318350236,
+    "temp_mean": 31.299999999999997,
+    "temp_gradient": 11.749999999999996
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-08T08:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0721295131459146,
+    "temp_mean": 32.86666666666667,
+    "temp_gradient": 12.216666666666669
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-08T08:35:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.041575233011974806,
+    "temp_mean": 34.45,
+    "temp_gradient": 14.350000000000001
+  },
+  {
+    "sn": "21001657",
+    "alias": "1300.10 Girkasse Nedre MV1 barkemaskin",
+    "timestamp": "2026-01-08T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.05668039049500865,
+    "temp_mean": 28.666666666666668,
+    "temp_gradient": 11.06666666666667
+  },
+  {
+    "sn": "21002292",
+    "alias": "1280 El motor Akk kjerrat 2 før barker",
+    "timestamp": "2026-01-08T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.003415650255319866,
+    "temp_mean": 23.8,
+    "temp_gradient": 10.2
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-01-08T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.04202380277890139,
+    "temp_mean": 32.4,
+    "temp_gradient": 14.125
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-08T08:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.050675437837279715,
+    "temp_mean": 38.6,
+    "temp_gradient": 14.150000000000002
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-01-08T08:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.48681515999401664,
+    "temp_mean": 29.1,
+    "temp_gradient": 11.5
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-01-08T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.32051677023207387,
+    "temp_mean": 17.900000000000002,
+    "temp_gradient": 10.800000000000002
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-01-08T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.811342508849787,
+    "temp_mean": 9.6,
+    "temp_gradient": 11.149999999999999
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-01-08T07:10:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.482636434653022,
+    "temp_mean": 8.733333333333333,
+    "temp_gradient": 10.233333333333333
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-08T07:05:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6750066666337452,
+    "temp_mean": 40.2,
+    "temp_gradient": 11.600000000000001
+  },
+  {
+    "sn": "21001668",
+    "alias": "1830 RC-600 Spindel V.S NDE",
+    "timestamp": "2026-01-08T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.853195464122964,
+    "temp_mean": 30.35,
+    "temp_gradient": 10.616666666666667
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-01-08T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6200032257980599,
+    "temp_mean": 31.450000000000003,
+    "temp_gradient": 11.100000000000001
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-01-08T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 3.163252914327275,
+    "temp_mean": 36.35,
+    "temp_gradient": 10.450000000000003
+  },
+  {
+    "sn": "21008155",
+    "alias": "1880 QSS-420 Spindel Ø.V NDE",
+    "timestamp": "2026-01-08T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8658466954374776,
+    "temp_mean": 34.7,
+    "temp_gradient": 12.0
+  },
+  {
+    "sn": "21008299",
+    "alias": "2230 El motor ABAC Barkemaskin DE",
+    "timestamp": "2026-01-08T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.36800407606438273,
+    "temp_mean": 40.43333333333333,
+    "temp_gradient": 10.033333333333328
+  },
+  {
+    "sn": "21009224",
+    "alias": "1880 QSS-420 Spindel N.V NDE",
+    "timestamp": "2026-01-08T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.186094852868016,
+    "temp_mean": 34.3,
+    "temp_gradient": 11.349999999999998
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-08T07:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.7785860957513415,
+    "temp_mean": 33.7,
+    "temp_gradient": 11.700000000000003
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-07T23:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 34.9,
+    "temp_gradient": 11.299999999999997
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-07T22:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.005637484384905,
+    "temp_mean": 28.95,
+    "temp_gradient": 10.549999999999997
+  },
+  {
+    "sn": "21002378",
+    "alias": "1300.20 El motor RE rotor NDE",
+    "timestamp": "2026-01-07T21:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 1.7459687855170836,
+    "temp_mean": 13.2,
+    "temp_gradient": 1.4499999999999993
+  },
+  {
+    "sn": "21008244",
+    "alias": "1780 el motor DE QSS-700 Ø.V",
+    "timestamp": "2026-01-07T21:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 31.399999999999995,
+    "temp_gradient": 11.799999999999994
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-07T21:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 32.2,
+    "temp_gradient": 12.166666666666668
+  },
+  {
+    "sn": "21008145",
+    "alias": "1780 el motor DE QSS-700 N.H",
+    "timestamp": "2026-01-07T21:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 3.007001496507775,
+    "temp_mean": 28.950000000000003,
+    "temp_gradient": 10.216666666666672
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-07T20:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8491203291249911,
+    "temp_mean": 32.86666666666667,
+    "temp_gradient": 15.216666666666669
+  },
+  {
+    "sn": "21008183",
+    "alias": "2050 Sponskrue 4",
+    "timestamp": "2026-01-07T20:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.2940425139329345,
+    "temp_mean": 12.1,
+    "temp_gradient": 13.333333333333332
+  },
+  {
+    "sn": "21008276",
+    "alias": "2040 Sponskrue 3",
+    "timestamp": "2026-01-07T20:55:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.33707269245668653,
+    "temp_mean": 23.6,
+    "temp_gradient": 10.500000000000002
+  },
+  {
+    "sn": "21001775",
+    "alias": "1830 RC-600 Spindel V.S DE",
+    "timestamp": "2026-01-07T20:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.6300047618867655,
+    "temp_mean": 27.166666666666668,
+    "temp_gradient": 10.366666666666667
+  },
+  {
+    "sn": "21008155",
+    "alias": "1880 QSS-420 Spindel Ø.V NDE",
+    "timestamp": "2026-01-07T20:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.9549668406110584,
+    "temp_mean": 29.833333333333332,
+    "temp_gradient": 10.433333333333334
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-01-07T20:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.823,
+    "temp_mean": 5.699999999999999,
+    "temp_gradient": 12.0
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-01-07T20:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.4989724554971255,
+    "temp_mean": 4.766666666666667,
+    "temp_gradient": 11.416666666666668
+  },
+  {
+    "sn": "21008121",
+    "alias": "2090 el motor sagflisleder til silo",
+    "timestamp": "2026-01-07T20:00:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 0.4980508675493565,
+    "temp_mean": -2.0,
+    "temp_gradient": 7.5
+  },
+  {
+    "sn": "21008244",
+    "alias": "1780 el motor DE QSS-700 Ø.V",
+    "timestamp": "2026-01-06T08:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 41.1,
+    "temp_gradient": 11.000000000000004
+  },
+  {
+    "sn": "21008127",
+    "alias": "1780 el motor NDE QSS-700 N.V",
+    "timestamp": "2026-01-06T08:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.0,
+    "temp_mean": 35.55,
+    "temp_gradient": 11.849999999999998
+  },
+  {
+    "sn": "30012325",
+    "alias": "1300.30 Girkasse Nedre MV2 barkemaskin",
+    "timestamp": "2026-01-06T07:50:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.8577212056762189,
+    "temp_mean": 25.46666666666667,
+    "temp_gradient": 10.333333333333336
+  },
+  {
+    "sn": "30012349",
+    "alias": "1300.50 Girkasse Øvre MV3 barkemaskin",
+    "timestamp": "2026-01-06T07:45:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.7197606083506747,
+    "temp_mean": 25.5,
+    "temp_gradient": 10.966666666666667
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-06T07:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.4244922457085249,
+    "temp_mean": 24.066666666666666,
+    "temp_gradient": 10.316666666666666
+  },
+  {
+    "sn": "30012332",
+    "alias": "1300.10 Girkasse Øvre MV1 barkemaskin",
+    "timestamp": "2026-01-06T07:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.37911387910934274,
+    "temp_mean": 25.566666666666666,
+    "temp_gradient": 11.266666666666664
+  },
+  {
+    "sn": "30012361",
+    "alias": "1300.50 Girkasse Nedre MV3 barkemaskin",
+    "timestamp": "2026-01-06T07:40:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.1577834426178326,
+    "temp_mean": 24.0,
+    "temp_gradient": 10.333333333333334
+  },
+  {
+    "sn": "30012362",
+    "alias": "1290 Girkasse inn mat transportør barker",
+    "timestamp": "2026-01-06T07:30:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.3450656942284082,
+    "temp_mean": 28.3,
+    "temp_gradient": 14.466666666666667
+  },
+  {
+    "sn": "21008155",
+    "alias": "1880 QSS-420 Spindel Ø.V NDE",
+    "timestamp": "2026-01-06T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.0928083088995983,
+    "temp_mean": 34.5,
+    "temp_gradient": 11.433333333333334
+  },
+  {
+    "sn": "21009377",
+    "alias": "1880 QSS-420 Spindel Ø.H NDE",
+    "timestamp": "2026-01-06T07:20:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.120936664149435,
+    "temp_mean": 33.166666666666664,
+    "temp_gradient": 10.666666666666664
+  },
+  {
+    "sn": "21008169",
+    "alias": "1780 el motor NDE QSS-700 Ø.H",
+    "timestamp": "2026-01-06T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.8098481980541905,
+    "temp_mean": 38.35,
+    "temp_gradient": 11.300000000000004
+  },
+  {
+    "sn": "21009224",
+    "alias": "1880 QSS-420 Spindel N.V NDE",
+    "timestamp": "2026-01-06T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.1926007294983514,
+    "temp_mean": 34.0,
+    "temp_gradient": 12.933333333333334
+  },
+  {
+    "sn": "30012342",
+    "alias": "2060 Soll spindel nedrelager",
+    "timestamp": "2026-01-06T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.811000616522577,
+    "temp_mean": 5.35,
+    "temp_gradient": 10.316666666666666
+  },
+  {
+    "sn": "30012363",
+    "alias": "2060 Soll spindel øvre lager",
+    "timestamp": "2026-01-06T07:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 2.482506092641063,
+    "temp_mean": 5.1,
+    "temp_gradient": 10.2
+  },
+  {
+    "sn": "21008097",
+    "alias": "1780 el motor NDE QSS-700 Ø.V",
+    "timestamp": "2026-01-06T07:10:00",
+    "type": "🔴🔥 BRANN/STOPP — STOPP LINJEN!",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 1.0526806258310257,
+    "temp_mean": 45.0,
+    "temp_gradient": 16.2
+  },
+  {
+    "sn": "21008211",
+    "alias": "1780 el motor DE QSS-700 N.V",
+    "timestamp": "2026-01-06T06:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (RCF)",
+    "vib_rms": 4.379337506975228,
+    "temp_mean": 24.439999999999998,
+    "temp_gradient": -1.610000000000003
+  },
+  {
+    "sn": "21008159",
+    "alias": "2100 el motor cell leder til silo",
+    "timestamp": "2026-01-05T18:15:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (Siemens)",
+    "vib_rms": 0.27742476457591164,
+    "temp_mean": 0.5,
+    "temp_gradient": -1.3
+  },
+  {
+    "sn": "21001657",
+    "alias": "1300.10 Girkasse Nedre MV1 barkemaskin",
+    "timestamp": "2026-01-05T14:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.1939922678871506,
+    "temp_mean": 24.450000000000003,
+    "temp_gradient": 10.200000000000003
+  },
+  {
+    "sn": "21008128",
+    "alias": "1300.30 Girkasse Øvre MV2 barkemaskin",
+    "timestamp": "2026-01-05T14:25:00",
+    "type": "🟡 PLANLEGG SERVICE",
+    "msg": "AI-hendelse detektert (AWS)",
+    "vib_rms": 0.5688629008821019,
+    "temp_mean": 27.75,
+    "temp_gradient": 11.616666666666667
+  }
+]
