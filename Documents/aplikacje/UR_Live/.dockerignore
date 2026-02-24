@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Data and logs (we don't want to copy 50MB to docker daemon and freeze build)
+*.log
+*.parquet
+*.csv
+*.json
+!daemon_settings.json
+
+# Envs
+.env
+.venv
+venv/
+ENV/
+
+# Folders
+dashboard/
+data/

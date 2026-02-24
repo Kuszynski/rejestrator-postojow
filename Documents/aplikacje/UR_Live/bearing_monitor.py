@@ -89,6 +89,7 @@ AWS_GRADIENT_WARNING = 10.0      # °C/h → Warning
 AWS_GRADIENT_CRITICAL = 15.0     # °C/h → Critical / Fire (🔴🔥)
 AWS_GRADIENT_FIRE_EXTREME = 30.0 # °C/h → Extreme Fire (natychmiastowy stop linii)
 AWS_MIN_FIRE_TEMP = 45.0         # °C → Minimalna temp wymagana dla pożaru
+AWS_MAX_TOTAL_RISE = 20.0        # °C → Max dopuszczalny CAŁKOWITY wzrost od stabilizacji (PREDYKCJA)
 # --- NOWY: Podłoga wibracji dla alarmów krytycznych ---
 # Chroni przed nadawaniem statusu BRANN na bardzo cichych maszynach (np. 0.3g)
 # które statystycznie mają anomalię, ale fizycznie nic im nie grozi.
@@ -106,7 +107,8 @@ BREAKS = [
     (time(19, 0), time(19, 30)),  # Przerwa kolacyjna
 ]
 # Ile minut po starcie/przerwie ignorować gradient (czas nagrzewania)
-WARMUP_MINUTES = 60
+# Ile minut po starcie/przerwie ignorować gradient (czas nagrzewania)
+WARMUP_MINUTES = 45  # Skrócono z 60 minut, by szybciej reagować na anomalie poranne
 
 # --- Alarm Persistence (Trwałość Alarmu) ---
 # Ref: SKF Enlight / IMx — alarm debounce
@@ -122,11 +124,19 @@ ALARM_PERSISTENCE_FIRE = 1       # 1 × 5min = NATYCHMIAST dla POŻAR/STOP (W u�
 # --- HEAVY IMPACT PROFILE (RĘBAKI / QSS) ---
 # Wprowadzamy osobne, ułagodzone kryteria dla maszyn brutalnie tnących kłody (np. 1880 QSS-420).
 # Rębaki zębowe produkują niekończący się ciąg szpilek wibracyjnych - standardowo ISO/SKF zarzucałyby alarmami przez cały dzień.
-HEAVY_KEYWORDS = ['QSS', 'HUGG', 'CHIPPER', 'REBAK', 'RĘBAK']
+HEAVY_KEYWORDS = ['QSS', 'HUGG', 'CHIPPER', 'REBAK', 'RĘBAK', 'BARK']
 HEAVY_SKF_CF_WARNING = 6.0       # Standardowy to 5.0 (dopuszczamy rębaki do cięcia twardszych materiałów)
 HEAVY_SKF_CF_CRITICAL = 8.0      # Standardowy to 6.0
+
+# --- HYDRAULIC/OIL PROFILE (HPU) ---
+# Agregaty hydrauliczne (HPU) pracują naturalnie w temperaturach 40-60°C.
+# Standardowy próg pożarowy 45°C wywoływałby tam fałszywe alarmy co 5 minut.
+# Dla HPU podnosimy próg minimalny BRANN do 60°C.
+OIL_KEYWORDS = ['HPU', 'OLJE', 'OIL', 'HYDR']
+AWS_MIN_FIRE_TEMP_OIL = 60.0
+
 # Znaczne wydłużenie debouncingu dla rębaków — żeby zignorować np. twardą krzywą kłodę.
-HEAVY_ALARM_PERSISTENCE_INTERVALS = 5  # 5 × 5min = 25 minut ciągłego hałasu bezlitosnego bicia wału, by odpalić ALARM.
+HEAVY_ALARM_PERSISTENCE_INTERVALS = 3  # 3 × 5min = 15 minut (skrócono z 25, by szybciej wyłapać pożar)
 
 # --- Random Cut Forest (4. silnik: AWS Monitron ML) ---
 # Ref: AWS Monitron — "Robust Random Cut Forest Based Anomaly Detection"
@@ -280,14 +290,15 @@ def classify_production_time(df: pd.DataFrame) -> pd.DataFrame:
 
     # --- AWS MACHINE STATE GATING (Czas Wybiegu / Run-down) ---
     # Zamiast ucinać produkcję natychmiast (co powoduje anomalie matematyczne w RCF),
-    # dodajemy czas wybiegu (np. 15 minut) od momentu fizycznego zejścia poniżej progu.
+    # dodajemy czas wybiegu (np. 45 minut) od momentu fizycznego zejścia poniżej progu.
+    # To okno służy też do tłumienia efektu HEAT SOAK (wygrzewania po zatrzymaniu).
     interval_minutes = int(pd.Timedelta(AGGREGATION_INTERVAL).total_seconds() / 60)
-    rundown_intervals = 15 // interval_minutes
+    rundown_intervals = 45 // interval_minutes
     
     # Wykrywamy moment zatrzymania: wyrywamy przejście z 'pracuje' na 'nie pracuje'
     stops = ~df['is_production_raw'] & df['is_production_raw'].shift(1, fill_value=False)
     
-    # Rozciągamy flagę zatrzymania w przód o N interwałów, definiując fazę wybiegu (stygnięcia)
+    # Rozciągamy flagę zatrzymania w przód o N interwałów, definiując fazę wybiegu (stygnięcia / heat soak)
     is_rundown = stops.replace(False, np.nan).ffill(limit=rundown_intervals).fillna(False).astype(bool)
 
     # Ostateczna definicja produkcji to: fizyczna praca LUB fizyczne stygnięcie na wybiegu
@@ -499,7 +510,7 @@ def analyze_siemens_baseline(df: pd.DataFrame) -> pd.DataFrame:
 #  MODUŁ 4: LOGIKA AWS MONITRON — ANOMALY GRADIENT (Gradient Temperatury)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None) -> pd.DataFrame:
+def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None, is_heavy: bool = False, is_oil: bool = False) -> pd.DataFrame:
     """
     AWS Monitron Gradient Analysis — alarmowanie oparte na szybkości zmian.
 
@@ -570,6 +581,35 @@ def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None) -> pd.Da
     # Użyj wygładzonego gradientu jako głównego
     df['temp_gradient_final'] = df['temp_gradient_smooth'].fillna(df['temp_gradient']).fillna(0)
 
+    # --- NOWY: Gradient BŁYSKAWICZNY (Fast Gradient) ---
+    # Okno 15 minut (3 interwały) do wykrywania pożaru/zatarcia
+    fast_periods = 3
+    df['temp_gradient_fast'] = (
+        df[temp_col].diff(periods=fast_periods)
+        / (fast_periods * 5 / 60)
+    ).fillna(0)
+
+    # --- NOWY: SKUMULOWANY WZROST (Total Rise) ---
+    if 'is_production' in df.columns:
+        prod_mask = df['is_production'] & (df[temp_col] > 10.0)
+        first_prod = df[prod_mask][temp_col].first_valid_index()
+        
+        # [AUTOKOREKTA] Jeśli maszyna się nie kręci (np. zatarta), a jest po 06:15
+        if first_prod is None:
+            # Upewnij się, że index jest DatetimeIndex przed dostępem do .time
+            if isinstance(df.index, pd.DatetimeIndex):
+                morning_idx = df.index[df.index.time >= time(6, 15)]
+                if len(morning_idx) > 0:
+                    first_prod = morning_idx[0]
+
+        if first_prod is not None:
+            baseline_temp = df.loc[first_prod, temp_col]
+            df['temp_total_rise'] = (df[temp_col] - baseline_temp).clip(lower=0)
+        else:
+            df['temp_total_rise'] = 0.0
+    else:
+        df['temp_total_rise'] = 0.0
+
     # ── TYLKO DODATNIE gradienty są niebezpieczne ──
     # Ujemny gradient = łożysko się chłodzi = DOBRZE.
     # Kalibracja na podstawie prawdziwego pożaru 13.02.2026:
@@ -579,34 +619,72 @@ def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None) -> pd.Da
     gradient_for_alarm = df['temp_gradient_final'].copy()
     
     # Ekstremalny pożar traktujemy ostro przy pożarze (ponad temp min)
-    is_extreme = (df['temp_gradient_final'] >= AWS_GRADIENT_FIRE_EXTREME) & (df['temp_mean'] >= AWS_MIN_FIRE_TEMP)
+    min_fire_temp = AWS_MIN_FIRE_TEMP_OIL if is_oil else AWS_MIN_FIRE_TEMP
+    is_extreme = (df['temp_gradient_final'] >= AWS_GRADIENT_FIRE_EXTREME) & (df['temp_mean'] >= min_fire_temp)
     
     gradient_for_alarm[~df['is_production'] & ~is_extreme] = 0.0    # Poza zmianą — ignoruj
     gradient_for_alarm[df['is_warmup'] & ~is_extreme] = 0.0         # Rozgrzewka — ignoruj
     
-    # [POPRAWKA] Usypiamy stygnięcie. Gdy maszyna udarowa staje — ciepło nie ma cyrkulacji, obudowa
-    # w parę minut dogrzewa się na bezruchu resztkowym ciepłem generując strome gradienty.
-    if 'is_rundown' in df.columns:
-        gradient_for_alarm[df['is_rundown'] & ~is_extreme] = 0.0
-    gradient_for_alarm[df['is_break'] & ~is_extreme] = 0.0          # Przerwa — ignoruj
+    # [POPRAWKA] Usypiamy stygnięcie (rundown). ALE — jeśli temperatura ROŚNIE podczas postoju,
+    # to jest to sytuacja skrajnie niebezpieczna (ogień lub slipping belt).
+    # [HEAT SOAK] Po zatrzymaniu maszyny temperatura naturalnie rośnie (heat soak).
+    # Pozwalamy na alarmy w rundown tylko jeśli gradient jest ekstremalny (> 25°C/h)
+    is_dangerous_rundown = df.get('is_rundown', False) & (df['temp_gradient_final'] > 25.0)
+    
+    gradient_for_alarm[df['is_rundown'] & ~is_extreme & ~is_dangerous_rundown] = 0.0
+    gradient_for_alarm[df['is_break'] & ~is_extreme & ~is_dangerous_rundown] = 0.0          # Przerwa — też pozwól jeśli grzeje
     # Zabezpieczenie przed "Cold Startem" - pożar zawsze powoduje wyższą temperaturę.
     
+    # Wykorzystujemy gradient błyskawiczny (fast) dla statusu BRANN/STOPP
+    # Standard: >20°C/h przy maszynie ogrzanej >45°C
+    # Heavy: >30°C/h przy maszynie ogrzanej >55°C (zabezpieczenie przed ekstremalnym Heat Soak po zmianie obciążenia)
+    fast_fire_grad = 30.0 if is_heavy else 20.0
+    fast_fire_temp = 55.0 if is_heavy else min_fire_temp
+    is_fast_fire = (df['temp_gradient_fast'] >= fast_fire_grad) & (df['temp_mean'] >= fast_fire_temp)
+    
+    # [NOWOŚĆ] PREDYKCJA: Całkowity wzrost o > 20 stopni (dla ciężkich) lub > 15 (standard)
+    max_rise_threshold = 20.0 if is_heavy else 15.0
+    # [POPRAWKA] Bramka gradientu — Inteligentne odróżnianie HEAT SOAK od ZATARCIA:
+    # 1. Podczas pracy (raw) — bramka zawsze otwarta.
+    # 2. Podczas stygnięcia (rundown) — tolerujemy do 25°C/h (Heat Soak), powyżej to błąd.
+    # 3. Podczas postoju (idle/break) — tolerujemy do 5°C/h (Seized bearing), powyżej to błąd.
+    # 4. Wymagamy gradientu > 5.0 dla alarmu predykcyjnego (zabezpieczenie przed wolnym nagrzewaniem rano)
+    is_predictive_failure = (df['temp_total_rise'] >= max_rise_threshold) & (df['temp_mean'] >= 42.0) & (df['temp_gradient_final'] > 5.0)
+    
+    # Absolutne zabezpieczenie (Failsafe)
+    is_absolute_overheat = df['temp_mean'] >= 65.0
+    
+    is_predictive_gate = (
+        df['is_production_raw'] |                                  # 1. Produkcja
+        is_dangerous_rundown |                                     # 2. Ekstremalny wzrost na wybiegu (>25)
+        (~df.get('is_rundown', False) & (df['temp_gradient_final'] > 5.0)) # 3. Wzrost na postoju (>5)
+    ) & (df['temp_gradient_final'] > -0.5) & (df['temp_gradient_fast'] > 0) # 4. Blokada stygnięcia (Fast + 1h)
+    
+    is_predictive_failure = is_predictive_failure & is_predictive_gate
+    
+    # DEBUG: Zrzut dla alarmu o północy (lub dowolnego innego)
+    if is_predictive_failure.any():
+        for t, val in is_predictive_failure[is_predictive_failure].items():
+            print(f"  [DEBUG PRED] Triggered at {t}: Rise={df.loc[t, 'temp_total_rise']:.1f}, Temp={df.loc[t, 'temp_mean']:.1f}, Grad={df.loc[t, 'temp_gradient_final']:.1f}, RawProd={df.loc[t, 'is_production_raw']}, Rundown={df.loc[t, 'is_rundown']}")
+
     conditions = [
-        (gradient_for_alarm >= AWS_GRADIENT_FIRE_EXTREME) & (df['temp_mean'] >= AWS_MIN_FIRE_TEMP), # 🔥 EKSTREMALNY POŻAR
-        ~df['is_production'] | df['is_break'],                       # Poza zmianą
+        ((gradient_for_alarm >= AWS_GRADIENT_FIRE_EXTREME) | is_fast_fire | is_absolute_overheat) & (df['temp_mean'] >= min_fire_temp), # 🔴🔥 POŻAR (Zawsze priorytet)
+        is_predictive_failure,                                       # 🔴 PREDYKCJA (Wyżej niż IDLE, by łapać zatarcie!)
+        ~df['is_production'] | df['is_break'],                       # IDLE (Postój / Przerwa)
         gradient_for_alarm < AWS_GRADIENT_WARNING,                   # Stabilna
         (gradient_for_alarm >= AWS_GRADIENT_WARNING) &
         (gradient_for_alarm < AWS_GRADIENT_CRITICAL),                # Trend grzania
-        (gradient_for_alarm >= AWS_GRADIENT_CRITICAL) & (df['temp_mean'] >= AWS_MIN_FIRE_TEMP),     # Prawdziwy Krytyczny
-        gradient_for_alarm >= AWS_GRADIENT_CRITICAL                  # Alarm zdegradowany przez niską temperaturę fizyczną (zimny start)
+        (gradient_for_alarm >= AWS_GRADIENT_CRITICAL) & (df['temp_mean'] >= min_fire_temp), # Potwierdzony ogień
+        gradient_for_alarm >= AWS_GRADIENT_CRITICAL                  # Krytyczny przy małej temp
     ]
     choices = [
         '🔴🔥 BRANN/STOPP',
+        '🔴 KRITISK ALARM',                                          # Dla is_predictive_failure
         'IDLE',
         '🟢 MONITORING',
         '🟡 PLANLEGG SERVICE',
         '🔴🔥 BRANN/STOPP',
-        '🟡 PLANLEGG SERVICE'                                           # Zimny rozbieg zdegradowany do statusu żółtego!
+        '🔴 KRITISK ALARM'
     ]
     df['aws_status'] = np.select(conditions, choices, default='UNKNOWN')
 
@@ -715,25 +793,35 @@ def analyze_rcf_anomaly(df: pd.DataFrame) -> pd.DataFrame:
     if 'vib_rms' in prod_df.columns:
         typical_vib = prod_df['vib_rms'].median()
         # Mnożymy przez 0.8, aby pozwolić na alarmy "narastające", ale uciąć oczywiste puste zera z postoju
-        is_vib_spike = df['vib_rms'] >= (typical_vib * 0.8)
+        # [POPRAWKA] Pozwól na anomalię nawet przy niskich wibracjach, jeśli gradient temp jest wysoki (zatarcie!)
+        is_vib_spike = (df['vib_rms'] >= (typical_vib * 0.8)) | (df.get('temp_gradient_final', 0) > 10.0)
     else:
         is_vib_spike = pd.Series(True, index=df.index)
 
     # Status tylko dla produkcji (poza produkcją będzie IDLE lub nadpisane)
     rcf_status = pd.Series('IDLE', index=df.index)
     
-    # Warunkowa klasyfikacja (niższy score = anomalia PLUS rosnące/zgodne wibracje PLUS nie wybieg)
-    is_not_rundown = ~df.get('is_rundown', pd.Series(False, index=df.index))
+    # Warunkowa klasyfikacja
+    # [POPRAWKA] Pozwalamy na RCF w czasie rundown, jeśli jest to dangerous_rundown (temp rośnie)
+    is_dangerous_rundown = df.get('is_rundown', False) & (df.get('temp_gradient_final', 0) > 5.0)
     
-    rcf_status[prod_mask] = np.where(
-        (scores <= threshold_critical) & is_vib_spike[prod_mask] & is_not_rundown[prod_mask],
-        '🔴 KRITISK ALARM',
-        np.where(
-            (scores <= threshold_warning) & is_vib_spike[prod_mask] & is_not_rundown[prod_mask],
-            '🟡 PLANLEGG SERVICE',
-            '🟢 MONITORING'
-        )
-    )
+    # 1. Critical
+    is_crit = (df['rcf_score'] <= threshold_critical) & (df['is_production'] | is_dangerous_rundown) & is_vib_spike
+    rcf_status[is_crit] = '🔴 KRITISK ALARM'
+    
+    # 2. Warning
+    is_warn = (df['rcf_score'] <= threshold_warning) & (df['is_production'] | is_dangerous_rundown) & is_vib_spike & ~is_crit
+    rcf_status[is_warn] = '🟡 PLANLEGG SERVICE'
+
+    # [NOWOŚĆ] Tłumienie stygnięcia dla RCF:
+    # Jeśli temp < 30C i gradient ujemny, to nawet jeśli statystycznie jest to anomalia (bo np. wibruje na wybiegu),
+    # to fizycznie nie ma ryzyka awarii termicznej.
+    is_cooling_safe = (df['temp_mean'] < 30.0) & (df.get('temp_gradient_final', 0) < 0.0)
+    rcf_status[is_cooling_safe & rcf_status.isin(['🔴 KRITISK ALARM', '🟡 PLANLEGG SERVICE'])] = '🟢 MONITORING'
+
+    # Domyślnie dla produkcji, jeśli nie ma alarmu, to monitoring
+    rcf_status[prod_mask & ~is_crit & ~is_warn] = '🟢 MONITORING'
+
     df['rcf_status'] = rcf_status
 
     # Statystyki
@@ -1338,7 +1426,12 @@ def main():
         df['avg_line_vibration'] = avg_line_vib
         
         # --- SPRAWDZENIE PROFILU MASZYNY (HEAVY IMPACT) ---
+        # SN zawiera alias w nawiasie, np. "21008127 (1780 el motor NDE QSS-700 N.V)"
         is_heavy_machinery = any(keyword.upper() in str(sn).upper() for keyword in HEAVY_KEYWORDS)
+        
+        # [NOWOŚĆ] Detekcja czujników oleju (HPU/C2)
+        is_oil = any(k.upper() in str(sn).upper() for k in OIL_KEYWORDS)
+        
         if is_heavy_machinery:
             print("  ⚠️ DETEKCJA PROFILU CIĘŻKIEGO: Wykryto rębaka/QSS. Ograniczam czułość wibracyjną i persystencję.")
         
@@ -1352,7 +1445,7 @@ def main():
 
         # ── Krok 5: AWS Gradient ──
         print("🌡️  KROK 5/9: Analiza AWS Monitron — Gradient temperatury...")
-        df = analyze_aws_gradient(df, hall_temp)
+        df = analyze_aws_gradient(df, hall_temp, is_heavy=is_heavy_machinery, is_oil=is_oil)
 
         # ── Krok 6: Random Cut Forest ──
         print("🌲 KROK 6/9: Analiza RCF — Random Cut Forest (wielowymiarowy ML)...")

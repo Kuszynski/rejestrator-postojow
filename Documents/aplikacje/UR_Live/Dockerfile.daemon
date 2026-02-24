@@ -11,8 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install Python dependencies
 COPY requirements.txt .
-# Create requirements if it doesn't exist or just install known ones
-RUN pip install --no-cache-dir pandas numpy scikit-learn aiohttp scipy pyarrow
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY bearing_monitor.py .

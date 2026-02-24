@@ -182,6 +182,11 @@ def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame = N
             hwstate.sensor_history[sn] = pd.concat([hwstate.sensor_history[sn], delta_df], ignore_index=True)
         
     df_context = hwstate.sensor_history.get(sn, pd.DataFrame())
+    
+    # [OPTYMALIZACJA] Jeśli tylko odświeżamy snapshot (delta_df is None),
+    # bierzemy tylko końcówkę historii (np. 1000 próbek), by nie przeliczać 60 dni na starcie.
+    if delta_df is None and len(df_context) > 1000:
+        df_context = df_context.tail(1000)
         
     # Bezpiecznik: Potrzebujemy chociaż 1 punktu by cokolwiek wyświetlić
     if df_context.empty:
@@ -204,14 +209,22 @@ def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame = N
         # 3. Uruchomienie modeli AI (Wymuszamy inty dla okien, żeby Pandas nie marudził w trybie stream)
         def _run_pipeline(input_df, use_hall):
             d = input_df.copy()
+            # Pobranie docelowego Aliasu dla maszyny
+            alias = hwstate.sensor_aliases.get(str(sn), str(sn))
+            
+            import bearing_monitor
+            is_heavy = any(keyword.upper() in alias.upper() for keyword in bearing_monitor.HEAVY_KEYWORDS)
+            is_oil = any(keyword.upper() in alias.upper() for keyword in bearing_monitor.OIL_KEYWORDS)
+            
             try:
-                d['crest_factor'] = 1.5 
-                d['vib_max'] = d.get('vib_rms', 0.0) * d['crest_factor'] 
+                if 'vib_max' not in d or d['vib_max'].isna().all():
+                    d['crest_factor'] = 1.5 
+                    d['vib_max'] = d.get('vib_rms', 0.0) * d['crest_factor'] 
                 
                 WIN_30D = 30 * 24 * 12 # 30 dni w interwałach 5-min
                 WIN_1H = 12            # 1 godzina w interwałach 5-min
                 
-                try: d = analyze_skf_crest_factor(d)
+                try: d = analyze_skf_crest_factor(d, is_heavy)
                 except Exception as e: pass
                 
                 try: 
@@ -230,15 +243,18 @@ def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame = N
                         df_hall_prep = bearing_monitor.prepare_hall_data(df_hall_raw)
                         if not df_hall_prep.empty:
                             hall_temp_series = df_hall_prep['hall_temp']
-                    d = analyze_aws_gradient(d, hall_temp=hall_temp_series) 
+                    d = analyze_aws_gradient(d, hall_temp=hall_temp_series, is_heavy=is_heavy, is_oil=is_oil) 
                 except Exception as e: 
                     # print(f"DEBUG: Hall error for {sn}: {e}")
                     pass
                 
-                try: d = analyze_rcf_anomaly(d) 
-                except Exception as e: pass
+                if delta_df is not None:
+                    try: d = analyze_rcf_anomaly(d) 
+                    except Exception as e: pass
+                else:
+                    if 'rcf_score' not in d.columns: d['rcf_score'] = 0.0
                 
-                d = fuse_alarms(d)
+                d = fuse_alarms(d, is_heavy)
                 d = calculate_health_index(d)
                 return d
             except Exception as e:
@@ -306,6 +322,8 @@ def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame = N
             
             if not anomalies.empty:
                 anomalies = anomalies.copy()
+                if not isinstance(anomalies.index, pd.DatetimeIndex):
+                    anomalies.index = pd.to_datetime(anomalies.index)
                 anomalies['day'] = anomalies.index.date
                 daily_top = anomalies.sort_values(['day', 'max_priority'], ascending=[True, False]).drop_duplicates('day')
                 
@@ -362,7 +380,7 @@ async def push_snapshot_to_ui(hwstate: HardwareState):
         "server_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "mining_progress": hwstate.mining_progress,
         "sensors": list(hwstate.live_snapshot.values()),
-        "events": sorted(active_history, key=lambda x: x['timestamp'], reverse=True)[:50] # Top 50 do UI
+        "events": sorted(active_history, key=lambda x: x['timestamp'], reverse=True)[:2000] # Top 2000 do UI (2 miesiące)
     }
     
     with open(tmp_path, 'w', encoding='utf-8') as f:
@@ -432,7 +450,7 @@ def save_event_history(hwstate):
                     unique_events.append(e)
                     seen.add(key)
             with open(path, 'w', encoding='utf-8') as f:
-                json.dump(unique_events[:500], f, indent=2, ensure_ascii=False)
+                json.dump(unique_events[:2000], f, indent=2, ensure_ascii=False)
         except:
             pass
             
@@ -441,16 +459,18 @@ def save_event_history(hwstate):
 
 async def mine_historical_events(hwstate):
     """
-    Przeszukuje sensor_history w poszukiwaniu historycznych alarmów w DWA tryby (Raw i Comp).
-    Wywoływane raz przy starcie.
+    Przeszukuje sensor_history w poszukiwaniu historycznych alarmów (Dual Mining).
     """
-    print("[*] Rozpoczynam poszukiwanie historycznych alarmów (Dual Mining 60 dni)...")
+    print("[*] Rozpoczynam poszukiwanie historycznych alarmów (60 dni)...")
     import bearing_monitor as ai
     
     found_raw = 0
     found_comp = 0
     
     sorted_sns = sorted(hwstate.sensor_history.keys())
+    if "21008169" in sorted_sns:
+        sorted_sns.remove("21008169")
+        sorted_sns = ["21008169"] + sorted_sns
     total_sns = len(sorted_sns)
     hwstate.mining_progress = 0.0
     
@@ -459,31 +479,34 @@ async def mine_historical_events(hwstate):
         if i % 10 == 0: await push_snapshot_to_ui(hwstate)
         
         df = hwstate.sensor_history[sn]
-        if len(df) < 50: continue # Za mało danych
+        if len(df) < 50: continue
         
         try:
             df_ai = df.copy()
-            df_ai['unit'] = df_ai['unit'].str.replace('G', 'g').str.replace('c', '°C').str.replace('C', '°C')
-            if 'timestamp' in df_ai.columns:
-                df_ai['timestamp'] = pd.to_datetime(df_ai['timestamp'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Warsaw').dt.tz_localize(None)
-                
+            # [POPRAWKA] Konwersja timestamp na DatetimeIndex dla resample
+            df_ai['timestamp'] = pd.to_datetime(df_ai['timestamp'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Warsaw').dt.tz_localize(None)
+            
+            # Unit mapping fix
+            unit_map = {'C': '°C', 'c': '°C', 'G': 'g', 'g': 'g'}
+            df_ai['unit'] = df_ai['unit'].apply(lambda x: unit_map.get(x, x))
+            
             prep_df = ai.prepare_bearing_data(df_ai)
             if prep_df.empty: continue
             
-            with open("mining_debug.log", "a", encoding="utf-8") as debug_file:
-                debug_file.write(f"SN: {sn} prep_df index type: {type(prep_df.index)} | Max vib_rms: {prep_df['vib_rms'].max():.3f} | Max temp: {prep_df['temp_mean'].max():.1f}\n")
-            
             
             def _mine_pipeline(input_df, use_hall):
-                # Detekcja rębaka dla analizatora historycznego
-                is_heavy_impact = any(keyword.upper() in str(sn).upper() for keyword in ai.HEAVY_KEYWORDS)
+                # Detekcja rębaka
+                alias = hwstate.sensor_aliases.get(str(sn), str(sn))
+                is_heavy_impact = any(keyword.upper() in alias.upper() for keyword in ai.HEAVY_KEYWORDS)
+                is_oil = any(keyword.upper() in alias.upper() for keyword in ai.OIL_KEYWORDS)
                 
                 d = input_df.copy()
-                d['crest_factor'] = 1.5 
-                d['vib_max'] = d.get('vib_rms', 0.0) * d['crest_factor'] 
+                if 'vib_max' not in d or d['vib_max'].isna().all():
+                    d['crest_factor'] = 1.5 
+                    d['vib_max'] = d.get('vib_rms', 0.0) * d['crest_factor'] 
                 
-                WIN_30D = 30 * 24 * 12 # 30 dni w interwałach 5-min
-                WIN_1H = 12            # 1 godzina w interwałach 5-min
+                WIN_30D = 30 * 24 * 12 
+                WIN_1H = 12            
                 
                 try: d = ai.analyze_skf_crest_factor(d, is_heavy_impact)
                 except Exception: pass
@@ -496,55 +519,48 @@ async def mine_historical_events(hwstate):
                 try:
                     ai.AWS_GRADIENT_WINDOW = WIN_1H
                     hall_temp = None
-                    if use_hall and '30001856' in hwstate.sensor_history and not hwstate.sensor_history['30001856'].empty:
-                        df_hall_raw = hwstate.sensor_history['30001856'].copy()
-                        df_hall_raw['timestamp'] = pd.to_datetime(df_hall_raw['timestamp'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Warsaw').dt.tz_localize(None)
-                        df_hall_prep = ai.prepare_hall_data(df_hall_raw)
-                        if not df_hall_prep.empty:
-                            hall_temp = df_hall_prep['hall_temp']
-                        
-                    d = ai.analyze_aws_gradient(d, hall_temp=hall_temp)
+                    if use_hall and '30001856' in hwstate.sensor_history:
+                        hraw = hwstate.sensor_history['30001856'].copy()
+                        # [POPRAWKA] Konwersja timestamp dla hali
+                        hraw['timestamp'] = pd.to_datetime(hraw['timestamp'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Warsaw').dt.tz_localize(None)
+                        hpre = ai.prepare_hall_data(hraw)
+                        hall_temp = hpre['hall_temp'] if not hpre.empty else None
+                    d = ai.analyze_aws_gradient(d, hall_temp=hall_temp, is_heavy=is_heavy_impact, is_oil=is_oil)
                 except Exception: pass
                 
                 try: d = ai.analyze_rcf_anomaly(d)
                 except Exception: pass
                 
-                try: d = ai.fuse_alarms(d, is_heavy_impact)
-                except Exception: pass
-                
+                d = ai.fuse_alarms(d, is_heavy_impact)
                 return d
             
             df_raw = _mine_pipeline(prep_df, False)
             df_comp = _mine_pipeline(prep_df, True)
             
+            
             def _append_anomalies(res_df, history_list):
-                with open("mining_debug.log", "a", encoding="utf-8") as debug_file:
-                    v_counts = res_df['FINAL_VERDICT'].value_counts().to_dict()
-                    debug_file.write(f"SN: {sn} AI Verdicts before filter: {v_counts}\n")
-                    
                 anoms = res_df[~res_df['FINAL_VERDICT'].isin(['IDLE', '🟢 MONITORING', 'UNKNOWN'])]
                 count = 0
                 if not anoms.empty:
                     anoms = anoms.copy()
+                    if not isinstance(anoms.index, pd.DatetimeIndex): anoms.index = pd.to_datetime(anoms.index)
                     anoms['day'] = anoms.index.date
                     top = anoms.sort_values(['day', 'max_priority'], ascending=[True, False]).drop_duplicates('day')
-                    # Norwegian UI Translations for Historical Logs
                     translation_map = {
                         '🟡 PLANLEGG SERVICE': '🟡 PLANLEGG SERVICE',
                         '🔴 KRITISK ALARM': '🔴 KRITISK ALARM',
                         '🔴🔥 BRANN/STOPP': '🔴🔥 BRANN/STOPP — STOPP LINJEN!'
                     }
-                    
                     for ts, row in top.iterrows():
                         ts_iso = ts.isoformat()
+                        # Unikaj duplikatów dziennych dla tego samego sensora
                         if not any(e['sn'] == sn and e['timestamp'][:10] == ts_iso[:10] for e in history_list):
-                            final_verdict_no = translation_map.get(row['FINAL_VERDICT'], row['FINAL_VERDICT'])
                             history_list.append({
                                 "sn": sn,
                                 "alias": hwstate.sensor_aliases.get(sn, sn),
                                 "timestamp": ts_iso,
-                                "type": final_verdict_no,
-                                "msg": f"Historyczna anomalia: {row['alarm_source']}",
+                                "type": translation_map.get(row['FINAL_VERDICT'], row['FINAL_VERDICT']),
+                                "msg": f"AI-hendelse detektert ({row['alarm_source']})",
                                 "vib_rms": float(row.get('vib_rms', 0.0)),
                                 "temp_mean": float(row.get('temp_mean', 0.0)),
                                 "temp_gradient": float(row.get('temp_gradient_final', 0.0))
@@ -554,26 +570,31 @@ async def mine_historical_events(hwstate):
 
             found_raw += _append_anomalies(df_raw, hwstate.event_history_raw)
             found_comp += _append_anomalies(df_comp, hwstate.event_history_comp)
+            
+            # Aktualizacja postępu i incremental save
+            hwstate.mining_progress = round((i + 1) / total_sns * 100, 1)
+            await push_snapshot_to_ui(hwstate)
+            
+            if found_comp > 0:
+                save_event_history(hwstate)
 
         except Exception as e:
-            with open("mining_debug.log", "a", encoding="utf-8") as debug_file:
-                debug_file.write(f"Error mining {sn}: {e}\n")
+            print(f"     [!] Błąd mining dla {sn}: {e}")
             continue
-            
+             
     hwstate.mining_progress = 100.0
     
-    # Sort and limit
+    # Sortowanie i limitowanie historii
     hwstate.event_history_raw.sort(key=lambda x: x['timestamp'], reverse=True)
-    hwstate.event_history_raw = hwstate.event_history_raw[:500]
+    hwstate.event_history_raw = hwstate.event_history_raw[:2000]
     
     hwstate.event_history_comp.sort(key=lambda x: x['timestamp'], reverse=True)
-    hwstate.event_history_comp = hwstate.event_history_comp[:500]
+    hwstate.event_history_comp = hwstate.event_history_comp[:2000]
     
     await push_snapshot_to_ui(hwstate)
     
     if found_raw > 0 or found_comp > 0:
-        print(f"[OK] Zakończono mining. Zdarzeń: {found_raw} (Raw), {found_comp} (Comp).")
-        save_event_history(hwstate)
+        print(f"     ✅ Znaleziono: {found_raw} (RAW) | {found_comp} (COMP) historycznych alarmów.")
         save_event_history(hwstate)
     else:
         print("[*] Ingen nye alarmer funnet i historien.")
@@ -651,13 +672,7 @@ async def get_active_sensors(session, hwstate):
                         "failure_prob": 0.0,
                         "status": "INAKTIV"
                     }
-
-            print(f"[OK] Wykryto {len(devices)} wszystkich, z czego {len(filtered)} ma powiązanie z '{TAG_FILTER}'.")
-            # Diagnostyka nazw dla użytkownika
-            print("[*] Przykładowe aliasy dla linii Saglinje (pierwsze 20):")
-            for sn_match in filtered[:20]:
-                print(f"  - {sn_match} -> {hwstate.sensor_aliases.get(sn_match)}")
-                
+            
             return [f for f in filtered if f]
     except Exception as e:
         print(f"[CRITICAL] Błąd pobierania urządzeń: {e}")
@@ -749,7 +764,13 @@ async def main():
             print("[ERROR] Ingen sensorer å overvåke etter filtrering. Sjekk tag 'saglinje'.")
             return
 
-        # 3. WYMUŚ NATYCHMIASTOWY SNAPSHOT UI (żeby użytkownik od razu widział Aliasy)
+        # [PRIORYTET] JEDNORAZOWY MINING: Zaraz po starcie, zanim wejdziemy w pętle. 
+        # To pozwala nam odzyskać historię zdarzeń z Parquet w kilka sekund.
+        if not hasattr(hwstate, 'mined_once'):
+            await mine_historical_events(hwstate)
+            hwstate.mined_once = True
+
+        # 3. WYMUŚ NATYCHMIASTOWY SNAPSHOT UI
         print("[*] Inicjalizacja snapshotów z historii...")
         for sn in hwstate.active_sensors:
             if sn in hwstate.sensor_history and not hwstate.sensor_history[sn].empty:
@@ -764,6 +785,11 @@ async def main():
 
         print(f"[*] Startuję pętlę monitoringu dla {len(hwstate.active_sensors)} maszyn...")
         
+        # JEDNORAZOWY MINING: Zaraz po starcie (z RAMu Parquet)
+        if not hasattr(hwstate, 'mined_once'):
+            await mine_historical_events(hwstate)
+            hwstate.mined_once = True
+
         cycle_count = 0
         while True:
             # Sprawdź zmiany w ustawieniach
@@ -777,12 +803,6 @@ async def main():
             
             try:
                 await run_polling_cycle(session, hwstate)
-                
-                # JEDNORAZOWY MINING: Po pierwszym cyklu (gdy mamy już 60 dni w RAM)
-                if not hasattr(hwstate, 'mined_once'):
-                    await mine_historical_events(hwstate)
-                    await push_snapshot_to_ui(hwstate) # Odśwież UI z nowymi zdarzeniami
-                    hwstate.mined_once = True
             except Exception as e:
                 print(f"[CRITICAL] Błąd w cyklu monitoringu: {e}")
             
