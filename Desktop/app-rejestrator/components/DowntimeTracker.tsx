@@ -23,16 +23,9 @@ const MACHINES = [
   { id: 'm16', name: 'Diverse', color: 'bg-slate-500' },
 ];
 
-const USERS = [
-  { id: 'op1', username: 'operatør', role: 'operator', name: 'Operator' },
-  { id: 'op2', username: 'Dag', role: 'operator', name: 'Dag' },
-  { id: 'op3', username: 'Kveld', role: 'operator', name: 'Kveld' },
-  { id: 'mg1', username: 'sjef', role: 'manager', name: 'Leder' },
-  { id: 'ad1', username: 'admin', role: 'admin', name: 'Administrator' },
-];
-
 export default function DowntimeTracker() {
   const [user, setUser] = useState(null);
+  const [users, setUsers] = useState([]);
   const [loginForm, setLoginForm] = useState({ username: '', password: '' });
   const [activeDowntimes, setActiveDowntimes] = useState([]);
   const [downtimeHistory, setDowntimeHistory] = useState([]);
@@ -54,6 +47,7 @@ export default function DowntimeTracker() {
 
   useEffect(() => {
     loadData();
+    loadUsers();
   }, []);
 
   useEffect(() => {
@@ -78,7 +72,7 @@ export default function DowntimeTracker() {
       } else {
         const enrichedData = data.map(downtime => {
           const machine = MACHINES.find(m => m.id === downtime.machine_id);
-          const operator = USERS.find(u => u.id === downtime.operator_id);
+          const operator = users.find(u => u.id === downtime.operator_id);
           return {
             id: downtime.id,
             machineId: downtime.machine_id,
@@ -102,24 +96,56 @@ export default function DowntimeTracker() {
     setLoading(false);
   };
 
+  const loadUsers = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('user_passwords')
+        .select('user_id');
+
+      if (error) {
+        console.error('Błąd ładowania użytkowników:', error);
+        return;
+      }
+
+      const userList = data.map(u => ({
+        id: u.user_id,
+        username: u.user_id,
+        role: u.user_id === 'admin' ? 'admin' : u.user_id === 'sjef' ? 'manager' : 'operator',
+        name: u.user_id.charAt(0).toUpperCase() + u.user_id.slice(1)
+      }));
+      
+      setUsers(userList);
+    } catch (error) {
+      console.error('Nieoczekiwany błąd podczas ładowania użytkowników:', error);
+    }
+  };
+
   const handleLogin = async (e) => {
     if (e) e.preventDefault();
     
-    const foundUser = USERS.find(u => u.username === loginForm.username);
+    console.log('Login attempt:', loginForm.username);
+    
+    const foundUser = users.find(u => u.username === loginForm.username);
     if (!foundUser) {
-      alert('Feil brukernavn. Tilgjengelige: ' + USERS.map(u => u.username).join(', '));
+      alert('Feil brukernavn. Tilgjengelige: ' + users.map(u => u.username).join(', '));
       return;
     }
 
+    console.log('Found user:', foundUser);
+
     try {
+      console.log('Checking password for user ID:', foundUser.id);
       const { data: userPassword, error } = await supabase
         .from('user_passwords')
         .select('password_hash')
-        .eq('user_id', foundUser.username)
+        .eq('user_id', foundUser.id)
         .single();
+
+      console.log('Supabase response:', { data: userPassword, error });
 
       // Hvis ingen passord funnet, vis opprett passord modal
       if (error?.code === 'PGRST116' || !userPassword) {
+        console.log('No password found, showing create password modal');
         setSelectedUser(foundUser);
         setShowSetPassword(true);
         return;
@@ -133,7 +159,9 @@ export default function DowntimeTracker() {
       }
 
       // Sjekk passord
+      console.log('Checking password:', loginForm.password, 'vs', userPassword.password_hash);
       if (userPassword.password_hash === loginForm.password) {
+        console.log('Password correct, logging in');
         setUser(foundUser);
         setLoginForm({ username: '', password: '' });
       } else {
@@ -171,7 +199,7 @@ export default function DowntimeTracker() {
       const { error } = await supabase
         .from('user_passwords')
         .insert({
-          user_id: selectedUser.username,
+          user_id: selectedUser.id,
           password_hash: newPasswordForm.password
         });
 
@@ -212,7 +240,7 @@ export default function DowntimeTracker() {
       const { data: currentPassword, error: fetchError } = await supabase
         .from('user_passwords')
         .select('password_hash')
-        .eq('user_id', user.username)
+        .eq('user_id', user.id)
         .single();
 
       if (fetchError) {
@@ -230,7 +258,7 @@ export default function DowntimeTracker() {
       const { error: updateError } = await supabase
         .from('user_passwords')
         .update({ password_hash: passwordForm.new })
-        .eq('user_id', user.username);
+        .eq('user_id', user.id);
 
       if (updateError) {
         console.error('Feil ved oppdatering av passord:', updateError);
@@ -303,7 +331,7 @@ export default function DowntimeTracker() {
     } else {
       const newDowntimeFromSupabase = data[0];
       const machine = MACHINES.find(m => m.id === newDowntimeFromSupabase.machine_id);
-      const operator = USERS.find(u => u.id === newDowntimeFromSupabase.operator_id);
+      const operator = users.find(u => u.id === newDowntimeFromSupabase.operator_id);
 
       const enrichedDowntime = {
         id: newDowntimeFromSupabase.id,
@@ -367,7 +395,7 @@ export default function DowntimeTracker() {
     } else {
       const updatedDowntimeFromSupabase = data[0];
       const machine = MACHINES.find(m => m.id === updatedDowntimeFromSupabase.machine_id);
-      const operator = USERS.find(u => u.id === updatedDowntimeFromSupabase.operator_id);
+      const operator = users.find(u => u.id === updatedDowntimeFromSupabase.operator_id);
 
       const enrichedDowntime = {
         id: updatedDowntimeFromSupabase.id,
@@ -1429,10 +1457,11 @@ export default function DowntimeTracker() {
     );
   }
 
-  const stats = getStats();
-  const filtered = getFilteredHistory();
+  if (user.role === 'manager' || user.role === 'admin') {
+    const stats = getStats();
+    const filtered = getFilteredHistory();
 
-  return (
+    return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-4">
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
@@ -2064,5 +2093,5 @@ export default function DowntimeTracker() {
       )}
     </div>
   );
+  }
 }
-

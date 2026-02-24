@@ -28,7 +28,7 @@ from bearing_monitor import (
 DATA_DIR = os.getenv("DATA_DIR", ".")
 POLL_INTERVAL_SECONDS = 120 # Odświeżanie z API (zgodnie z sugestią użytkownika - 2 minuty)
 WARM_HISTORY_DAYS = 60      # Ile dni wstecz pobrać przy pierwszym rozruchu (lub uzupełnić luki)
-MAX_CONCURRENT_REQUESTS = 50       # Zwiększono przepustowość dla 111 sensorów
+MAX_CONCURRENT_REQUESTS = 20       # Zmniejszono ze 150 -> 50 -> 20 dla unikniecia rate limit (429) przy starcie bez historii.
 OUTPUT_JSON_PATH = os.path.join(DATA_DIR, "live_status.json") # Plik wyjściowy (Atomic write)
 EVENT_LOG_PATH_RAW = os.path.join(DATA_DIR, "event_history_raw.json")
 EVENT_LOG_PATH_COMP = os.path.join(DATA_DIR, "event_history_comp.json")
@@ -117,12 +117,15 @@ async def fetch_sensor_delta(session: aiohttp.ClientSession, hwstate: HardwareSt
                     
                 if current_last_ts >= now_ts: break
         except Exception as e:
-            # print(f"API Fetch Error SN: {sn} -> {e}")
+            print(f"API Fetch Error SN: {sn} na timestamp {current_last_ts} -> {e}")
             break
             
     extracted = all_extracted
     if not extracted:
-        hwstate.last_timestamps[sn] = now_ts
+        # Zapisujemy current_last_ts, nie now_ts! Jeśli API zwróci pustą listę, ale nie było błędu (dobiliśmy do now_ts), to current_last_ts będzie ~now_ts.
+        # Jeśli api ucięło się przez błąd 429 lub limit 60 chunków, current_last_ts > last_ts uratuje progres, 
+        # a powrót now_ts = utrata szansy na dociągnięcie reszty historii.
+        hwstate.last_timestamps[sn] = current_last_ts
         return sn, pd.DataFrame()
         
     # Budujemy Dataframe (Long format)
@@ -165,7 +168,7 @@ async def fetch_sensor_delta(session: aiohttp.ClientSession, hwstate: HardwareSt
     if not df_delta.empty:
         df_delta.sort_values('timestamp', inplace=True)
         
-    hwstate.last_timestamps[sn] = now_ts
+    hwstate.last_timestamps[sn] = current_last_ts
     return sn, df_delta
 
 
