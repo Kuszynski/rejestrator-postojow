@@ -642,14 +642,14 @@ def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None, is_heavy
     fast_fire_temp = 55.0 if is_heavy else min_fire_temp
     is_fast_fire = (df['temp_gradient_fast'] >= fast_fire_grad) & (df['temp_mean'] >= fast_fire_temp)
     
-    # [NOWOŚĆ] PREDYKCJA: Całkowity wzrost o > 20 stopni (dla ciężkich) lub > 15 (standard)
-    max_rise_threshold = 20.0 if is_heavy else 15.0
+    # [NOWOŚĆ] PREDYKCJA: Całkowity wzrost o > 25 stopni (dla ciężkich) lub > 20 (standard)
+    max_rise_threshold = 25.0 if is_heavy else 20.0
     # [POPRAWKA] Bramka gradientu — Inteligentne odróżnianie HEAT SOAK od ZATARCIA:
     # 1. Podczas pracy (raw) — bramka zawsze otwarta.
     # 2. Podczas stygnięcia (rundown) — tolerujemy do 25°C/h (Heat Soak), powyżej to błąd.
     # 3. Podczas postoju (idle/break) — tolerujemy do 5°C/h (Seized bearing), powyżej to błąd.
     # 4. Wymagamy gradientu > 5.0 dla alarmu predykcyjnego (zabezpieczenie przed wolnym nagrzewaniem rano)
-    is_predictive_failure = (df['temp_total_rise'] >= max_rise_threshold) & (df['temp_mean'] >= 42.0) & (df['temp_gradient_final'] > 5.0)
+    is_predictive_failure = (df['temp_total_rise'] >= max_rise_threshold) & (df['temp_mean'] >= 45.0) & (df['temp_gradient_final'] > 5.0)
     
     # Absolutne zabezpieczenie (Failsafe)
     is_absolute_overheat = df['temp_mean'] >= 65.0
