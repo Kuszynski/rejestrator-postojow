@@ -88,6 +88,7 @@ const SensorGrid = React.memo(({ sensorKeys, sensorsMap }: any) => {
 
 const AlertLogSection = React.memo(({ alerts, selectedGroup }: any) => {
   const [timeFilter, setTimeFilter] = useState('24h');
+  const [onlyCritical, setOnlyCritical] = useState(false);
 
   const filteredAlerts = useMemo(() => {
     let base = alerts?.filter((a: any) => a.groupId === selectedGroup) || [];
@@ -95,16 +96,24 @@ const AlertLogSection = React.memo(({ alerts, selectedGroup }: any) => {
 
     if (timeFilter === '24h') {
       const dayAgo = now - 24 * 60 * 60 * 1000 - (10 * 60 * 1000); // 10 min buffer
-      return base.filter((a: any) => a.timestamp >= dayAgo);
+      base = base.filter((a: any) => a.timestamp >= dayAgo);
     } else if (timeFilter === '7d') {
       const weekAgo = now - 7 * 24 * 60 * 60 * 1000 - (10 * 60 * 1000);
-      return base.filter((a: any) => a.timestamp >= weekAgo);
+      base = base.filter((a: any) => a.timestamp >= weekAgo);
     } else if (timeFilter === '30d') {
       const monthAgo = now - 30 * 24 * 60 * 60 * 1000 - (10 * 60 * 1000);
-      return base.filter((a: any) => a.timestamp >= monthAgo);
+      base = base.filter((a: any) => a.timestamp >= monthAgo);
     }
-    return base; // '90d' or all
-  }, [alerts, selectedGroup, timeFilter, alerts.length]); // Track alerts length for updates
+
+    if (onlyCritical) {
+      base = base.filter((a: any) => {
+        const verdict = String(a?.FINAL_VERDICT || a?.type || '');
+        return verdict.includes('POŻAR') || verdict.includes('KRITISK') || verdict.includes('BRANN') || verdict.includes('STOPP') || verdict.includes('FIRE') || verdict.includes('CRITICAL');
+      });
+    }
+
+    return base;
+  }, [alerts, selectedGroup, timeFilter, onlyCritical, alerts.length]); // Track alerts length for updates
 
   return (
     <div className="bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6 shadow-2xl flex flex-col h-[750px] relative overflow-hidden">
@@ -112,9 +121,19 @@ const AlertLogSection = React.memo(({ alerts, selectedGroup }: any) => {
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-slate-500/30 to-transparent"></div>
 
       <div className="flex flex-col gap-4 pb-4 border-b border-slate-800">
-        <h3 className="text-sm font-bold text-slate-300 uppercase tracking-widest flex items-center gap-3">
-          <Activity className="w-4 h-4 text-blue-400" /> Teknisk Hendelseslogg
-        </h3>
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-bold text-slate-300 uppercase tracking-widest flex items-center gap-3">
+            <Activity className="w-4 h-4 text-blue-400" /> Teknisk Hendelseslogg
+          </h3>
+          <button
+            onClick={() => setOnlyCritical(!onlyCritical)}
+            className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded transition-all ${onlyCritical ? 'bg-red-900/40 text-red-400 border border-red-500/30' : 'bg-slate-800/50 text-slate-500 border border-transparent hover:text-slate-300'}`}
+            title="Pokaż tylko krytyczne alarmy"
+          >
+            <ShieldAlert className="w-3 h-3" />
+            Kun Kritisk
+          </button>
+        </div>
 
         {/* TIME FILTERS */}
         <div className="flex gap-1 p-1 bg-black/40 rounded-lg border border-white/5">
@@ -186,6 +205,10 @@ export default function Dashboard() {
   const [data, setData] = useState<any>({ groups: {}, alerts: [], mining_progress: 100 });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // --- HMI / SCADA Critical Alert State ---
+  const [acknowledgedAlerts, setAcknowledgedAlerts] = useState<Set<string>>(new Set());
+  const [activeCriticalAlert, setActiveCriticalAlert] = useState<any | null>(null);
 
   // --- API State ---
   const [apiPanelOpen, setApiPanelOpen] = useState(false);
@@ -270,6 +293,22 @@ export default function Dashboard() {
               },
               alerts: historyEvents
             });
+
+            // --- HMI Modal Logic ---
+            // Znajdź najnowszy (pierwszy z góry) alarm Krytyczny lub Pożar z ostatnich 10 minut
+            const recentCriticals = historyEvents.filter((e: any) =>
+              (e.type === 'FIRE' || e.type === 'CRITICAL' || String(e.FINAL_VERDICT).includes('POŻAR')) &&
+              (Date.now() - e.timestamp < 10 * 60 * 1000) // Tylko świeże (ostatnie 10 minut)
+            );
+
+            if (recentCriticals.length > 0) {
+              const latest = recentCriticals[0];
+              // Jeśli operator jeszcze nie zatwierdził dokładnie tego alarmu (po ID/czasie)
+              if (!acknowledgedAlerts.has(latest.id)) {
+                setActiveCriticalAlert(latest);
+              }
+            }
+
             setSelectedGroup('Live Stream (Daemona)');
             setError(null);
           });
@@ -291,8 +330,8 @@ export default function Dashboard() {
       setUseHallCompensation(settings.use_hall_compensation ?? true);
     });
 
-    // Polling co 120 sekund dla systemu Real-Time Streaming (zsynchronizowane z API)
-    const liveInterval = setInterval(fetchLiveData, 120000);
+    // Polling co 15 sekund dla systemu Real-Time Streaming (zsynchronizowane z API)
+    const liveInterval = setInterval(fetchLiveData, 15000);
 
     // Load saved API credentials
     const savedKey = localStorage.getItem('api_key');
@@ -353,8 +392,61 @@ export default function Dashboard() {
   }
 
 
+  const handleAcknowledge = () => {
+    if (activeCriticalAlert) {
+      setAcknowledgedAlerts(prev => new Set(prev).add(activeCriticalAlert.id));
+      setActiveCriticalAlert(null);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 p-4 md:p-6 font-sans">
+
+      {/* 🔴🔥 HMI SCADA CRITICAL MODAL 🔥🔴 */}
+      {activeCriticalAlert && (
+        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-red-950/90 backdrop-blur-md">
+          {/* Intensive flashing background */}
+          <div className="absolute inset-0 bg-red-600/20 mix-blend-overlay animate-pulse pointer-events-none" style={{ animationDuration: '0.5s' }}></div>
+
+          <div className="bg-slate-900 border-2 border-red-500 rounded-3xl p-10 max-w-2xl w-full mx-4 shadow-[0_0_100px_rgba(220,38,38,0.6)] relative z-10 flex flex-col items-center text-center transform transition-all scale-100">
+
+            <div className="w-24 h-24 bg-red-500/20 rounded-full flex items-center justify-center mb-6 border border-red-500/50 shadow-[0_0_30px_rgba(220,38,38,0.8)]">
+              <ShieldAlert className="w-12 h-12 text-red-500 animate-[bounce_1s_infinite]" />
+            </div>
+
+            <h2 className="text-4xl font-black text-white mb-2 tracking-tight uppercase">
+              {translateVerdict(activeCriticalAlert.type || activeCriticalAlert.FINAL_VERDICT)}
+            </h2>
+
+            <div className="text-red-400 font-bold text-xl uppercase tracking-widest mb-8">
+              Maskin: {activeCriticalAlert.alias || activeCriticalAlert.shortSn || activeCriticalAlert.sn}
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 w-full mb-8 font-mono">
+              <div className="bg-black/50 border border-slate-700 rounded-xl p-4 flex flex-col items-center">
+                <span className="text-slate-500 text-xs uppercase tracking-widest mb-1">Tidspunkt</span>
+                <span className="text-white text-lg">{formatTime(activeCriticalAlert.timestamp)}</span>
+              </div>
+              <div className="bg-black/50 border border-slate-700/50 rounded-xl p-4 flex flex-col items-center">
+                <span className="text-slate-500 text-xs uppercase tracking-widest mb-1">Status</span>
+                <span className="text-red-400 text-lg font-bold">AKSJON KREVES</span>
+              </div>
+            </div>
+
+            <p className="text-slate-300 text-base mb-10 max-w-md">
+              Maskinen har nådd kritiske grenseverdier for temperatur eller vibrasjon. Inspiser maskinen umiddelbart for å forhindre havari eller brann.
+            </p>
+
+            <button
+              onClick={handleAcknowledge}
+              className="w-full bg-red-600 hover:bg-red-500 text-white font-black text-xl py-6 rounded-xl uppercase tracking-[0.2em] transition-all active:scale-95 shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] flex items-center justify-center gap-3"
+            >
+              <CheckSquare className="w-6 h-6" />
+              BEKREFT ALARM (ACKNOWLEDGE)
+            </button>
+          </div>
+        </div>
+      )}
 
       {(uploading || (apiStep === 3 && apiPanelOpen)) && (
         <div className="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-4">

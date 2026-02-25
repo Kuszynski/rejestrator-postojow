@@ -26,7 +26,7 @@ from bearing_monitor import (
 
 # ENV SETTINGS
 DATA_DIR = os.getenv("DATA_DIR", ".")
-POLL_INTERVAL_SECONDS = 120 # Odświeżanie z API (zgodnie z sugestią użytkownika - 2 minuty)
+POLL_INTERVAL_SECONDS = 60 # Odświeżanie z API (przyspieszone do 60 sekund)
 WARM_HISTORY_DAYS = 60      # Ile dni wstecz pobrać przy pierwszym rozruchu (lub uzupełnić luki)
 MAX_CONCURRENT_REQUESTS = 20       # Zmniejszono ze 150 -> 50 -> 20 dla unikniecia rate limit (429) przy starcie bez historii.
 OUTPUT_JSON_PATH = os.path.join(DATA_DIR, "live_status.json") # Plik wyjściowy (Atomic write)

@@ -136,7 +136,7 @@ OIL_KEYWORDS = ['HPU', 'OLJE', 'OIL', 'HYDR']
 AWS_MIN_FIRE_TEMP_OIL = 60.0
 
 # Znaczne wydłużenie debouncingu dla rębaków — żeby zignorować np. twardą krzywą kłodę.
-HEAVY_ALARM_PERSISTENCE_INTERVALS = 3  # 3 × 5min = 15 minut (skrócono z 25, by szybciej wyłapać pożar)
+HEAVY_ALARM_PERSISTENCE_INTERVALS = 2  # 2 × 5min = 10 minut (skrócono z 3, by ukrócić czas opóźnienia do UI)
 
 # --- Random Cut Forest (4. silnik: AWS Monitron ML) ---
 # Ref: AWS Monitron — "Robust Random Cut Forest Based Anomaly Detection"
@@ -429,9 +429,9 @@ def analyze_siemens_baseline(df: pd.DataFrame) -> pd.DataFrame:
     """
     df = df.copy()
 
-    # ── Baseline obliczamy TYLKO na danych produkcyjnych ──
+    # ── Baseline obliczamy TYLKO na danych produkcyjnych (podczas fizycznej pracy) ──
     production_rms = df['vib_rms'].copy()
-    production_rms[~df['is_production']] = np.nan
+    production_rms[~df.get('is_production_raw', df['is_production'])] = np.nan
 
     # μ (średnia) i σ (odchylenie standardowe) z okna 7 dni
     df['baseline_7d'] = production_rms.rolling(
@@ -465,7 +465,7 @@ def analyze_siemens_baseline(df: pd.DataFrame) -> pd.DataFrame:
 
     # Oblicz odchylenie procentowe (zachowujemy dla raportu / CSV)
     df['baseline_deviation_pct'] = 0.0
-    mask_active = (df['baseline_7d'] > SKF_VIBRATION_IDLE) & df['is_production']
+    mask_active = (df['baseline_7d'] > SKF_VIBRATION_IDLE) & df.get('is_production_raw', df['is_production'])
     df.loc[mask_active, 'baseline_deviation_pct'] = (
         (df.loc[mask_active, 'vib_rms'] - df.loc[mask_active, 'baseline_7d'])
         / df.loc[mask_active, 'baseline_7d'] * 100
@@ -475,10 +475,10 @@ def analyze_siemens_baseline(df: pd.DataFrame) -> pd.DataFrame:
     mask_steady_active = mask_active & df['is_steady_state']
 
     conditions = [
-        ~df['is_production'],                                           # Poza zmianą
+        ~df.get('is_production_raw', df['is_production']),              # Poza zmianą / fizycznie stoi
         ~mask_active,                                                   # Maszyna wyłączona
         df['is_warmup'],                                                # Rozgrzewka maszyny
-        ~df['is_steady_state'] & df['is_production'],                  # Stan przejściowy → OK
+        ~df['is_steady_state'] & df.get('is_production_raw', df['is_production']),  # Stan przejściowy → OK
         # Steady-state: porównaj do band
         mask_steady_active & ~df['is_warmup'] &
             (df['vib_rms'] >= df['band_warning_lower']) &
