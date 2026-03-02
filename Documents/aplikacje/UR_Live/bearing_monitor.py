@@ -107,8 +107,9 @@ BREAKS = [
     (time(19, 0), time(19, 30)),  # Przerwa kolacyjna
 ]
 # Ile minut po starcie/przerwie ignorować gradient (czas nagrzewania)
-# Ile minut po starcie/przerwie ignorować gradient (czas nagrzewania)
-WARMUP_MINUTES = 45  # Skrócono z 60 minut, by szybciej reagować na anomalie poranne
+WARMUP_MINUTES = 45  # Standardowy czas rozgrzewki
+HEAVY_WARMUP_MINUTES = 90  # Rozszerzona rozgrzewka dla QSS/Rębaków (ciężkie maszyny)
+SAFETY_OVERRIDE_GRADIENT = 25.0  # °C/h → Absolutny bypass rozgrzewki (wykrywanie pożaru)
 
 # --- Alarm Persistence (Trwałość Alarmu) ---
 # Ref: SKF Enlight / IMx — alarm debounce
@@ -137,6 +138,11 @@ AWS_MIN_FIRE_TEMP_OIL = 60.0
 
 # Znaczne wydłużenie debouncingu dla rębaków — żeby zignorować np. twardą krzywą kłodę.
 HEAVY_ALARM_PERSISTENCE_INTERVALS = 2  # 2 × 5min = 10 minut (skrócono z 3, by ukrócić czas opóźnienia do UI)
+
+# --- HEAVY IMPACT: Siemens Baseline Deviation ---
+# Podniesione progi dla maszyn o dużej zmienności naturalnej (rębaki, QSS).
+HEAVY_SIEMENS_SIGMA_WARNING = 2.5   # μ ± 2.5σ
+HEAVY_SIEMENS_SIGMA_CRITICAL = 3.5  # μ ± 3.5σ
 
 # --- Random Cut Forest (4. silnik: AWS Monitron ML) ---
 # Ref: AWS Monitron — "Robust Random Cut Forest Based Anomaly Detection"
@@ -195,7 +201,7 @@ def load_sensor_data(filepath: str) -> pd.DataFrame:
     return df
 
 
-def prepare_bearing_data(df: pd.DataFrame) -> pd.DataFrame:
+def prepare_bearing_data(df: pd.DataFrame, is_heavy: bool = False) -> pd.DataFrame:
     """
     Rozdziel dane łożyskowe na kanały wibracji (g) i temperatury (°C).
     Agreguj do interwałów 5-minutowych.
@@ -264,7 +270,7 @@ def prepare_bearing_data(df: pd.DataFrame) -> pd.DataFrame:
     print(f"     → Zagregowano do {len(result)} interwałów 5-min")
 
     # Oznacz harmonogram produkcji
-    result = classify_production_time(result)
+    result = classify_production_time(result, is_heavy=is_heavy)
     prod_count = result['is_production'].sum()
     break_count = result['is_break'].sum()
     idle_count = len(result) - prod_count - break_count
@@ -273,7 +279,7 @@ def prepare_bearing_data(df: pd.DataFrame) -> pd.DataFrame:
     return result
 
 
-def classify_production_time(df: pd.DataFrame) -> pd.DataFrame:
+def classify_production_time(df: pd.DataFrame, is_heavy: bool = False) -> pd.DataFrame:
     """
     Oznacz każdy interwał jako: produkcja, przerwa, lub poza zmianą ZALEŻNIE OD DANYCH RZECZYWISTYCH.
     Saga i rębaki to układy dynamiczne, często stają poza harmonogramem.
@@ -312,8 +318,8 @@ def classify_production_time(df: pd.DataFrame) -> pd.DataFrame:
     # Znajdujemy momenty startu (przejście z false do true dla is_production)
     starts = df['is_production'] & ~df['is_production'].shift(1, fill_value=False)
 
-    interval_minutes = int(pd.Timedelta(AGGREGATION_INTERVAL).total_seconds() / 60)
-    warmup_intervals = WARMUP_MINUTES // interval_minutes
+    warmup_minutes_effective = HEAVY_WARMUP_MINUTES if is_heavy else WARMUP_MINUTES
+    warmup_intervals = warmup_minutes_effective // interval_minutes
     
     # Tworzymy maskę rozgrzewki: przedłużamy flagę startu na przód o 'warmup_intervals' interwałów
     df['is_warmup'] = starts.replace(False, np.nan).ffill(limit=warmup_intervals).fillna(False).astype(bool)
@@ -401,7 +407,7 @@ def analyze_skf_crest_factor(df: pd.DataFrame, is_heavy_machinery: bool = False)
 #  MODUŁ 3: LOGIKA SIEMENS — BASELINE DEVIATION (Adaptacyjna Linia Bazowa)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def analyze_siemens_baseline(df: pd.DataFrame) -> pd.DataFrame:
+def analyze_siemens_baseline(df: pd.DataFrame, is_heavy_machinery: bool = False) -> pd.DataFrame:
     """
     Siemens Adaptive Baseline — banda statystyczna μ ± N×σ.
 
@@ -429,6 +435,15 @@ def analyze_siemens_baseline(df: pd.DataFrame) -> pd.DataFrame:
     """
     df = df.copy()
 
+    # Wybór progów w zależności od profilu maszyny
+    if is_heavy_machinery:
+        sigma_warning = HEAVY_SIEMENS_SIGMA_WARNING
+        sigma_critical = HEAVY_SIEMENS_SIGMA_CRITICAL
+        print("     → Profil maszyny udarowej AKTYWNY: podwyższam tolerancję Siemens (Baseline).")
+    else:
+        sigma_warning = SIEMENS_SIGMA_WARNING
+        sigma_critical = SIEMENS_SIGMA_CRITICAL
+
     # ── Baseline obliczamy TYLKO na danych produkcyjnych (podczas fizycznej pracy) ──
     production_rms = df['vib_rms'].copy()
     production_rms[~df.get('is_production_raw', df['is_production'])] = np.nan
@@ -445,10 +460,10 @@ def analyze_siemens_baseline(df: pd.DataFrame) -> pd.DataFrame:
     ).std()
 
     # Bandy statystyczne: μ ± 2σ (warning) i μ ± 3σ (critical)
-    df['band_warning_upper'] = df['baseline_7d'] + SIEMENS_SIGMA_WARNING * df['baseline_7d_std']
-    df['band_warning_lower'] = df['baseline_7d'] - SIEMENS_SIGMA_WARNING * df['baseline_7d_std']
-    df['band_critical_upper'] = df['baseline_7d'] + SIEMENS_SIGMA_CRITICAL * df['baseline_7d_std']
-    df['band_critical_lower'] = df['baseline_7d'] - SIEMENS_SIGMA_CRITICAL * df['baseline_7d_std']
+    df['band_warning_upper'] = df['baseline_7d'] + sigma_warning * df['baseline_7d_std']
+    df['band_warning_lower'] = df['baseline_7d'] - sigma_warning * df['baseline_7d_std']
+    df['band_critical_upper'] = df['baseline_7d'] + sigma_critical * df['baseline_7d_std']
+    df['band_critical_lower'] = df['baseline_7d'] - sigma_critical * df['baseline_7d_std']
 
     # ── Steady-State Detection (Siemens approach) ──
     # CV = σ_local / μ_local — jeśli CV < 15%, maszyna jest stabilna
@@ -618,12 +633,18 @@ def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None, is_heavy
     #   - Próg CRITICAL: 15°C/h (między 99.9th a pożarem)
     gradient_for_alarm = df['temp_gradient_final'].copy()
     
-    # Ekstremalny pożar traktujemy ostro przy pożarze (ponad temp min)
     min_fire_temp = AWS_MIN_FIRE_TEMP_OIL if is_oil else AWS_MIN_FIRE_TEMP
-    is_extreme = (df['temp_gradient_final'] >= AWS_GRADIENT_FIRE_EXTREME) & (df['temp_mean'] >= min_fire_temp)
     
-    gradient_for_alarm[~df['is_production'] & ~is_extreme] = 0.0    # Poza zmianą — ignoruj
-    gradient_for_alarm[df['is_warmup'] & ~is_extreme] = 0.0         # Rozgrzewka — ignoruj
+    # SAFETY OVERRIDE: Jeśli gradient > 25°C/h, to pożar, nie rozgrzewka.
+    is_extreme = (df['temp_gradient_final'] >= SAFETY_OVERRIDE_GRADIENT) & (df['temp_mean'] >= min_fire_temp)
+    
+    gradient_for_alarm[~df['is_production'] & ~is_extreme] = 0.0    # Poza zmianą — ignoruj (chyba że pożar)
+    
+    # ROZGRZEWKA: Ignoruj małe gradienty, ale jeśli gradient jest podejrzany (>20 dla heavy), alarmuj.
+    warmup_limit = 20.0 if is_heavy else AWS_GRADIENT_CRITICAL
+    is_suspicious_warmup = df['is_warmup'] & (df['temp_gradient_final'] > warmup_limit)
+    
+    gradient_for_alarm[df['is_warmup'] & ~is_extreme & ~is_suspicious_warmup] = 0.0
     
     # [POPRAWKA] Usypiamy stygnięcie (rundown). ALE — jeśli temperatura ROŚNIE podczas postoju,
     # to jest to sytuacja skrajnie niebezpieczna (ogień lub slipping belt).
@@ -1401,7 +1422,11 @@ def main():
     aggregated_sensors = {}
     for sn, sensor_data in bearing_raw.groupby('sn'):
         print(f"     → Przetwarzanie napędu SN: {sn}...")
-        df_sensor = prepare_bearing_data(sensor_data)
+        
+        # [NOWOŚĆ] Detekcja profilu przed agregacją (potrzebna do czasu rozgrzewki)
+        is_heavy_machinery = any(keyword.upper() in str(sn).upper() for keyword in HEAVY_KEYWORDS)
+        
+        df_sensor = prepare_bearing_data(sensor_data, is_heavy=is_heavy_machinery)
         df_sensor['sn'] = sn
         aggregated_sensors[sn] = df_sensor
 
@@ -1441,7 +1466,7 @@ def main():
 
         # ── Krok 4: Siemens Baseline ──
         print("📐 KROK 4/9: Analiza Siemens — Adaptive Baseline (banda μ±2σ)...")
-        df = analyze_siemens_baseline(df)
+        df = analyze_siemens_baseline(df, is_heavy_machinery)
 
         # ── Krok 5: AWS Gradient ──
         print("🌡️  KROK 5/9: Analiza AWS Monitron — Gradient temperatury...")
