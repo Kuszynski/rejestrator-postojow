@@ -107,9 +107,21 @@ BREAKS = [
     (time(19, 0), time(19, 30)),  # Przerwa kolacyjna
 ]
 # Ile minut po starcie/przerwie ignorować gradient (czas nagrzewania)
-WARMUP_MINUTES = 45  # Standardowy czas rozgrzewki
-HEAVY_WARMUP_MINUTES = 90  # Rozszerzona rozgrzewka dla QSS/Rębaków (ciężkie maszyny)
+WARMUP_MINUTES = 120  # Standardowy czas rozgrzewki (wydłużono na zime do 2h)
+HEAVY_WARMUP_MINUTES = 150  # Rozszerzona rozgrzewka dla QSS/Rębaków (ciężkie maszyny)
 SAFETY_OVERRIDE_GRADIENT = 25.0  # °C/h → Absolutny bypass rozgrzewki (wykrywanie pożaru)
+
+# --- HOT RESTART: Gorący restart po krótkiej przerwie ---
+# Problem: maszyna zatrzymuje się na przerwę śródrannią (~07:00), restartuje przy T > 45°C.
+# Stara logika traktowała taki restart identycznie jak zimny start poranny —
+# stosowała okno 120/150 min warmup z limitem 30°C/h.
+# Nowa logika: jeśli temperatura startu > HOT_RESTART_TEMP_THRESHOLD:
+#   → krótsze okno warmup: 60 min (maszyna jest już termicznie ustabilizowana)
+#   → niższy limit gradientu: 20°C/h (wolniejsze grzanie od wysokiej bazy)
+# Wzorowane na: AWS Monitron "thermal state continuity", Siemens MindSphere "hot start suppression"
+HOT_RESTART_TEMP_THRESHOLD = 45.0   # °C — restart z temp > 45°C = gorący restart
+HOT_RESTART_GRACE_MINUTES  = 120    # min — ochrona po gorącym restarcie (maszyna potrzebuje ~2h do plateau)
+HOT_RESTART_GRADIENT_LIMIT = 20.0   # °C/h — dozwolony gradient podczas gorącego restartu
 
 # --- Alarm Persistence (Trwałość Alarmu) ---
 # Ref: SKF Enlight / IMx — alarm debounce
@@ -125,7 +137,7 @@ ALARM_PERSISTENCE_FIRE = 1       # 1 × 5min = NATYCHMIAST dla POŻAR/STOP (W u�
 # --- HEAVY IMPACT PROFILE (RĘBAKI / QSS) ---
 # Wprowadzamy osobne, ułagodzone kryteria dla maszyn brutalnie tnących kłody (np. 1880 QSS-420).
 # Rębaki zębowe produkują niekończący się ciąg szpilek wibracyjnych - standardowo ISO/SKF zarzucałyby alarmami przez cały dzień.
-HEAVY_KEYWORDS = ['QSS', 'HUGG', 'CHIPPER', 'REBAK', 'RĘBAK', 'BARK']
+HEAVY_KEYWORDS = ['QSS', 'HUGG', 'CHIPPER', 'REBAK', 'RĘBAK', 'BARK', 'RL-600', 'RC-600', 'REDUSER', '2230']
 HEAVY_SKF_CF_WARNING = 6.0       # Standardowy to 5.0 (dopuszczamy rębaki do cięcia twardszych materiałów)
 HEAVY_SKF_CF_CRITICAL = 8.0      # Standardowy to 6.0
 
@@ -141,8 +153,39 @@ HEAVY_ALARM_PERSISTENCE_INTERVALS = 2  # 2 × 5min = 10 minut (skrócono z 3, by
 
 # --- HEAVY IMPACT: Siemens Baseline Deviation ---
 # Podniesione progi dla maszyn o dużej zmienności naturalnej (rębaki, QSS).
-HEAVY_SIEMENS_SIGMA_WARNING = 2.5   # μ ± 2.5σ
-HEAVY_SIEMENS_SIGMA_CRITICAL = 3.5  # μ ± 3.5σ
+HEAVY_SIEMENS_SIGMA_WARNING = 3.0   # μ ± 3.0σ
+HEAVY_SIEMENS_SIGMA_CRITICAL = 4.0  # μ ± 4.0σ
+
+# --- ASSET SPECIFIC OVERRIDES ---
+# Specyficzne odchyłki od reguły dla "dziwnych" maszyn pod kątem AWS Monitron (predykcja)
+ASSET_OVERRIDES = {
+    '1880 QSS-420': {
+        'max_rise_threshold': 45.0,  # Ogromna maszyna nagrzewająca się cały dzień
+        'pred_min_temp': 65.0        # Pracuje stabilnie w okolicach 60C
+    },
+    '1830 RC-600': {
+        'max_rise_threshold': 50.0,
+        'pred_min_temp': 65.0
+    }
+}
+
+# --- SPINDLE QSS: Faza-świadoma logika termiczna ---
+# Spindel nagrzewa się przez 2-3h (Faza 1), stabilizuje (Faza 2 = plateau),
+# a dopiero PONOWNY wzrost po plateau to sygnał awarii (Faza 3).
+# Ogólna logika AWS alarmuje w Fazie 1 — ta logika to naprawia.
+SPINDLE_KEYWORDS = ['SPINDEL', 'SPINDLE']
+SPINDLE_PLATEAU_WINDOW = 6           # interwałów 5-min (30 min) = okno detekcji plateau
+SPINDLE_PLATEAU_GRADIENT_MAX = 3.0   # °C/h — plateau = gradient < 3°C/h przez 30 min
+SPINDLE_PLATEAU_RERISE_ALARM = 5.0   # °C/h — po plateau: gradient > 5°C/h = KRITISK ALARM
+SPINDLE_PLATEAU_HISTORY_DAYS = 7     # dni historii do porównania plateau (tydzień)
+SPINDLE_PLATEAU_OVERHEAT_DELTA = 5.0 # °C — plateau wyższe niż hist. max + 5°C = PLANLEGG
+# --- SPINDLE: Cold Start Detection ---
+# Jeśli temperatura na początku sesji < progu, to jest to zimny start (np. rano po nocnym postoju).
+# Podczas zimnego startu: wyłączamy is_violent_heating i podnosimy próg re-rise.
+# (AWS Monitron: "cold_start_suppression", Siemens MindSphere: "thermal_fingerprint_reset")
+SPINDLE_COLD_START_TEMP_THRESHOLD = 40.0  # °C — poniżej tej temp na starcie = zimny start
+SPINDLE_COLD_START_GRACE_INTERVALS = 18   # × 5 min = 90 minut ochrony po zimnym starcie
+SPINDLE_COLD_START_RERISE_ALARM = 20.0    # °C/h — próg re-rise podczas zimnego startu (zamiast 5°C/h)
 
 # --- Random Cut Forest (4. silnik: AWS Monitron ML) ---
 # Ref: AWS Monitron — "Robust Random Cut Forest Based Anomaly Detection"
@@ -315,17 +358,50 @@ def classify_production_time(df: pd.DataFrame, is_heavy: bool = False) -> pd.Dat
     df['is_break'] = ~df['is_production']
 
     # Wykrywanie "warmupu" (rozgrzewki)
-    # Znajdujemy momenty startu (przejście z false do true dla is_production)
-    starts = df['is_production'] & ~df['is_production'].shift(1, fill_value=False)
+    # WAŻNE: używamy is_production_raw (fizyczne wibracje) zamiast is_production,
+    # bo is_production zawiera rundown (45 min po zatrzymaniu). Gdybyśmy użyli
+    # is_production, restart po krótkiej przerwie (np. 07:00–07:30) wypadałby
+    # w środku rundowna i NIE byłby wykrywany jako nowy start — hot restart
+    # nie działałby dla przerw śródrannych.
+    starts = df['is_production_raw'] & ~df['is_production_raw'].shift(1, fill_value=False)
 
     warmup_minutes_effective = HEAVY_WARMUP_MINUTES if is_heavy else WARMUP_MINUTES
-    warmup_intervals = warmup_minutes_effective // interval_minutes
-    
-    # Tworzymy maskę rozgrzewki: przedłużamy flagę startu na przód o 'warmup_intervals' interwałów
-    df['is_warmup'] = starts.replace(False, np.nan).ffill(limit=warmup_intervals).fillna(False).astype(bool)
-    
-    # Ciepło ma znaczenie tylko wtedy, gdy maszyna rzeczywiście pracuje
-    df['is_warmup'] = df['is_warmup'] & df['is_production']
+    warmup_intervals    = warmup_minutes_effective // interval_minutes
+    hot_restart_intervals = HOT_RESTART_GRACE_MINUTES // interval_minutes
+
+    # --- HOT RESTART DETECTION (per start) ---
+    # Zamiast jednego okna warmup dla wszystkich startów, sprawdzamy temperaturę w momencie
+    # każdego startu i decydujemy: zimny start (długie okno) lub gorący restart (krótkie okno).
+    df['is_warmup']     = False
+    df['is_hot_restart'] = False  # Gorący restart po krótkiej przerwie (T > HOT_RESTART_TEMP_THRESHOLD)
+
+    for idx in starts[starts].index:
+        # Temperatura łożyska w momencie startu — decyduje o typie rozruchu
+        if 'temp_mean' in df.columns:
+            start_temp = df.loc[idx, 'temp_mean']
+            is_hot = (not pd.isna(start_temp)) and (float(start_temp) >= HOT_RESTART_TEMP_THRESHOLD)
+        else:
+            is_hot = False
+
+        grace = hot_restart_intervals if is_hot else warmup_intervals
+
+        # Zaznacz okno warmup/hot_restart w indeksie DataFrame
+        pos     = df.index.get_loc(idx)
+        end_pos = min(pos + grace + 1, len(df))
+        window_idx = df.index[pos:end_pos]
+        df.loc[window_idx, 'is_warmup'] = True
+        if is_hot:
+            df.loc[window_idx, 'is_hot_restart'] = True
+            try:
+                print(f"     → [HOT RESTART] Start o {idx.strftime('%H:%M')} przy "
+                      f"{start_temp:.1f}°C — ochrona {HOT_RESTART_GRACE_MINUTES} min "
+                      f"(limit gradientu {HOT_RESTART_GRADIENT_LIMIT}°C/h)")
+            except Exception:
+                pass
+
+    # Warmup/hot_restart mają sens tylko podczas produkcji
+    df['is_warmup']      = df['is_warmup']      & df['is_production']
+    df['is_hot_restart'] = df['is_hot_restart'] & df['is_production']
 
     return df
 
@@ -367,7 +443,7 @@ def analyze_skf_crest_factor(df: pd.DataFrame, is_heavy_machinery: bool = False)
     if is_heavy_machinery:
         cf_warning = HEAVY_SKF_CF_WARNING
         cf_critical = HEAVY_SKF_CF_CRITICAL
-        print("     → Profil maszyny udarowej AKTYWNY: podwyższam tolerancję SKF (CF).")
+        print("     → Kraftig maskinprofil AKTIV: øker SKF-toleransen (CF).")
     else:
         cf_warning = SKF_CF_WARNING
         cf_critical = SKF_CF_CRITICAL
@@ -439,7 +515,7 @@ def analyze_siemens_baseline(df: pd.DataFrame, is_heavy_machinery: bool = False)
     if is_heavy_machinery:
         sigma_warning = HEAVY_SIEMENS_SIGMA_WARNING
         sigma_critical = HEAVY_SIEMENS_SIGMA_CRITICAL
-        print("     → Profil maszyny udarowej AKTYWNY: podwyższam tolerancję Siemens (Baseline).")
+        print("     → Kraftig maskinprofil AKTIV: øker Siemens-toleransen (Baseline).")
     else:
         sigma_warning = SIEMENS_SIGMA_WARNING
         sigma_critical = SIEMENS_SIGMA_CRITICAL
@@ -525,7 +601,7 @@ def analyze_siemens_baseline(df: pd.DataFrame, is_heavy_machinery: bool = False)
 #  MODUŁ 4: LOGIKA AWS MONITRON — ANOMALY GRADIENT (Gradient Temperatury)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None, is_heavy: bool = False, is_oil: bool = False) -> pd.DataFrame:
+def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None, is_heavy: bool = False, is_oil: bool = False, is_spindle: bool = False, sn: str = None) -> pd.DataFrame:
     """
     AWS Monitron Gradient Analysis — alarmowanie oparte na szybkości zmian.
 
@@ -570,10 +646,10 @@ def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None, is_heavy
         df['hall_temp'] = df['hall_temp'].ffill().bfill()
         df['temp_compensated'] = df['temp_mean'] - df['hall_temp']
         temp_col = 'temp_compensated'
-        print("     → Kompensacja temperatury otoczenia: AKTYWNA (czujnik halowy)")
+        print("     → Kompensasjon for omgivelsestemperatur: AKTIV (hallesensor)")
     else:
         temp_col = 'temp_mean'
-        print("     → Kompensacja temperatury otoczenia: BRAK (brak danych halowych)")
+        print("     → Kompensasjon for omgivelsestemperatur: INGEN (mangler halledata)")
 
     # Oblicz gradient temperatury (°C/h) z oknem 1h
     # Używamy diff() / diff(periods) = zmiana w oknach 5-min, skalowana do °C/h
@@ -605,25 +681,22 @@ def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None, is_heavy
     ).fillna(0)
 
     # --- NOWY: SKUMULOWANY WZROST (Total Rise) ---
-    if 'is_production' in df.columns:
-        prod_mask = df['is_production'] & (df[temp_col] > 10.0)
-        first_prod = df[prod_mask][temp_col].first_valid_index()
-        
-        # [AUTOKOREKTA] Jeśli maszyna się nie kręci (np. zatarta), a jest po 06:15
-        if first_prod is None:
-            # Upewnij się, że index jest DatetimeIndex przed dostępem do .time
-            if isinstance(df.index, pd.DatetimeIndex):
-                morning_idx = df.index[df.index.time >= time(6, 15)]
+    df['temp_total_rise'] = 0.0
+    if 'is_production' in df.columns and isinstance(df.index, pd.DatetimeIndex):
+        # Grupowanie po dniu - każda zmiana dzienna ma swój własny punkt odniesienia
+        for run_date, group in df.groupby(df.index.date):
+            prod_mask = group['is_production'] & (group[temp_col] > 10.0)
+            first_prod = group[prod_mask].first_valid_index()
+            
+            # [AUTOKOREKTA] Jeśli maszyna się nie kręci (np. zatarta), a jest po 06:15
+            if first_prod is None:
+                morning_idx = group.index[group.index.time >= time(6, 15)]
                 if len(morning_idx) > 0:
                     first_prod = morning_idx[0]
 
-        if first_prod is not None:
-            baseline_temp = df.loc[first_prod, temp_col]
-            df['temp_total_rise'] = (df[temp_col] - baseline_temp).clip(lower=0)
-        else:
-            df['temp_total_rise'] = 0.0
-    else:
-        df['temp_total_rise'] = 0.0
+            if first_prod is not None:
+                baseline_temp = group.loc[first_prod, temp_col]
+                df.loc[group.index, 'temp_total_rise'] = (group[temp_col] - baseline_temp).clip(lower=0)
 
     # ── TYLKO DODATNIE gradienty są niebezpieczne ──
     # Ujemny gradient = łożysko się chłodzi = DOBRZE.
@@ -633,17 +706,43 @@ def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None, is_heavy
     #   - Próg CRITICAL: 15°C/h (między 99.9th a pożarem)
     gradient_for_alarm = df['temp_gradient_final'].copy()
     
-    min_fire_temp = AWS_MIN_FIRE_TEMP_OIL if is_oil else AWS_MIN_FIRE_TEMP
-    
-    # SAFETY OVERRIDE: Jeśli gradient > 25°C/h, to pożar, nie rozgrzewka.
-    is_extreme = (df['temp_gradient_final'] >= SAFETY_OVERRIDE_GRADIENT) & (df['temp_mean'] >= min_fire_temp)
+    # -------------------------------------------------------------
+    # DYNAMICZNA KRZYWA GRADIENTU (The SOTA Approach)
+    # Zamiast sztywnego bezpiecznika, dopuszczalny gradient maleje
+    # w miarę wzrostu całkowitej temperatury maszyny.
+    # -------------------------------------------------------------
+    if is_heavy:
+        # Krzywa dla maszyn udarowych (QSS/Rębaki)
+        dynamic_override_conditions = [
+            (df['temp_mean'] < 50.0) & (df['temp_gradient_final'] >= 45.0),
+            (df['temp_mean'] >= 50.0) & (df['temp_mean'] < 65.0) & (df['temp_gradient_final'] >= 30.0),
+            (df['temp_mean'] >= 65.0) & (df['temp_gradient_final'] >= 20.0)
+        ]
+        min_fire_temp = AWS_MIN_FIRE_TEMP_OIL if is_oil else 55.0
+        warmup_limit = 30.0
+    else:
+        # Krzywa dla pomp, wentylatorów, mniejszych silników
+        dynamic_override_conditions = [
+            (df['temp_mean'] < 45.0) & (df['temp_gradient_final'] >= 35.0),
+            (df['temp_mean'] >= 45.0) & (df['temp_mean'] < 60.0) & (df['temp_gradient_final'] >= 25.0),
+            (df['temp_mean'] >= 60.0) & (df['temp_gradient_final'] >= 15.0)
+        ]
+        min_fire_temp = AWS_MIN_FIRE_TEMP_OIL if is_oil else AWS_MIN_FIRE_TEMP
+        warmup_limit = AWS_GRADIENT_CRITICAL
+
+    is_extreme = np.logical_or.reduce(dynamic_override_conditions)
     
     gradient_for_alarm[~df['is_production'] & ~is_extreme] = 0.0    # Poza zmianą — ignoruj (chyba że pożar)
     
-    # ROZGRZEWKA: Ignoruj małe gradienty, ale jeśli gradient jest podejrzany (>20 dla heavy), alarmuj.
-    warmup_limit = 20.0 if is_heavy else AWS_GRADIENT_CRITICAL
-    is_suspicious_warmup = df['is_warmup'] & (df['temp_gradient_final'] > warmup_limit)
-    
+    # ROZGRZEWKA: Ignoruj małe gradienty, ale jeśli gradient jest podejrzany, alarmuj.
+    # Gorący restart (is_hot_restart): limit 20°C/h — maszyna grzeje się wolniej (wysoka baza temp)
+    # Zimny start (is_warmup tylko):   limit warmup_limit (30°C/h heavy / 15°C/h standard)
+    is_hot_restart_mask  = df.get('is_hot_restart', pd.Series(False, index=df.index)).astype(bool)
+    is_suspicious_warmup = (
+        (df['is_warmup'] & ~is_hot_restart_mask & (df['temp_gradient_final'] > warmup_limit)) |
+        (is_hot_restart_mask                     & (df['temp_gradient_final'] > HOT_RESTART_GRADIENT_LIMIT))
+    )
+
     gradient_for_alarm[df['is_warmup'] & ~is_extreme & ~is_suspicious_warmup] = 0.0
     
     # [POPRAWKA] Usypiamy stygnięcie (rundown). ALE — jeśli temperatura ROŚNIE podczas postoju,
@@ -658,22 +757,38 @@ def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None, is_heavy
     
     # Wykorzystujemy gradient błyskawiczny (fast) dla statusu BRANN/STOPP
     # Standard: >20°C/h przy maszynie ogrzanej >45°C
-    # Heavy: >30°C/h przy maszynie ogrzanej >55°C (zabezpieczenie przed ekstremalnym Heat Soak po zmianie obciążenia)
-    fast_fire_grad = 30.0 if is_heavy else 20.0
-    fast_fire_temp = 55.0 if is_heavy else min_fire_temp
+    # Heavy: >40°C/h przy maszynie ogrzanej >60°C (zabezpieczenie przed ekstremalnym Heat Soak po zmianie obciążenia na småtømmer)
+    fast_fire_grad = 40.0 if is_heavy else 20.0
+    fast_fire_temp = 60.0 if is_heavy else min_fire_temp
     is_fast_fire = (df['temp_gradient_fast'] >= fast_fire_grad) & (df['temp_mean'] >= fast_fire_temp)
     
     # [NOWOŚĆ] PREDYKCJA: Całkowity wzrost o > 25 stopni (dla ciężkich) lub > 20 (standard)
     max_rise_threshold = 25.0 if is_heavy else 20.0
+    pred_min_temp = 45.0
+    
+    # [NOWOŚĆ] Sprawdzanie overrides
+    if sn:
+        for key, override_vals in ASSET_OVERRIDES.items():
+            if key in sn:
+                max_rise_threshold = override_vals.get('max_rise_threshold', max_rise_threshold)
+                pred_min_temp = override_vals.get('pred_min_temp', pred_min_temp)
+                break
+
     # [POPRAWKA] Bramka gradientu — Inteligentne odróżnianie HEAT SOAK od ZATARCIA:
     # 1. Podczas pracy (raw) — bramka zawsze otwarta.
     # 2. Podczas stygnięcia (rundown) — tolerujemy do 25°C/h (Heat Soak), powyżej to błąd.
     # 3. Podczas postoju (idle/break) — tolerujemy do 5°C/h (Seized bearing), powyżej to błąd.
     # 4. Wymagamy gradientu > 5.0 dla alarmu predykcyjnego (zabezpieczenie przed wolnym nagrzewaniem rano)
-    is_predictive_failure = (df['temp_total_rise'] >= max_rise_threshold) & (df['temp_mean'] >= 45.0) & (df['temp_gradient_final'] > 5.0)
+    # 5. Wyłączamy algorytm podczas normalnego rozgrzewania (np po przerwie)
+    is_predictive_failure = (df['temp_total_rise'] >= max_rise_threshold) & (df['temp_mean'] >= pred_min_temp) & (df['temp_gradient_final'] > 5.0) & (~df['is_warmup'] | is_suspicious_warmup)
     
+    # [NOWOŚĆ] Jeśli to SPINDLE, całkowicie wyłącz aws predictive, logika qss to przejmie
+    if is_spindle:
+        is_predictive_failure = pd.Series(False, index=df.index)
+
     # Absolutne zabezpieczenie (Failsafe)
-    is_absolute_overheat = df['temp_mean'] >= 65.0
+    absolute_overheat_threshold = 75.0 if is_heavy else 65.0
+    is_absolute_overheat = df['temp_mean'] >= absolute_overheat_threshold
     
     is_predictive_gate = (
         df['is_production_raw'] |                                  # 1. Produkcja
@@ -716,7 +831,7 @@ def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None, is_heavy
 #  MODUŁ 4B: RANDOM CUT FOREST — AWS MONITRON ML
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def analyze_rcf_anomaly(df: pd.DataFrame) -> pd.DataFrame:
+def analyze_rcf_anomaly(df: pd.DataFrame, is_heavy: bool = False) -> pd.DataFrame:
     """
     Isolation Forest — wielowymiarowa detekcja anomalii (rodzina RCF).
 
@@ -811,11 +926,16 @@ def analyze_rcf_anomaly(df: pd.DataFrame) -> pd.DataFrame:
     # Chcemy zgłaszać alarmy (Warning/Critical) TYLKO wtedy, gdy RCF znajdzie anomalię ORAZ:
     # 1. Maszyna wibruje silniej niż wynosi jej typowa "zdrowia" średnia praca.
     # Używamy tolerancyjnego progu: wibracje muszą być >= (0.8 * typowa średnia produkcyjna).
+    
+    # Tolerancje wygrzewania (Heat Soak) zależą od masy termicznej maszyny:
+    rundown_tolerance = 25.0 if is_heavy else 15.0
+    seized_tolerance = 15.0 if is_heavy else 10.0
+
     if 'vib_rms' in prod_df.columns:
         typical_vib = prod_df['vib_rms'].median()
         # Mnożymy przez 0.8, aby pozwolić na alarmy "narastające", ale uciąć oczywiste puste zera z postoju
         # [POPRAWKA] Pozwól na anomalię nawet przy niskich wibracjach, jeśli gradient temp jest wysoki (zatarcie!)
-        is_vib_spike = (df['vib_rms'] >= (typical_vib * 0.8)) | (df.get('temp_gradient_final', 0) > 10.0)
+        is_vib_spike = (df['vib_rms'] >= (typical_vib * 0.8)) | (df.get('temp_gradient_final', 0) > seized_tolerance)
     else:
         is_vib_spike = pd.Series(True, index=df.index)
 
@@ -823,15 +943,15 @@ def analyze_rcf_anomaly(df: pd.DataFrame) -> pd.DataFrame:
     rcf_status = pd.Series('IDLE', index=df.index)
     
     # Warunkowa klasyfikacja
-    # [POPRAWKA] Pozwalamy na RCF w czasie rundown, jeśli jest to dangerous_rundown (temp rośnie)
-    is_dangerous_rundown = df.get('is_rundown', False) & (df.get('temp_gradient_final', 0) > 5.0)
+    # [POPRAWKA] Pozwalamy na RCF w czasie rundown, jeśli jest to dangerous_rundown (temp rośnie) - uwzględnia Heat Soak
+    is_dangerous_rundown = df.get('is_rundown', False) & (df.get('temp_gradient_final', 0) > rundown_tolerance)
     
     # 1. Critical
-    is_crit = (df['rcf_score'] <= threshold_critical) & (df['is_production'] | is_dangerous_rundown) & is_vib_spike
+    is_crit = (df['rcf_score'] <= threshold_critical) & (df.get('is_production_raw', df['is_production']) | is_dangerous_rundown) & is_vib_spike
     rcf_status[is_crit] = '🔴 KRITISK ALARM'
     
     # 2. Warning
-    is_warn = (df['rcf_score'] <= threshold_warning) & (df['is_production'] | is_dangerous_rundown) & is_vib_spike & ~is_crit
+    is_warn = (df['rcf_score'] <= threshold_warning) & (df.get('is_production_raw', df['is_production']) | is_dangerous_rundown) & is_vib_spike & ~is_crit
     rcf_status[is_warn] = '🟡 PLANLEGG SERVICE'
 
     # [NOWOŚĆ] Tłumienie stygnięcia dla RCF:
@@ -839,6 +959,11 @@ def analyze_rcf_anomaly(df: pd.DataFrame) -> pd.DataFrame:
     # to fizycznie nie ma ryzyka awarii termicznej.
     is_cooling_safe = (df['temp_mean'] < 30.0) & (df.get('temp_gradient_final', 0) < 0.0)
     rcf_status[is_cooling_safe & rcf_status.isin(['🔴 KRITISK ALARM', '🟡 PLANLEGG SERVICE'])] = '🟢 MONITORING'
+
+    # [NOWOŚĆ] Tłumienie rozgrzewki (warmup) dla RCF:
+    # Ignoruj anomalie statystyczne wynikające z gęstego, zimnego smaru i początkowego wzrostu temperatury.
+    is_warmup_mask = df.get('is_warmup', pd.Series(False, index=df.index))
+    rcf_status[is_warmup_mask & rcf_status.isin(['🔴 KRITISK ALARM', '🟡 PLANLEGG SERVICE'])] = '🟢 MONITORING'
 
     # Domyślnie dla produkcji, jeśli nie ma alarmu, to monitoring
     rcf_status[prod_mask & ~is_crit & ~is_warn] = '🟢 MONITORING'
@@ -849,6 +974,145 @@ def analyze_rcf_anomaly(df: pd.DataFrame) -> pd.DataFrame:
     n_warning = (df['rcf_status'] == '🟡 ANOMALIA RCF').sum()
     n_critical = (df['rcf_status'] == '🔴 ANOMALIA KRYTYCZNA RCF').sum()
     print(f"     → Wykryto: {n_warning} anomalii 🟡 + {n_critical} anomalii 🔴")
+
+    return df
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+#  MODUŁ 4C: LOGIKA TERMICZNA WRZECIONA (SPINDLE QSS)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def analyze_spindle_qss(df: pd.DataFrame, is_spindle: bool = False, sn: str = None) -> pd.DataFrame:
+    """
+    Własna, faza-świadoma logika termiczna dla potężnych wrzecion (QSS Spindle).
+    Zastępuje ogólną logikę predykcyjną AWS.
+    Wykrywa kiedy maszyna wchodzi w stabilne plateau temperatury.
+    Alarmuje tylko gdy temperatura zacznie ZNÓW rosnąć po plateau.
+
+    [v2 — Cold Start Detection]
+    Wzorowane na AWS Monitron cold_start_suppression i Siemens MindSphere thermal_fingerprint_reset:
+    - Jeśli temperatura na początku sesji < SPINDLE_COLD_START_TEMP_THRESHOLD (zimny start),
+      przez pierwsze SPINDLE_COLD_START_GRACE_INTERVALS × 5min:
+      - is_violent_heating jest wyłączone (normalny poranny wzrost ≤ 25°C/h jest OK),
+      - próg re-rise podniesiony do SPINDLE_COLD_START_RERISE_ALARM.
+    - Plateau z poprzedniej sesji jest kasowane przy nowej sesji zaczynającej się jako cold start.
+    """
+    df = df.copy()
+    df['spindle_status'] = 'IDLE'
+    df['p_spindle'] = 0
+    df['spindle_plateau_temp'] = np.nan
+    df['is_cold_start'] = False  # Nowa kolumna: czy punkt jest w oknie zimnego startu?
+
+    # Dodaj status dla logów jeśli pominie
+    if not is_spindle or 'temp_mean' not in df.columns or 'temp_gradient_final' not in df.columns:
+        return df
+
+    # Filtrujemy tylko czas produkcji (rozgrzewanie silnika jest ok)
+    production_df = df[df.get('is_production_raw', False) | df.get('is_rundown', False)].copy()
+    if production_df.empty:
+        return df
+
+    plateau_window = SPINDLE_PLATEAU_WINDOW
+
+    # 1. FAZA 2: Wykrywanie Plateau (czy gradient był niski przez ostatnie N interwałów)
+    is_plateau = production_df['temp_gradient_final'].rolling(window=plateau_window, min_periods=plateau_window).max() <= SPINDLE_PLATEAU_GRADIENT_MAX
+
+    # Rozszerzamy plateau tak, by trwało (jeśli raz osiągniemy, to jesteśmy w plateau do końca sesji)
+    df['is_plateau'] = False
+
+    # Dzielimy pracę na ciągłe sesje (przerwa > 1 godzina = nowa sesja, reset plateau)
+    session_id = (production_df.index.to_series().diff() > pd.Timedelta(hours=1)).cumsum()
+
+    for session_num, group in production_df.groupby(session_id):
+        # ── COLD START DETECTION (per sesja) ──────────────────────────────────
+        # Temperatura na początku tej sesji = termiczny "odcisk palca" startu
+        session_start_idx = group.index[0]
+        session_start_temp = df.loc[session_start_idx, 'temp_mean']
+        is_this_session_cold = session_start_temp < SPINDLE_COLD_START_TEMP_THRESHOLD
+
+        if is_this_session_cold:
+            # Oznacz pierwsze N interwałów tej sesji jako okno zimnego startu
+            grace_end = min(SPINDLE_COLD_START_GRACE_INTERVALS, len(group))
+            cold_start_indices = group.index[:grace_end]
+            df.loc[cold_start_indices, 'is_cold_start'] = True
+            print(f"     → [SPINDLE COLD START] Sesja {session_num}: start {session_start_temp:.1f}°C "
+                  f"< {SPINDLE_COLD_START_TEMP_THRESHOLD}°C — ochrona przez "
+                  f"{grace_end * 5} min (do {cold_start_indices[-1].strftime('%H:%M') if len(cold_start_indices) > 0 else '?'})")
+
+        # ── PLATEAU DETECTION (per sesja) ─────────────────────────────────────
+        local_plateau = is_plateau.loc[group.index]
+        if local_plateau.any():
+            plateau_start_idx = local_plateau[local_plateau].first_valid_index()
+
+            if plateau_start_idx is not None:
+                # Od momentu znalezienia plateau, wszystko dalej w TEJ SESJI to Faza 2/3
+                df.loc[group.index[group.index >= plateau_start_idx], 'is_plateau'] = True
+
+                # Rejestrujemy temp plateau (temperatura w momencie ustabilizowania)
+                plateau_temp = df.loc[plateau_start_idx, 'temp_mean']
+                df.loc[group.index[group.index >= plateau_start_idx], 'spindle_plateau_temp'] = plateau_temp
+
+    # 2. FAZA 3: Wykrywanie wzrostu po plateau (Awaria)
+    plateau_margin = 2.0  # Dozwolony margines wahania wokół zarejestrowanego plateau
+
+    # 2a. Klasyczne naruszenie: temperatura przekracza poziom plateau i nadal rośnie
+    #     Podczas cold start: używamy podwyższonego progu (20°C/h zamiast 5°C/h)
+    rerise_threshold = np.where(
+        df['is_cold_start'],
+        SPINDLE_COLD_START_RERISE_ALARM,   # 20°C/h — zimny start, normalny rozruch
+        SPINDLE_PLATEAU_RERISE_ALARM        # 5°C/h  — po ustabilizowaniu, każdy wzrost jest podejrzany
+    )
+    is_breaking_plateau = (
+        (df['temp_mean'] > (df['spindle_plateau_temp'] - plateau_margin)) &
+        (df['temp_gradient_final'] > rerise_threshold)
+    )
+
+    # 2b. Zatarcie / pożar: ekstremalnie szybki wzrost po GORĄCYM starcie
+    #     [KLUCZOWA ZMIANA] Wyłączone podczas cold start — rano +19°C/h jest normalnym rozruchem.
+    #     Aktywne TYLKO gdy maszyna była już wygrzana (start > COLD_START_TEMP_THRESHOLD).
+    is_violent_heating = (df['temp_gradient_final'] > 15.0) & (~df['is_cold_start'])
+
+    is_rerise = df['is_plateau'] & (is_breaking_plateau | is_violent_heating)
+
+    # 2c. Usypiamy lekkie szumy z oficjalnej rozgrzewki (is_warmup),
+    #     ale NIE tłumiemy violent_heating (to zawsze awaria po gorącym starcie)
+    if 'is_warmup' in df.columns:
+        is_rerise = is_rerise & (~df.get('is_warmup', pd.Series(False, index=df.index)) | is_violent_heating)
+
+    # 3. KLASYFIKACJA
+    conditions = [
+        ~df.get('is_production_raw', df['is_production']) & ~df.get('is_rundown', False),
+        is_rerise & (df['temp_mean'] >= 50.0),  # Awaria termiczna na wygrzanym
+        df['is_plateau'],                         # Faza 2 (Stabilna)
+        ~df['is_plateau']                         # Faza 1 (Rozruch)
+    ]
+    choices = [
+        'IDLE',
+        '🔴 KRITISK ALARM',
+        '🟢 MONITORING',
+        '🟢 MONITORING'
+    ]
+    df['spindle_status'] = np.select(conditions, choices, default='UNKNOWN')
+
+    # 4. Early warning: plateau historycznie wyższe niż norma (zużycie długoterminowe)
+    try:
+        if df['is_plateau'].any():
+            all_plateaus = df[df['is_plateau']].groupby(df[df['is_plateau']].index.date)['spindle_plateau_temp'].first()
+            if len(all_plateaus) > 3:
+                hist_max = all_plateaus.quantile(0.90)
+                if not np.isnan(hist_max):
+                    is_overheat = df['is_plateau'] & (df['spindle_plateau_temp'] > hist_max + SPINDLE_PLATEAU_OVERHEAT_DELTA)
+                    is_service_needed = is_overheat & (df['spindle_status'] == '🟢 MONITORING')
+                    df.loc[is_service_needed, 'spindle_status'] = '🟡 PLANLEGG SERVICE'
+    except Exception as e:
+        print(f"  [ERROR] Spindle plateau history error: {e}")
+
+    crit_count = (df['spindle_status'] == '🔴 KRITISK ALARM').sum()
+    cold_suppressed = df['is_cold_start'].sum()
+    if crit_count > 0:
+        print(f"     → [SPINDLE FAZA 3] Wykryto ponowny wzrost temp. po stabilizacji ({crit_count} alarmów).")
+    if cold_suppressed > 0:
+        print(f"     → [SPINDLE COLD START] Wyciszono alarmy rozruchu w {cold_suppressed} interwałach.")
 
     return df
 
@@ -867,9 +1131,9 @@ def fuse_alarms(df: pd.DataFrame, is_heavy_machinery: bool = False) -> pd.DataFr
     persistence_required = HEAVY_ALARM_PERSISTENCE_INTERVALS if is_heavy_machinery else ALARM_PERSISTENCE_INTERVALS
 
     # Zabezpieczenie przed brakującymi kolumnami statusów
-    for col in ['p_skf', 'p_siemens', 'p_aws', 'p_rcf']:
+    for col in ['p_skf', 'p_siemens', 'p_aws', 'p_rcf', 'p_spindle']:
         if col not in df.columns: df[col] = 0
-    for col in ['skf_status', 'siemens_status', 'aws_status', 'rcf_status']:
+    for col in ['skf_status', 'siemens_status', 'aws_status', 'rcf_status', 'spindle_status']:
         if col not in df.columns: df[col] = 'IDLE'
 
     # Mapowanie priorytetów (wyższy = gorszy)
@@ -887,12 +1151,13 @@ def fuse_alarms(df: pd.DataFrame, is_heavy_machinery: bool = False) -> pd.DataFr
     df['p_siemens'] = df['siemens_status'].map(priority).fillna(0)
     df['p_aws'] = df['aws_status'].map(priority).fillna(0)
     df['p_rcf'] = df['rcf_status'].map(priority).fillna(0)
-    df['max_priority'] = df[['p_skf', 'p_siemens', 'p_aws', 'p_rcf']].max(axis=1)
+    df['p_spindle'] = df['spindle_status'].map(priority).fillna(0)
+    df['max_priority'] = df[['p_skf', 'p_siemens', 'p_aws', 'p_rcf', 'p_spindle']].max(axis=1)
 
     # ── Alarm Persistence (Debounce) ──
     # Dla każdego silnika: ile kolejnych interwałów alarm jest aktywny?
     # Alarm trwa = priorytet >= 3 (PLANLEGG SERVICE lub wyżej)
-    for col in ['p_skf', 'p_siemens', 'p_aws', 'p_rcf']:
+    for col in ['p_skf', 'p_siemens', 'p_aws', 'p_rcf', 'p_spindle']:
         alarm_active = (df[col] >= 3).astype(int)
         # Oblicz ciąg kolejnych jedynek (rolling count z resetem na 0)
         # Użyj cumsum trick: grupa = cumsum(~alarm) → count w grupie
@@ -903,7 +1168,8 @@ def fuse_alarms(df: pd.DataFrame, is_heavy_machinery: bool = False) -> pd.DataFr
     for col, status_col in [('p_skf', 'skf_status'),
                             ('p_siemens', 'siemens_status'),
                             ('p_aws', 'aws_status'),
-                            ('p_rcf', 'rcf_status')]:
+                            ('p_rcf', 'rcf_status'),
+                            ('p_spindle', 'spindle_status')]:
         # Ekstremalny pożar wymaga potężnego gradientu I potwierdzenia, że to nie jest zimny start z mrozu.
         is_extreme_fire = False
         if 'temp_gradient_final' in df.columns and 'temp_mean' in df.columns:
@@ -939,7 +1205,7 @@ def fuse_alarms(df: pd.DataFrame, is_heavy_machinery: bool = False) -> pd.DataFr
         df.loc[unpersisted_warn, status_col] = '🟢 MONITORING'
 
     # Przelicz max_priority po debounce
-    df['max_priority'] = df[['p_skf', 'p_siemens', 'p_aws', 'p_rcf']].max(axis=1)
+    df['max_priority'] = df[['p_skf', 'p_siemens', 'p_aws', 'p_rcf', 'p_spindle']].max(axis=1)
 
     # Wynik końcowy
     conditions = [
@@ -969,6 +1235,8 @@ def fuse_alarms(df: pd.DataFrame, is_heavy_machinery: bool = False) -> pd.DataFr
             sources.append('AWS')
         if row['p_rcf'] >= 3:
             sources.append('RCF')
+        if row['p_spindle'] >= 3:
+            sources.append('Spindle')
         return '+'.join(sources) if sources else '-'
 
     df['alarm_source'] = df.apply(get_alarm_source, axis=1)
@@ -1179,7 +1447,7 @@ def print_health_report(df: pd.DataFrame):
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def print_header():
-    """Wydrukuj nagłówek raportu."""
+    """Skriv ut rapportheadere."""
     print("\n")
     print("╔" + "═" * 96 + "╗")
     print("║  DIAGNOSTIKKRAPPORT — LAGERMONITORINGSSYSTEM" + " " * 50 + "║")
@@ -1194,7 +1462,7 @@ def print_header():
 
 
 def print_summary_stats(df: pd.DataFrame):
-    """Wydrukuj podsumowanie statystyczne."""
+    """Skriv ut statistisk oppsummering."""
     total = len(df)
     idle = len(df[df['FINAL_VERDICT'] == 'IDLE'])
     ok = len(df[df['FINAL_VERDICT'] == '🟢 MONITORING'])
@@ -1211,41 +1479,41 @@ def print_summary_stats(df: pd.DataFrame):
     print(f"{'─' * 80}")
 
     # Temperatura
-    print(f"\n  🌡️  TEMPERATURA ŁOŻYSKA:")
+    print(f"\n  🌡️  LAGERTEMPERATUR:")
     print(f"      Min: {df['temp_mean'].min():6.1f}°C | "
-          f"Średnia: {df['temp_mean'].mean():6.1f}°C | "
+          f"Snitt: {df['temp_mean'].mean():6.1f}°C | "
           f"Max: {df['temp_mean'].max():6.1f}°C")
 
-    # Wibracje
+    # Vibrate
     running = df[df['vib_rms'] > SKF_VIBRATION_IDLE]
     if len(running) > 0:
-        print(f"\n  📳 WIBRACJE (gdy maszyna pracuje):")
+        print(f"\n  📳 VIBRASJON (når maskinen går):")
         print(f"      RMS Min: {running['vib_rms'].min():.3f}g | "
-              f"Średnia: {running['vib_rms'].mean():.3f}g | "
+              f"Snitt: {running['vib_rms'].mean():.3f}g | "
               f"Max: {running['vib_rms'].max():.3f}g")
         print(f"      Crest Factor Min: {running['crest_factor'].min():.2f} | "
-              f"Średni: {running['crest_factor'].mean():.2f} | "
+              f"Snitt: {running['crest_factor'].mean():.2f} | "
               f"Max: {running['crest_factor'].max():.2f}")
 
     # Gradient
-    print(f"\n  📈 GRADIENT TEMPERATURY:")
+    print(f"\n  📈 TEMPERATURGRADIENT:")
     print(f"      Max wzrost: {df['temp_gradient_final'].max():+.1f}°C/h | "
           f"Max spadek: {df['temp_gradient_final'].min():+.1f}°C/h")
 
 
 def print_alarm_events(df: pd.DataFrame):
-    """Wydrukuj szczegółową listę zdarzeń alarmowych."""
+    """Skriv ut detaljert liste over alarmhendelser."""
     alarms = df[df['FINAL_VERDICT'].str.contains('SERVICE|ALARM|BRANN', na=False)].copy()
 
     if len(alarms) == 0:
-        print("\n  ✅ BRAK ALARMÓW — Maszyna pracuje w normie przez cały analizowany okres.")
+        print("\n  ✅ INGEN ALARMER — Maskinen fungerer normalt i hele perioden.")
         return
 
     print(f"\n{'═' * 100}")
-    print(f"  ⚠️  ZDARZENIA ALARMOWE ({len(alarms)} interwałów)")
+    print(f"  ⚠️  ALARMHENDELSER ({len(alarms)} intervaller)")
     print(f"{'═' * 100}")
-    print(f"  {'Czas':<22} │ {'Temp':>6} │ {'Vib_RMS':>7} │ {'CF':>5} │ "
-          f"{'Δ%Baza':>7} │ {'ΔT/h':>6} │ {'Źródło':>8} │ Status")
+    print(f"  {'Tid':<22} │ {'Temp':>6} │ {'Vib_RMS':>7} │ {'CF':>5} │ "
+          f"{'Δ%Base':>7} │ {'ΔT/h':>6} │ {'Kilde':>8} │ Status")
     print(f"  {'─' * 22}─┼─{'─' * 6}─┼─{'─' * 7}─┼─{'─' * 5}─┼─"
           f"{'─' * 7}─┼─{'─' * 6}─┼─{'─' * 8}─┼─{'─' * 30}")
 
@@ -1261,7 +1529,7 @@ def print_alarm_events(df: pd.DataFrame):
         if current_verdict != prev_verdict:
             # Nowa grupa alarmowa
             if group_count > 2 and prev_verdict is not None:
-                print(f"  {'... (' + str(group_count - 2) + ' więcej)':<22} │ {'':>6} │ "
+                print(f"  {'... (' + str(group_count - 2) + ' mer)':<22} │ {'':>6} │ "
                       f"{'':>7} │ {'':>5} │ {'':>7} │ {'':>6} │ {'':>8} │")
 
             timestamp_str = idx.strftime('%Y-%m-%d %H:%M')
@@ -1454,8 +1722,9 @@ def main():
         # SN zawiera alias w nawiasie, np. "21008127 (1780 el motor NDE QSS-700 N.V)"
         is_heavy_machinery = any(keyword.upper() in str(sn).upper() for keyword in HEAVY_KEYWORDS)
         
-        # [NOWOŚĆ] Detekcja czujników oleju (HPU/C2)
+        # [NOWOŚĆ] Detekcja czujników oleju (HPU/C2) i wrzecion (Spindle)
         is_oil = any(k.upper() in str(sn).upper() for k in OIL_KEYWORDS)
+        is_spindle = any(k.upper() in str(sn).upper() for k in SPINDLE_KEYWORDS)
         
         if is_heavy_machinery:
             print("  ⚠️ DETEKCJA PROFILU CIĘŻKIEGO: Wykryto rębaka/QSS. Ograniczam czułość wibracyjną i persystencję.")
@@ -1470,11 +1739,16 @@ def main():
 
         # ── Krok 5: AWS Gradient ──
         print("🌡️  KROK 5/9: Analiza AWS Monitron — Gradient temperatury...")
-        df = analyze_aws_gradient(df, hall_temp, is_heavy=is_heavy_machinery, is_oil=is_oil)
+        df = analyze_aws_gradient(df, hall_temp, is_heavy=is_heavy_machinery, is_oil=is_oil, is_spindle=is_spindle, sn=sn)
+
+        # ── Krok 5B: Spindle QSS (Faza termiczna) ──
+        if is_spindle:
+            print("🌡️  KROK 5B/9: Analiza specyficzna dla wrzeciona (Fazy termiczne)...")
+        df = analyze_spindle_qss(df, is_spindle=is_spindle, sn=sn)
 
         # ── Krok 6: Random Cut Forest ──
         print("🌲 KROK 6/9: Analiza RCF — Random Cut Forest (wielowymiarowy ML)...")
-        df = analyze_rcf_anomaly(df)
+        df = analyze_rcf_anomaly(df, is_heavy=is_heavy_machinery)
 
         # ── Krok 7: Fuzja alarmów ──
         print("⚡ KROK 7/9: Fuzja alarmów (worst-case, SIL-2 + persistence)...")
