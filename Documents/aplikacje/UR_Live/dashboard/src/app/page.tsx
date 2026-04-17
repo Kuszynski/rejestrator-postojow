@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { AlertTriangle, Activity, Thermometer, ShieldAlert, Cpu, FolderUp, CloudDownload, CheckSquare, Square, TrendingUp, Settings, ToggleLeft, ToggleRight, ScrollText, Play } from 'lucide-react';
-import { ResponsiveContainer, ComposedChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ReferenceLine } from 'recharts';
+import { ResponsiveContainer, ComposedChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ReferenceLine, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 
 const translateVerdict = (v: string | undefined | null) => {
   if (!v) return 'INAKTIV';
@@ -136,6 +136,162 @@ const getAlarmDescription = (alert: any) => {
     if(textBlob.includes('spindel') || textBlob.includes('qss') || textBlob.includes('spindel')) return 'Spindelanalyse: Dedikert overvåkning av kaldstart for tunge roterende masser. Modellen skiller smart mellom normal maskinoppvarming og faktiske avvik, og eliminerer falske morgenalarmer.';
     return 'Hendelsesanalyse: Systemet har loggført mekaniske eller termiske uregelmessigheter som avviker fra det historiske og normale driftsmønsteret for denne spesifikke maskinen.';
 };
+
+
+const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
+  // Aggregate data
+  const paretoData = useMemo(() => {
+    if (!alerts || !alerts.length) return [];
+    
+    // 1. Pareto: Alarms per Machine
+    const counts: Record<string, number> = {};
+    alerts.forEach((a: any) => {
+        const name = a.alias || a.shortSn.replace(/^api_/i, '');
+        counts[name] = (counts[name] || 0) + 1;
+    });
+    
+    const sorted = Object.keys(counts).map(k => ({ name: k, count: counts[k] })).sort((a,b) => b.count - a.count);
+    return sorted.slice(0, 7); // Top 7 offenders
+  }, [alerts]);
+
+  const sourceData = useMemo(() => {
+    if (!alerts || !alerts.length) return [];
+
+    let aws = 0, rcf = 0, siemens = 0, spindel = 0, other = 0;
+    alerts.forEach((a: any) => {
+        const str = `${a.alarm_source || ''} ${a.type || ''} ${a.FINAL_VERDICT || ''} ${a.alias || ''} ${a.msg || ''}`.toLowerCase();
+        if(str.includes('aws') || str.includes('gradient')) aws++;
+        else if(str.includes('rcf') || str.includes('anomali')) rcf++;
+        else if(str.includes('siemens') || str.includes('rms')) siemens++;
+        else if(str.includes('spindel') || str.includes('qss')) spindel++;
+        else other++;
+    });
+
+    const data = [];
+    if(aws>0) data.push({ name: 'AWS (Termisk)', value: aws, color: '#f97316' });
+    if(rcf>0) data.push({ name: 'RCF (Nevral)', value: rcf, color: '#a855f7' });
+    if(siemens>0) data.push({ name: 'Siemens (Vibrasjon)', value: siemens, color: '#3b82f6' });
+    if(spindel>0) data.push({ name: 'Spindel (Kaldstart)', value: spindel, color: '#10b981' });
+    if(other>0) data.push({ name: 'Annet', value: other, color: '#64748b' });
+    return data;
+  }, [alerts]);
+
+  const timelineData = useMemo(() => {
+    if (!alerts || !alerts.length) return [];
+    
+    const days: Record<string, number> = {};
+    alerts.forEach((a: any) => {
+       const d = new Date(a.timestamp);
+       const dateStr = d.toLocaleDateString('no-NO', { day: '2-digit', month: '2-digit' });
+       days[dateStr] = (days[dateStr] || 0) + 1;
+    });
+
+    // Sort chronologically 
+    const dayTimes: Record<string, number> = {};
+    alerts.forEach((a: any) => {
+       const d = new Date(a.timestamp);
+       const dateStr = d.toLocaleDateString('no-NO', { day: '2-digit', month: '2-digit' });
+       if(!dayTimes[dateStr] || d.getTime() < dayTimes[dateStr]) dayTimes[dateStr] = d.getTime();
+    });
+
+    return Object.keys(days).map(k => ({ date: k, hendelser: days[k], t: dayTimes[k] })).sort((a,b) => a.t - b.t);
+  }, [alerts]);
+
+  if (!alerts || alerts.length === 0) {
+      return (
+      <div className="flex flex-col items-center justify-center h-full text-slate-500 bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6 shadow-xl min-h-[750px] gap-4">
+        <Activity className="w-16 h-16 opacity-20" />
+        <h2 className="text-xl font-medium text-slate-400">Ingen data for flåteanalyse</h2>
+      </div>
+      );
+  }
+
+  const CustomTooltipPie = ({ active, payload }: any) => {
+      if (active && payload && payload.length) {
+          return (
+              <div className="bg-slate-900 border border-slate-700 p-2 rounded-lg shadow-xl font-mono text-xs text-white">
+                  <span className="font-bold" style={{color: payload[0].payload.color}}>{payload[0].name}:</span> {payload[0].value} hendelser
+              </div>
+          );
+      }
+      return null;
+  };
+
+  return (
+    <div className="flex flex-col h-full bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl shadow-xl min-h-[750px] overflow-hidden">
+      <div className="p-6 border-b border-slate-800 flex justify-between items-start bg-gradient-to-r from-slate-900 to-transparent relative">
+         <div className="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+         <div>
+            <h2 className="text-2xl font-black text-white tracking-tight uppercase flex items-center gap-3">
+                <Activity className="w-6 h-6 text-blue-500" /> Flåteanalyse (Global)
+            </h2>
+            <div className="text-slate-400 font-mono text-sm mt-1">Aggregert statistikk på tvers av hele anlegget. Analyserer {alerts.length} hendelser.</div>
+         </div>
+      </div>
+
+      <div className="flex-1 p-6 grid grid-cols-2 gap-8 overflow-y-auto">
+         
+         {/* PARETO: WORST OFFENDERS */}
+         <div className="col-span-2 xl:col-span-1 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-orange-500" /> Top 7 Utsatte Maskiner (Pareto)
+            </h3>
+            <div className="flex-1 min-h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={paretoData} layout="vertical" margin={{ top: 0, right: 30, left: 30, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={true} vertical={false} />
+                        <XAxis type="number" stroke="#475569" tick={{ fill: '#64748b', fontSize: 10 }} />
+                        <YAxis type="category" dataKey="name" stroke="#475569" tick={{ fill: '#94a3b8', fontSize: 10, width: 120 }} width={120} />
+                        <RechartsTooltip cursor={{fill: '#1e293b', opacity: 0.4}} contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#fff', fontSize: '12px', fontFamily: 'monospace' }} />
+                        <Bar dataKey="count" name="Antall Alarmer" fill="#ef4444" radius={[0, 4, 4, 0]} isAnimationActive={false} />
+                    </BarChart>
+                </ResponsiveContainer>
+            </div>
+         </div>
+
+         {/* SOURCE DISTRIBUTION */}
+         <div className="col-span-2 xl:col-span-1 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
+                <Cpu className="w-4 h-4 text-purple-500" /> Feilkilde Fordeling
+            </h3>
+            <div className="flex-1 min-h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                        <Pie data={sourceData} cx="50%" cy="50%" innerRadius={70} outerRadius={110} dataKey="value" isAnimationActive={false} stroke="#0f172a" strokeWidth={2}>
+                            {sourceData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.color} />
+                            ))}
+                        </Pie>
+                        <RechartsTooltip content={<CustomTooltipPie />} />
+                        <Legend layout="vertical" verticalAlign="middle" align="right" wrapperStyle={{ fontSize: '11px' }} />
+                    </PieChart>
+                </ResponsiveContainer>
+            </div>
+         </div>
+
+         {/* TIMELINE */}
+         <div className="col-span-2 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
+                <Activity className="w-4 h-4 text-blue-500" /> Hendelsesfrekvens Tidslinje
+            </h3>
+            <div className="flex-1 min-h-[250px]">
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={timelineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                        <XAxis dataKey="date" stroke="#475569" tick={{ fill: '#64748b', fontSize: 10 }} />
+                        <YAxis stroke="#3b82f6" tick={{ fill: '#3b82f6', fontSize: 10 }} allowDecimals={false} />
+                        <RechartsTooltip cursor={{fill: '#1e293b', opacity: 0.4}} contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#fff', fontSize: '12px', fontFamily: 'monospace' }} />
+                        <Bar dataKey="hendelser" name="Kritiske Hendelser" fill="#3b82f6" radius={[4, 4, 0, 0]} isAnimationActive={false} />
+                    </BarChart>
+                </ResponsiveContainer>
+            </div>
+         </div>
+
+      </div>
+    </div>
+  );
+});
+
 
 const DetailedAnalysisView = React.memo(({ selectedAlert }: any) => {
   const [chartData, setChartData] = useState<any[]>([]);
@@ -787,6 +943,15 @@ export default function Dashboard() {
               </div>
             </div>
           )}
+
+          <div className="mt-6 flex">
+              <button
+                 onClick={() => setSelectedAlert(null)}
+                 className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm uppercase tracking-widest transition-all ${!selectedAlert ? 'bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)]' : 'bg-slate-900 border border-slate-700 text-slate-400 hover:text-white hover:bg-slate-800'}`}
+              >
+                 <Activity className="w-4 h-4" /> Flåteanalyse
+              </button>
+          </div>
         </div>
 
         {/* RIGHT WIDGETS */}
