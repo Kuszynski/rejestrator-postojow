@@ -174,8 +174,8 @@ ASSET_OVERRIDES = {
 # a dopiero PONOWNY wzrost po plateau to sygnał awarii (Faza 3).
 # Ogólna logika AWS alarmuje w Fazie 1 — ta logika to naprawia.
 SPINDLE_KEYWORDS = ['SPINDEL', 'SPINDLE']
-SPINDLE_PLATEAU_WINDOW = 6           # interwałów 5-min (30 min) = okno detekcji plateau
-SPINDLE_PLATEAU_GRADIENT_MAX = 3.0   # °C/h — plateau = gradient < 3°C/h przez 30 min
+SPINDLE_PLATEAU_WINDOW = 12           # interwałów 5-min (1h) = okno detekcji plateau
+SPINDLE_PLATEAU_GRADIENT_MAX = 3.0   # °C/h — plateau = gradient < 3°C/h przez 1h
 SPINDLE_PLATEAU_RERISE_ALARM = 5.0   # °C/h — po plateau: gradient > 5°C/h = KRITISK ALARM
 SPINDLE_PLATEAU_HISTORY_DAYS = 7     # dni historii do porównania plateau (tydzień)
 SPINDLE_PLATEAU_OVERHEAT_DELTA = 5.0 # °C — plateau wyższe niż hist. max + 5°C = PLANLEGG
@@ -184,7 +184,7 @@ SPINDLE_PLATEAU_OVERHEAT_DELTA = 5.0 # °C — plateau wyższe niż hist. max + 
 # Podczas zimnego startu: wyłączamy is_violent_heating i podnosimy próg re-rise.
 # (AWS Monitron: "cold_start_suppression", Siemens MindSphere: "thermal_fingerprint_reset")
 SPINDLE_COLD_START_TEMP_THRESHOLD = 40.0  # °C — poniżej tej temp na starcie = zimny start
-SPINDLE_COLD_START_GRACE_INTERVALS = 18   # × 5 min = 90 minut ochrony po zimnym starcie
+SPINDLE_COLD_START_GRACE_INTERVALS = 60   # × 5 min = 300 minut (5 godzin) ochrony po zimnym starcie
 SPINDLE_COLD_START_RERISE_ALARM = 20.0    # °C/h — próg re-rise podczas zimnego startu (zamiast 5°C/h)
 
 # --- Random Cut Forest (4. silnik: AWS Monitron ML) ---
@@ -934,8 +934,10 @@ def analyze_rcf_anomaly(df: pd.DataFrame, is_heavy: bool = False) -> pd.DataFram
     if 'vib_rms' in prod_df.columns:
         typical_vib = prod_df['vib_rms'].median()
         # Mnożymy przez 0.8, aby pozwolić na alarmy "narastające", ale uciąć oczywiste puste zera z postoju
-        # [POPRAWKA] Pozwól na anomalię nawet przy niskich wibracjach, jeśli gradient temp jest wysoki (zatarcie!)
-        is_vib_spike = (df['vib_rms'] >= (typical_vib * 0.8)) | (df.get('temp_gradient_final', 0) > seized_tolerance)
+        # [POPRAWKA] Pozwól na anomalię nawet przy niskich wibracjach, jeśli:
+        # A) gradient temp jest wysoki (zatarcie!)
+        # B) Crest Factor jest wysoki (stukanie mechaniczne/luzy)
+        is_vib_spike = (df['vib_rms'] >= (typical_vib * 0.8)) | (df.get('temp_gradient_final', 0) > seized_tolerance) | (df.get('crest_factor', 0) > 6.0)
     else:
         is_vib_spike = pd.Series(True, index=df.index)
 
@@ -1188,7 +1190,8 @@ def fuse_alarms(df: pd.DataFrame, is_heavy_machinery: bool = False) -> pd.DataFr
         is_alarm_not_persistent = (
             (df[col] >= 3) &
             (df[col] < 5) &
-            (df[f'{col}_streak'] < persistence_required)
+            (df[f'{col}_streak'] < persistence_required) &
+            (col != 'p_rcf')  # [NOWOŚĆ] RCF jest silnikiem punktowym (outlier), nie musi trwać 10 minut
         )
         
         # Degradacja: zamiast na ślepo wrzucać 🟢 MONITORING (p=1), 

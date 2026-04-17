@@ -26,13 +26,51 @@ const getStatusColor = (verdict: string) => {
   return 'bg-slate-800 border-slate-700 text-slate-300';
 };
 
-const formatTime = (ts: string) => {
+const getRelativeTime = (ts: string | number) => {
+  try {
+    if (!ts) return '';
+    const d = new Date(ts);
+    const now = new Date();
+    const diffMs = Math.max(0, now.getTime() - d.getTime());
+    const diffMins = Math.floor(diffMs / 60000);
+
+    if (diffMins < 1) return 'Nå';
+    if (diffMins < 60) return `${diffMins} min siden`;
+
+    const diffHours = Math.floor(diffMins / 60);
+    if (diffHours < 24) return `${diffHours}t siden`;
+
+    const diffDays = Math.floor(diffHours / 24);
+    return `${diffDays}d siden`;
+  } catch { return ''; }
+};
+
+const formatTime = (ts: string | number) => {
   try {
     if (!ts) return '';
     const d = new Date(ts);
     return d.toLocaleDateString('no-NO', { day: '2-digit', month: '2-digit' }) + ' ' +
       d.toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' });
-  } catch { return ts; }
+  } catch { return String(ts); }
+};
+
+const getReactionTime = (timestamp: number, receivedTimestamp?: number) => {
+  if (!receivedTimestamp) return null;
+  const diffMs = receivedTimestamp - timestamp;
+  if (diffMs <= 0) return null;
+
+  const diffMins = Math.floor(diffMs / 60000);
+
+  // Ukrywamy ogromne opóźnienia, które wynikają ze wczytywania starej historii 
+  // np. gdy ktoś wyłączy komputer i włączy go następnego dnia
+  if (diffMins > 2 * 60) return null; // Ukryj, jeśli opóźnienie jest większe niż 2 godziny
+
+  if (diffMins < 1) return '+ < 1 min systemtid';
+
+  const diffHours = Math.floor(diffMins / 60);
+  if (diffHours >= 1) return `+ ${diffHours}t ${diffMins % 60}m systemtid`;
+
+  return `+ ${diffMins} min systemtid`;
 };
 
 const COLORS = ['#3b82f6', '#f97316', '#10b981', '#a855f7', '#ec4899'];
@@ -162,12 +200,29 @@ const AlertLogSection = React.memo(({ alerts, selectedGroup }: any) => {
                   <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider leading-tight break-words border ${isFire ? 'bg-red-900/50 text-red-100 border-red-500/30' : 'bg-yellow-900/50 text-yellow-100 border-yellow-500/30'}`}>
                     {alert.alias || alert.shortSn.replace(/^api_/i, '')}
                   </span>
-                  <span className="text-[11px] text-slate-500 font-mono shrink-0">
-                    {formatTime(alert.timestamp)}
-                  </span>
+                  <div className="flex flex-col items-end gap-0.5 mt-0.5">
+                    <span className="text-[11px] text-slate-500 font-mono shrink-0 leading-none">
+                      {formatTime(alert.timestamp)}
+                    </span>
+                    <span className="text-[9px] text-slate-500/70 font-mono italic leading-none whitespace-nowrap">
+                      {getRelativeTime(alert.timestamp)}
+                    </span>
+                    {alert.received_timestamp && getReactionTime(alert.timestamp, alert.received_timestamp) && (
+                      <span className="text-[9px] text-blue-400 font-mono italic leading-none whitespace-nowrap mt-0.5" title="Czas przetwarzania od sensorów AI do dashboardu">
+                        {getReactionTime(alert.timestamp, alert.received_timestamp)}
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <div className={`text-sm font-black tracking-wide ${isFire ? 'text-red-400' : 'text-yellow-400'}`}>
-                  {translateVerdict(alert.FINAL_VERDICT || alert.type)}
+                <div className="flex items-center gap-2 mt-1">
+                  <div className={`text-sm font-black tracking-wide ${isFire ? 'text-red-400' : 'text-yellow-400'}`}>
+                    {translateVerdict(alert.FINAL_VERDICT || alert.type)}
+                  </div>
+                  {alert.msg && (
+                    <span className="text-[10px] font-mono font-bold text-blue-300 bg-blue-900/30 px-1.5 py-0.5 rounded border border-blue-500/30 tracking-widest uppercase shadow-sm">
+                      {alert.msg.replace('AI-hendelse detektert', '').replace(/[() \t]/g, '') || alert.msg}
+                    </span>
+                  )}
                 </div>
                 <div className="text-xs font-mono text-slate-400 flex flex-wrap gap-x-5 gap-y-1 mt-1 bg-black/20 p-2 rounded-lg border border-white/5">
                   <span className="flex items-center gap-1.5"><Activity className="w-3.5 h-3.5 text-blue-500/70" /> {alert.vib_rms?.toFixed(2) || '0.00'}g</span>
@@ -279,6 +334,7 @@ export default function Dashboard() {
               type: e.type.includes('BRANN') ? 'FIRE' : (e.type.includes('KRITISK') ? 'CRITICAL' : 'SERVICE'),
               msg: e.msg,
               timestamp: new Date(e.timestamp).getTime(),
+              received_timestamp: e.received_timestamp ? new Date(e.received_timestamp).getTime() : null,
               vib_rms: e.vib_rms,
               temp_mean: e.temp_mean,
               temp_gradient: e.temp_gradient

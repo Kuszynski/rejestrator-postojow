@@ -1,3 +1,12 @@
+import sys
+import platform
+
+# [HOTFIX] WMI na tym serwerze Windows aktualnie wisi, co powoduje zawieszenie całego `import aiohttp`.
+# Mockujemy WMI by ominąć nieskończone oczekiwanie przy imporcie bibliotek sieciowych.
+def _mock_wmi_query(*args, **kwargs): return '10.0.19041', '1', 'Multiprocessor Free', '0', '0'
+if hasattr(platform, '_wmi_query'):
+    platform._wmi_query = _mock_wmi_query
+
 import asyncio
 import aiohttp
 import json
@@ -464,8 +473,12 @@ async def mine_historical_events(hwstate):
     """
     Przeszukuje sensor_history w poszukiwaniu historycznych alarmów (Dual Mining).
     """
-    print("[*] Rozpoczynam poszukiwanie historycznych alarmów (60 dni)...")
+    print("[*] Rozpoczynam poszukiwanie historycznych alarmów (14 dni)...")
     import bearing_monitor as ai
+    
+    # [POPRAWKA] Ograniczenie mining do ostatnich 14 dni
+    mining_days = 14
+    cutoff_ts = int((datetime.now() - timedelta(days=mining_days)).timestamp() * 1000)
     
     found_raw = 0
     found_comp = 0
@@ -482,6 +495,10 @@ async def mine_historical_events(hwstate):
         if i % 10 == 0: await push_snapshot_to_ui(hwstate)
         
         df = hwstate.sensor_history[sn]
+        if len(df) < 50: continue
+        
+        # Filtrujemy tylko ostatnie 14 dni
+        df = df[df['timestamp'] >= cutoff_ts]
         if len(df) < 50: continue
         
         try:
@@ -519,6 +536,8 @@ async def mine_historical_events(hwstate):
                     d = ai.analyze_siemens_baseline(d)
                 except Exception: pass
                 
+                is_spindle = any(keyword.upper() in alias.upper() for keyword in getattr(ai, 'SPINDLE_KEYWORDS', ['SPINDEL', 'SPINDLE']))
+                
                 try:
                     ai.AWS_GRADIENT_WINDOW = WIN_1H
                     hall_temp = None
@@ -528,7 +547,12 @@ async def mine_historical_events(hwstate):
                         hraw['timestamp'] = pd.to_datetime(hraw['timestamp'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Warsaw').dt.tz_localize(None)
                         hpre = ai.prepare_hall_data(hraw)
                         hall_temp = hpre['hall_temp'] if not hpre.empty else None
-                    d = ai.analyze_aws_gradient(d, hall_temp=hall_temp, is_heavy=is_heavy_impact, is_oil=is_oil)
+                    d = ai.analyze_aws_gradient(d, hall_temp=hall_temp, is_heavy=is_heavy_impact, is_oil=is_oil, is_spindle=is_spindle, sn=sn)
+                except Exception: pass
+                
+                try:
+                    if is_spindle:
+                        d = ai.analyze_spindle_qss(d, is_spindle=is_spindle, sn=sn)
                 except Exception: pass
                 
                 try: d = ai.analyze_rcf_anomaly(d)
