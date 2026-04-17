@@ -497,34 +497,10 @@ const DetailedAnalysisView = React.memo(({ selectedAlert }: any) => {
 });
 
 
-const AlertLogSection = React.memo(({ alerts, selectedGroup, onSelectAlert, selectedAlertId }: any) => {
-  const [timeFilter, setTimeFilter] = useState('24h');
-  const [onlyCritical, setOnlyCritical] = useState(false);
-
-  const filteredAlerts = useMemo(() => {
-    let base = alerts?.filter((a: any) => a.groupId === selectedGroup) || [];
-    const now = Date.now();
-
-    if (timeFilter === '24h') {
-      const dayAgo = now - 24 * 60 * 60 * 1000 - (10 * 60 * 1000); // 10 min buffer
-      base = base.filter((a: any) => a.timestamp >= dayAgo);
-    } else if (timeFilter === '7d') {
-      const weekAgo = now - 7 * 24 * 60 * 60 * 1000 - (10 * 60 * 1000);
-      base = base.filter((a: any) => a.timestamp >= weekAgo);
-    } else if (timeFilter === '30d') {
-      const monthAgo = now - 30 * 24 * 60 * 60 * 1000 - (10 * 60 * 1000);
-      base = base.filter((a: any) => a.timestamp >= monthAgo);
-    }
-
-    if (onlyCritical) {
-      base = base.filter((a: any) => {
-        const verdict = String(a?.FINAL_VERDICT || a?.type || '');
-        return verdict.includes('POŻAR') || verdict.includes('KRITISK') || verdict.includes('BRANN') || verdict.includes('STOPP') || verdict.includes('FIRE') || verdict.includes('CRITICAL');
-      });
-    }
-
-    return base;
-  }, [alerts, selectedGroup, timeFilter, onlyCritical, alerts.length]); // Track alerts length for updates
+const AlertLogSection = React.memo(({ alerts, selectedGroup, onSelectAlert, selectedAlertId, timeFilter, setTimeFilter, onlyCritical, setOnlyCritical }: any) => {
+  const filteredAlertsByGroup = useMemo(() => {
+    return alerts?.filter((a: any) => a.groupId === selectedGroup) || [];
+  }, [alerts, selectedGroup]); // Track alerts length for updates
 
   return (
     <div className="bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6 shadow-2xl flex flex-col h-[750px] relative overflow-hidden">
@@ -561,8 +537,8 @@ const AlertLogSection = React.memo(({ alerts, selectedGroup, onSelectAlert, sele
       </div>
 
       <div className="flex-1 overflow-y-auto pr-2 mt-4 space-y-3 scrollbar-thin scrollbar-thumb-slate-700/80">
-        {filteredAlerts.length > 0 ? (
-          filteredAlerts.map((alert: any, i: number) => {
+        {filteredAlertsByGroup.length > 0 ? (
+          filteredAlertsByGroup.map((alert: any, i: number) => {
             const isFire = String(alert?.FINAL_VERDICT || '').includes('POŻAR') || String(alert?.FINAL_VERDICT || '').includes('KRITISK');
             return (
               <div key={i} onClick={() => onSelectAlert && onSelectAlert(alert)} className={`p-4 rounded-xl border flex flex-col gap-2 relative overflow-hidden transition-all duration-300 hover:translate-x-1 cursor-pointer ${selectedAlertId === alert.id ? 'ring-2 ring-blue-500 bg-slate-800/80 shadow-[0_0_20px_rgba(59,130,246,0.3)] ' : ''}${isFire ? 'bg-red-950/30 border-red-900/50 shadow-[0_0_15px_rgba(220,38,38,0.1)]' : 'bg-yellow-950/20 border-yellow-900/30 shadow-[0_0_10px_rgba(202,138,4,0.05)]'}`}>
@@ -625,6 +601,10 @@ export default function Dashboard() {
   const [selectedGroup, setSelectedGroup] = useState('');
   const [selectedSensor, setSelectedSensor] = useState('');
   const [selectedAlert, setSelectedAlert] = useState<any>(null);
+  const [timeFilter, setTimeFilter] = useState('24h');
+  const [onlyCritical, setOnlyCritical] = useState(false);
+
+
 
   const [error, setError] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
@@ -632,6 +612,30 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [data, setData] = useState<any>({ groups: {}, alerts: [], mining_progress: 100 });
+
+  const filteredAlerts = useMemo(() => {
+    let base = data.alerts || [];
+    const now = Date.now();
+
+    if (timeFilter === '24h') {
+      const dayAgo = now - 24 * 60 * 60 * 1000 - (10 * 60 * 1000);
+      base = base.filter((a: any) => a.timestamp >= dayAgo);
+    } else if (timeFilter === '7d') {
+      const weekAgo = now - 7 * 24 * 60 * 60 * 1000 - (10 * 60 * 1000);
+      base = base.filter((a: any) => a.timestamp >= weekAgo);
+    } else if (timeFilter === '30d') {
+      const monthAgo = now - 30 * 24 * 60 * 60 * 1000 - (10 * 60 * 1000);
+      base = base.filter((a: any) => a.timestamp >= monthAgo);
+    }
+
+    if (onlyCritical) {
+      base = base.filter((a: any) => {
+        const verdict = String(a?.FINAL_VERDICT || a?.type || '').toUpperCase();
+        return verdict.includes('POŻAR') || verdict.includes('KRITISK') || verdict.includes('BRANN') || verdict.includes('STOPP') || verdict.includes('FIRE') || verdict.includes('CRITICAL');
+      });
+    }
+    return base;
+  }, [data.alerts, timeFilter, onlyCritical]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -1051,10 +1055,14 @@ export default function Dashboard() {
             {/* ALERT LOG (LEFT - 1 COL) */}
             <div className="xl:col-span-1 flex flex-col h-full relative z-10 w-full min-h-[750px]">
               <AlertLogSection
-                alerts={alerts}
+                alerts={filteredAlerts}
                 selectedGroup={selectedGroup}
                 onSelectAlert={setSelectedAlert}
                 selectedAlertId={selectedAlert?.id}
+                timeFilter={timeFilter}
+                setTimeFilter={setTimeFilter}
+                onlyCritical={onlyCritical}
+                setOnlyCritical={setOnlyCritical}
               />
             </div>
 
@@ -1063,7 +1071,7 @@ export default function Dashboard() {
                 {selectedAlert ? (
                     <DetailedAnalysisView selectedAlert={selectedAlert} />
                 ) : (
-                    <AggregatedAnalyticsView alerts={alerts} />
+                    <AggregatedAnalyticsView alerts={filteredAlerts} />
                 )}
             </div>
 
