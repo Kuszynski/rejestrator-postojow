@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { AlertTriangle, Activity, Thermometer, ShieldAlert, Cpu, FolderUp, CloudDownload, CheckSquare, Square, TrendingUp, Settings, ToggleLeft, ToggleRight } from 'lucide-react';
+import { AlertTriangle, Activity, Thermometer, ShieldAlert, Cpu, FolderUp, CloudDownload, CheckSquare, Square, TrendingUp, Settings, ToggleLeft, ToggleRight, ScrollText, Play } from 'lucide-react';
+import { ResponsiveContainer, ComposedChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ReferenceLine } from 'recharts';
 
 const translateVerdict = (v: string | undefined | null) => {
   if (!v) return 'INAKTIV';
@@ -124,7 +125,223 @@ const SensorGrid = React.memo(({ sensorKeys, sensorsMap }: any) => {
   );
 });
 
-const AlertLogSection = React.memo(({ alerts, selectedGroup }: any) => {
+
+const getAlarmDescription = (alert: any) => {
+    if (!alert) return '';
+    const textBlob = `${alert.alarm_source || ''} ${alert.type || ''} ${alert.FINAL_VERDICT || ''} ${alert.alias || ''} ${alert.msg || ''} ${alert.sn || ''}`.toLowerCase();
+
+    if(textBlob.includes('aws') || textBlob.includes('gradient')) return 'Brannvern/AWS: Analyserer raske temperaturøkninger. Slår ut ved overskridelse av kritiske termiske grenser for å forhindre maskinbrann. Varsler krever umiddelbar inspeksjon.';
+    if(textBlob.includes('rcf') || textBlob.includes('anomali')) return 'RCF Analyse: Nevralt nettverk detekterer mønsteravvik i kombinasjonen av temperatur og vibrasjon. Tjener vanligvis som en tidlig indikator på begynnende lagerskade eller mekanisk slitasje.';
+    if(textBlob.includes('siemens') || textBlob.includes('rms')) return 'Siemens MindSphere: Statisk grenseverdianalyse typisk for vedvarende vibrasjoner. Reagerer ofte på ubalanse eller friksjonsfeil etter at slitasjen har blitt etablert.';
+    if(textBlob.includes('spindel') || textBlob.includes('qss') || textBlob.includes('spindel')) return 'Spindelanalyse: Dedikert overvåkning av kaldstart for tunge roterende masser. Modellen skiller smart mellom normal maskinoppvarming og faktiske avvik, og eliminerer falske morgenalarmer.';
+    return 'Hendelsesanalyse: Systemet har loggført mekaniske eller termiske uregelmessigheter som avviker fra det historiske og normale driftsmønsteret for denne spesifikke maskinen.';
+};
+
+const DetailedAnalysisView = React.memo(({ selectedAlert }: any) => {
+  const [chartData, setChartData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!selectedAlert || !selectedAlert.sn) return;
+    let isMounted = true;
+    setLoading(true);
+    setError(null);
+    setChartData([]);
+
+    fetch(`/api/history?sn=${selectedAlert.sn}`)
+      .then(res => res.json())
+      .then(json => {
+        if (!isMounted) return;
+        if (json.status === 'error') {
+          setError(json.message);
+        } else {
+          setChartData(json.data || []);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        if (!isMounted) return;
+        setError(err.message);
+        setLoading(false);
+      });
+      return () => { isMounted = false; };
+  }, [selectedAlert]);
+
+  if (!selectedAlert) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full text-slate-500 bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6 shadow-xl min-h-[750px] gap-4">
+        <Activity className="w-16 h-16 opacity-20" />
+        <h2 className="text-xl font-medium text-slate-400">Velg en hendelse fra loggen</h2>
+        <p className="text-sm text-slate-500 max-w-sm text-center">Klikk på en alarm i hendelsesloggen til venstre for å se dyptgående historisk analyse og trendkurver for sensoren.</p>
+      </div>
+    );
+  }
+
+  const formatXAxis = (tickItem: any) => {
+    try {
+      const d = new Date(tickItem);
+      return d.toLocaleDateString('no-NO', { day: '2-digit', month: '2-digit' }) + ' ' + d.toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' });
+    } catch { return String(tickItem); }
+  };
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-slate-900 border border-slate-700 p-3 rounded-lg shadow-xl font-mono text-xs">
+          <p className="text-slate-300 mb-2 font-bold border-b border-slate-800 pb-1">{formatXAxis(label)}</p>
+          {payload.map((entry: any, index: number) => (
+            <p key={index} style={{ color: entry.color }} className="flex justify-between gap-4">
+              <span>{entry.name}:</span>
+              <span className="font-bold">{entry.value} {entry.dataKey === 'temp_mean' ? '°C' : 'g'}</span>
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const isoTimestamp = new Date(selectedAlert.timestamp).toISOString();
+
+  return (
+    <div className="flex flex-col h-full bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl shadow-xl min-h-[750px] overflow-hidden">
+      <div className="p-6 border-b border-slate-800 flex justify-between items-start bg-gradient-to-r from-slate-900 to-transparent relative">
+         <div className="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+         <div>
+            <h2 className="text-2xl font-black text-white tracking-tight">{selectedAlert.alias || selectedAlert.shortSn.replace(/^api_/i, '')}</h2>
+            <div className="text-slate-400 font-mono text-sm mt-1 mb-4">SN: {selectedAlert.sn}</div>
+            
+            <div className="bg-slate-800/80 border border-slate-700/80 p-3 rounded-lg max-w-2xl shadow-inner backdrop-blur-sm">
+               <div className="flex items-start gap-3">
+                  <ShieldAlert className="w-5 h-5 text-blue-400 mt-0.5 shrink-0" />
+                  <div>
+                    <h4 className="text-xs uppercase font-bold text-slate-500 tracking-widest mb-1">Diagnostikk og Systemkilde</h4>
+                    <p className="text-slate-300 text-sm leading-relaxed">
+                       {getAlarmDescription(selectedAlert)}
+                    </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div className={`px-4 py-2 rounded-lg font-bold tracking-widest text-sm uppercase ${
+            String(selectedAlert.type).includes('FIRE') || String(selectedAlert.type).includes('CRITICAL') || String(selectedAlert.FINAL_VERDICT).includes('POŻAR') || String(selectedAlert.FINAL_VERDICT).includes('KRITISK')
+            ? 'bg-red-950/50 text-red-400 border border-red-900/50' 
+            : 'bg-yellow-950/50 text-yellow-400 border border-yellow-900/50'
+         }`}>
+            {translateVerdict(selectedAlert.FINAL_VERDICT || selectedAlert.type)}
+         </div>
+      </div>
+
+      <div className="grid grid-cols-3 gap-6 p-6 border-b border-slate-800/50 bg-black/20">
+         <div className="flex flex-col gap-1">
+            <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest">Tidspunkt for Hendelse</span>
+            <span className="text-white font-mono">{formatTime(selectedAlert.timestamp)}</span>
+         </div>
+         <div className="flex flex-col gap-1">
+            <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest">Temperatur ved Hendelse</span>
+            <span className="text-orange-400 flex items-center gap-2 font-mono"><Thermometer className="w-4 h-4"/> {selectedAlert.temp_mean?.toFixed(1) || '--'}°C</span>
+         </div>
+         <div className="flex flex-col gap-1">
+            <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest">Vibrasjon ved Hendelse</span>
+            <span className="text-blue-400 flex items-center gap-2 font-mono"><Activity className="w-4 h-4"/> {selectedAlert.vib_rms?.toFixed(2) || '--'}g</span>
+         </div>
+      </div>
+
+      <div className="flex-1 p-6 relative flex flex-col">
+         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-3">
+            <TrendingUp className="w-4 h-4 text-blue-500" /> Historisk Trendanalyse (14 dager)
+         </h3>
+         
+         {loading ? (
+             <div className="absolute inset-0 flex items-center justify-center z-10">
+                 <div className="flex flex-col items-center gap-4 text-blue-500">
+                     <Activity className="w-12 h-12 animate-spin" />
+                     <span className="text-xs font-mono uppercase tracking-widest font-bold">Laster inn massedata...</span>
+                 </div>
+             </div>
+         ) : error ? (
+             <div className="absolute inset-0 flex items-center justify-center text-red-400 font-mono text-sm z-10">
+                 Feil ved henting av data: {error}
+             </div>
+         ) : chartData.length > 0 ? (
+             <div className="flex-1 w-full min-h-[400px]">
+                 <ResponsiveContainer width="100%" height="100%">
+                     <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                         <defs>
+                             <linearGradient id="colorTemp" x1="0" y1="0" x2="0" y2="1">
+                                 <stop offset="5%" stopColor="#f97316" stopOpacity={0.8}/>
+                                 <stop offset="95%" stopColor="#f97316" stopOpacity={0}/>
+                             </linearGradient>
+                         </defs>
+                         <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                         <XAxis 
+                             dataKey="timestamp" 
+                             tickFormatter={formatXAxis} 
+                             stroke="#475569" 
+                             tick={{ fill: '#64748b', fontSize: 10 }} 
+                             minTickGap={50}
+                         />
+                         <YAxis 
+                             yAxisId="left" 
+                             stroke="#f97316" 
+                             tick={{ fill: '#f97316', fontSize: 10 }}
+                             domain={['auto', 'auto']}
+                         />
+                         <YAxis 
+                             yAxisId="right" 
+                             orientation="right" 
+                             stroke="#3b82f6" 
+                             tick={{ fill: '#3b82f6', fontSize: 10 }}
+                             domain={[0, 'auto']}
+                         />
+                         <RechartsTooltip content={<CustomTooltip />} />
+                         <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '20px' }} />
+                         
+                         <ReferenceLine 
+                             x={isoTimestamp} 
+                             stroke="#ef4444" 
+                             strokeDasharray="3 3" 
+                             yAxisId="left"
+                             label={{ position: 'top', value: 'HENDELSE', fill: '#ef4444', fontSize: 10, fontWeight: 'bold' }} 
+                         />
+                         
+                         <Area 
+                             yAxisId="left" 
+                             type="stepAfter" 
+                             dataKey="temp_mean" 
+                             name="Tenperatur" 
+                             stroke="#f97316" 
+                             strokeWidth={2}
+                             fillOpacity={1} 
+                             fill="url(#colorTemp)" 
+                             isAnimationActive={false}
+                         />
+                         <Line 
+                             yAxisId="right" 
+                             type="stepAfter" 
+                             dataKey="vib_rms" 
+                             name="Vibrasjon (RMS)" 
+                             stroke="#3b82f6" 
+                             strokeWidth={1.5}
+                             dot={false}
+                             isAnimationActive={false}
+                         />
+                     </ComposedChart>
+                 </ResponsiveContainer>
+             </div>
+         ) : (
+             <div className="absolute inset-0 flex items-center justify-center text-slate-500 font-mono text-sm z-10">
+                 Ingen datapunkt funnet for denne perioden.
+             </div>
+         )}
+      </div>
+    </div>
+  );
+});
+
+
+const AlertLogSection = React.memo(({ alerts, selectedGroup, onSelectAlert, selectedAlertId }: any) => {
   const [timeFilter, setTimeFilter] = useState('24h');
   const [onlyCritical, setOnlyCritical] = useState(false);
 
@@ -192,7 +409,7 @@ const AlertLogSection = React.memo(({ alerts, selectedGroup }: any) => {
           filteredAlerts.map((alert: any, i: number) => {
             const isFire = String(alert?.FINAL_VERDICT || '').includes('POŻAR') || String(alert?.FINAL_VERDICT || '').includes('KRITISK');
             return (
-              <div key={i} className={`p-4 rounded-xl border flex flex-col gap-2 relative overflow-hidden transition-all duration-300 hover:translate-x-1 ${isFire ? 'bg-red-950/30 border-red-900/50 shadow-[0_0_15px_rgba(220,38,38,0.1)]' : 'bg-yellow-950/20 border-yellow-900/30 shadow-[0_0_10px_rgba(202,138,4,0.05)]'}`}>
+              <div key={i} onClick={() => onSelectAlert && onSelectAlert(alert)} className={`p-4 rounded-xl border flex flex-col gap-2 relative overflow-hidden transition-all duration-300 hover:translate-x-1 cursor-pointer ${selectedAlertId === alert.id ? 'ring-2 ring-blue-500 bg-slate-800/80 shadow-[0_0_20px_rgba(59,130,246,0.3)] ' : ''}${isFire ? 'bg-red-950/30 border-red-900/50 shadow-[0_0_15px_rgba(220,38,38,0.1)]' : 'bg-yellow-950/20 border-yellow-900/30 shadow-[0_0_10px_rgba(202,138,4,0.05)]'}`}>
                 {isFire && <div className="absolute top-0 left-0 w-1 h-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,1)]"></div>}
                 {!isFire && <div className="absolute top-0 left-0 w-1 h-full bg-yellow-600"></div>}
 
@@ -251,6 +468,7 @@ const AlertLogSection = React.memo(({ alerts, selectedGroup }: any) => {
 export default function Dashboard() {
   const [selectedGroup, setSelectedGroup] = useState('');
   const [selectedSensor, setSelectedSensor] = useState('');
+  const [selectedAlert, setSelectedAlert] = useState<any>(null);
 
   const [error, setError] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
@@ -665,28 +883,19 @@ export default function Dashboard() {
           {/* MAIN 2-COLUMN CONTENT */}
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 items-start">
 
-            {/* SENSOR GRID (LEFT - 3 COLS) */}
-            <div className="xl:col-span-3 bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6 shadow-xl flex flex-col min-h-[750px] relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none"></div>
-
-              <div className="flex items-center justify-between pb-4 border-b border-slate-800 mb-5 relative z-10">
-                <h3 className="text-sm font-bold uppercase tracking-widest text-slate-300 flex items-center gap-3">
-                  <Cpu className="w-4 h-4 text-slate-400" /> Sensoroversikt
-                </h3>
-                <span className="text-xs text-slate-500 font-mono">Oppdatert Live</span>
-              </div>
-
-              <div className="relative z-10">
-                <SensorGrid sensorKeys={groupSensorKeys} sensorsMap={groupSensorsMap} />
-              </div>
-            </div>
-
-            {/* ALERT LOG (RIGHT - 1 COL) */}
-            <div className="xl:col-span-1 border-slate-700/50 rounded-2xl flex flex-col h-full relative z-10">
+            {/* ALERT LOG (LEFT - 1 COL) */}
+            <div className="xl:col-span-1 flex flex-col h-full relative z-10 w-full min-h-[750px]">
               <AlertLogSection
                 alerts={alerts}
                 selectedGroup={selectedGroup}
+                onSelectAlert={setSelectedAlert}
+                selectedAlertId={selectedAlert?.id}
               />
+            </div>
+
+            {/* CHART VIEW (RIGHT - 3 COLS) */}
+            <div className="xl:col-span-3 h-full relative z-10">
+                <DetailedAnalysisView selectedAlert={selectedAlert} />
             </div>
 
           </div>
