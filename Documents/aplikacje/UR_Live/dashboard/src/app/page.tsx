@@ -230,6 +230,23 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
       return null;
   };
 
+  const CustomTooltipAgg = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+        return (
+            <div className="bg-slate-900 border border-slate-700 p-3 rounded-lg shadow-xl font-mono text-[10px] text-white">
+                <p className="text-slate-400 mb-2 font-bold border-b border-slate-800 pb-1 uppercase tracking-widest">{label}</p>
+                {payload.map((entry: any, index: number) => (
+                    <p key={index} className="flex justify-between gap-4 py-0.5">
+                        <span className="text-slate-300">{entry.name}:</span>
+                        <span className="font-bold text-blue-400">{entry.value}</span>
+                    </p>
+                ))}
+            </div>
+        );
+    }
+    return null;
+  };
+
   const isFiltered = filterMachine || filterDate;
 
   return (
@@ -273,7 +290,7 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
                         <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={true} vertical={false} />
                         <XAxis type="number" stroke="#475569" tick={{ fill: '#64748b', fontSize: 10 }} />
                         <YAxis type="category" dataKey="name" stroke="#475569" tick={{ fill: '#94a3b8', fontSize: 10, width: 120 }} width={120} />
-                        <RechartsTooltip cursor={{fill: '#1e293b', opacity: 0.4}} contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#fff', fontSize: '12px', fontFamily: 'monospace' }} />
+                        <RechartsTooltip cursor={{fill: '#1e293b', opacity: 0.4}} content={<CustomTooltipAgg />} />
                         <Bar 
                             dataKey="count" 
                             name="Antall Alarmer" 
@@ -327,7 +344,7 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
                         <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
                         <XAxis dataKey="date" stroke="#475569" tick={{ fill: '#64748b', fontSize: 10 }} />
                         <YAxis stroke="#3b82f6" tick={{ fill: '#3b82f6', fontSize: 10 }} allowDecimals={false} />
-                        <RechartsTooltip cursor={{fill: '#1e293b', opacity: 0.4}} contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#fff', fontSize: '12px', fontFamily: 'monospace' }} />
+                        <RechartsTooltip cursor={{fill: '#1e293b', opacity: 0.4}} content={<CustomTooltipAgg />} />
                         <Bar 
                             dataKey="hendelser" 
                             name="Kritiske Hendelser" 
