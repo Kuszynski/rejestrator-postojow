@@ -139,26 +139,41 @@ const getAlarmDescription = (alert: any) => {
 
 
 const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
+  const [filterMachine, setFilterMachine] = useState<string | null>(null);
+  const [filterDate, setFilterDate] = useState<string | null>(null);
+
+  // Cross-filtered sub-sets
+  const filteredForPareto = useMemo(() => {
+    if (!alerts) return [];
+    return alerts.filter((a: any) => !filterDate || new Date(a.timestamp).toLocaleDateString('no-NO', { day: '2-digit', month: '2-digit' }) === filterDate);
+  }, [alerts, filterDate]);
+
+  const filteredForOther = useMemo(() => {
+    if (!alerts) return [];
+    return alerts.filter((a: any) => {
+        const name = a.alias || a.shortSn.replace(/^api_/i, '');
+        const matchesMachine = !filterMachine || name === filterMachine;
+        const matchesDate = !filterDate || new Date(a.timestamp).toLocaleDateString('no-NO', { day: '2-digit', month: '2-digit' }) === filterDate;
+        return matchesMachine && matchesDate;
+    });
+  }, [alerts, filterMachine, filterDate]);
+
   // Aggregate data
   const paretoData = useMemo(() => {
-    if (!alerts || !alerts.length) return [];
-    
-    // 1. Pareto: Alarms per Machine
+    if (!filteredForPareto.length) return [];
     const counts: Record<string, number> = {};
-    alerts.forEach((a: any) => {
+    filteredForPareto.forEach((a: any) => {
         const name = a.alias || a.shortSn.replace(/^api_/i, '');
         counts[name] = (counts[name] || 0) + 1;
     });
-    
     const sorted = Object.keys(counts).map(k => ({ name: k, count: counts[k] })).sort((a,b) => b.count - a.count);
-    return sorted.slice(0, 7); // Top 7 offenders
-  }, [alerts]);
+    return sorted.slice(0, 7);
+  }, [filteredForPareto]);
 
   const sourceData = useMemo(() => {
-    if (!alerts || !alerts.length) return [];
-
+    if (!filteredForOther.length) return [];
     let aws = 0, rcf = 0, siemens = 0, spindel = 0, other = 0;
-    alerts.forEach((a: any) => {
+    filteredForOther.forEach((a: any) => {
         const str = `${a.alarm_source || ''} ${a.type || ''} ${a.FINAL_VERDICT || ''} ${a.alias || ''} ${a.msg || ''}`.toLowerCase();
         if(str.includes('aws') || str.includes('gradient')) aws++;
         else if(str.includes('rcf') || str.includes('anomali')) rcf++;
@@ -166,7 +181,6 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
         else if(str.includes('spindel') || str.includes('qss')) spindel++;
         else other++;
     });
-
     const data = [];
     if(aws>0) data.push({ name: 'AWS (Termisk)', value: aws, color: '#f97316' });
     if(rcf>0) data.push({ name: 'RCF (Nevral)', value: rcf, color: '#a855f7' });
@@ -174,28 +188,27 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
     if(spindel>0) data.push({ name: 'Spindel (Kaldstart)', value: spindel, color: '#10b981' });
     if(other>0) data.push({ name: 'Annet', value: other, color: '#64748b' });
     return data;
-  }, [alerts]);
+  }, [filteredForOther]);
 
   const timelineData = useMemo(() => {
-    if (!alerts || !alerts.length) return [];
-    
+    // Timeline always shows all days but can be filtered by machine
+    const baseForTimeline = alerts?.filter((a: any) => !filterMachine || (a.alias || a.shortSn.replace(/^api_/i, '')) === filterMachine) || [];
+    if (!baseForTimeline.length) return [];
     const days: Record<string, number> = {};
-    alerts.forEach((a: any) => {
+    const dayTimes: Record<string, number> = {};
+    baseForTimeline.forEach((a: any) => {
        const d = new Date(a.timestamp);
        const dateStr = d.toLocaleDateString('no-NO', { day: '2-digit', month: '2-digit' });
        days[dateStr] = (days[dateStr] || 0) + 1;
-    });
-
-    // Sort chronologically 
-    const dayTimes: Record<string, number> = {};
-    alerts.forEach((a: any) => {
-       const d = new Date(a.timestamp);
-       const dateStr = d.toLocaleDateString('no-NO', { day: '2-digit', month: '2-digit' });
        if(!dayTimes[dateStr] || d.getTime() < dayTimes[dateStr]) dayTimes[dateStr] = d.getTime();
     });
-
     return Object.keys(days).map(k => ({ date: k, hendelser: days[k], t: dayTimes[k] })).sort((a,b) => a.t - b.t);
-  }, [alerts]);
+  }, [alerts, filterMachine]);
+
+  const resetFilters = () => {
+    setFilterMachine(null);
+    setFilterDate(null);
+  };
 
   if (!alerts || alerts.length === 0) {
       return (
@@ -217,49 +230,83 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
       return null;
   };
 
+  const isFiltered = filterMachine || filterDate;
+
   return (
     <div className="flex flex-col h-full bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl shadow-xl min-h-[750px] overflow-hidden">
-      <div className="p-6 border-b border-slate-800 flex justify-between items-start bg-gradient-to-r from-slate-900 to-transparent relative">
+      <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-gradient-to-r from-slate-900 to-transparent relative">
          <div className="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
-         <div>
+         <div className="flex flex-col">
             <h2 className="text-2xl font-black text-white tracking-tight uppercase flex items-center gap-3">
-                <Activity className="w-6 h-6 text-blue-500" /> Flåteanalyse (Global)
+                <Activity className="w-6 h-6 text-blue-500" /> Flåteanalyse {isFiltered ? '(Filsentrert)' : '(Global)'}
             </h2>
-            <div className="text-slate-400 font-mono text-sm mt-1">Aggregert statistikk på tvers av hele anlegget. Analyserer {alerts.length} hendelser.</div>
+            <div className="text-slate-400 font-mono text-sm mt-1 flex items-center gap-2">
+                Analyserer {filteredForOther.length} av {alerts.length} hendelser 
+                {filterMachine && <span className="px-2 py-0.5 bg-blue-900/40 text-blue-400 rounded border border-blue-500/30 text-[10px] ml-2">Maskin: {filterMachine}</span>}
+                {filterDate && <span className="px-2 py-0.5 bg-purple-900/40 text-purple-400 rounded border border-purple-500/30 text-[10px] ml-2">Dato: {filterDate}</span>}
+            </div>
          </div>
+         {isFiltered && (
+             <button 
+                onClick={resetFilters}
+                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold uppercase tracking-widest text-slate-300 rounded-lg transition-all flex items-center gap-2"
+             >
+                <CheckSquare className="w-4 h-4" /> Nullstill filter
+             </button>
+         )}
       </div>
 
       <div className="flex-1 p-6 grid grid-cols-2 gap-8 overflow-y-auto">
          
          {/* PARETO: WORST OFFENDERS */}
-         <div className="col-span-2 xl:col-span-1 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col">
+         <div className="col-span-2 xl:col-span-1 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col transition-all duration-500">
             <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-orange-500" /> Top 7 Utsatte Maskiner (Pareto)
+                <TrendingUp className="w-4 h-4 text-orange-500" /> {filterDate ? `Problem-maskiner den ${filterDate}` : 'Top 7 Utsatte Maskiner (Pareto)'}
             </h3>
             <div className="flex-1 min-h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={paretoData} layout="vertical" margin={{ top: 0, right: 30, left: 30, bottom: 0 }}>
+                    <BarChart 
+                        data={paretoData} 
+                        layout="vertical" 
+                        margin={{ top: 0, right: 30, left: 30, bottom: 0 }}
+                    >
                         <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={true} vertical={false} />
                         <XAxis type="number" stroke="#475569" tick={{ fill: '#64748b', fontSize: 10 }} />
                         <YAxis type="category" dataKey="name" stroke="#475569" tick={{ fill: '#94a3b8', fontSize: 10, width: 120 }} width={120} />
                         <RechartsTooltip cursor={{fill: '#1e293b', opacity: 0.4}} contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#fff', fontSize: '12px', fontFamily: 'monospace' }} />
-                        <Bar dataKey="count" name="Antall Alarmer" fill="#ef4444" radius={[0, 4, 4, 0]} isAnimationActive={false} />
+                        <Bar 
+                            dataKey="count" 
+                            name="Antall Alarmer" 
+                            radius={[0, 4, 4, 0]} 
+                            isAnimationActive={false}
+                            onClick={(dataPoint: any) => setFilterMachine(filterMachine === dataPoint.name ? null : dataPoint.name)}
+                        >
+                            {paretoData.map((entry, index) => (
+                                <Cell 
+                                    key={`cell-${index}`} 
+                                    cursor="pointer"
+                                    fill={filterMachine === entry.name ? '#3b82f6' : (filterMachine ? '#1e293b' : '#ef4444')} 
+                                    stroke={filterMachine === entry.name ? '#60a5fa' : 'none'}
+                                    strokeWidth={2}
+                                />
+                            ))}
+                        </Bar>
                     </BarChart>
                 </ResponsiveContainer>
             </div>
          </div>
 
          {/* SOURCE DISTRIBUTION */}
-         <div className="col-span-2 xl:col-span-1 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col">
+         <div className="col-span-2 xl:col-span-1 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col transition-all duration-500">
             <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
-                <Cpu className="w-4 h-4 text-purple-500" /> Feilkilde Fordeling
+                <Cpu className="w-4 h-4 text-purple-500" /> Feilkilde Fordeling {filterMachine ? `(${filterMachine})` : ''}
             </h3>
             <div className="flex-1 min-h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                         <Pie data={sourceData} cx="50%" cy="50%" innerRadius={70} outerRadius={110} dataKey="value" isAnimationActive={false} stroke="#0f172a" strokeWidth={2}>
                             {sourceData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={entry.color} />
+                                <Cell key={`cell-${index}`} fill={entry.color} opacity={1} />
                             ))}
                         </Pie>
                         <RechartsTooltip content={<CustomTooltipPie />} />
@@ -270,9 +317,9 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
          </div>
 
          {/* TIMELINE */}
-         <div className="col-span-2 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col">
+         <div className="col-span-2 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col transition-all duration-500">
             <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
-                <Activity className="w-4 h-4 text-blue-500" /> Hendelsesfrekvens Tidslinje
+                <Activity className="w-4 h-4 text-blue-500" /> Hendelsesfrekvens {filterMachine ? `for ${filterMachine}` : 'Tidslinje'}
             </h3>
             <div className="flex-1 min-h-[250px]">
                 <ResponsiveContainer width="100%" height="100%">
@@ -281,7 +328,23 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
                         <XAxis dataKey="date" stroke="#475569" tick={{ fill: '#64748b', fontSize: 10 }} />
                         <YAxis stroke="#3b82f6" tick={{ fill: '#3b82f6', fontSize: 10 }} allowDecimals={false} />
                         <RechartsTooltip cursor={{fill: '#1e293b', opacity: 0.4}} contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#fff', fontSize: '12px', fontFamily: 'monospace' }} />
-                        <Bar dataKey="hendelser" name="Kritiske Hendelser" fill="#3b82f6" radius={[4, 4, 0, 0]} isAnimationActive={false} />
+                        <Bar 
+                            dataKey="hendelser" 
+                            name="Kritiske Hendelser" 
+                            radius={[4, 4, 0, 0]} 
+                            isAnimationActive={false}
+                            onClick={(dataPoint: any) => setFilterDate(filterDate === dataPoint.date ? null : dataPoint.date)}
+                        >
+                            {timelineData.map((entry, index) => (
+                                <Cell 
+                                    key={`cell-${index}`} 
+                                    cursor="pointer"
+                                    fill={filterDate === entry.date ? '#a855f7' : (filterDate ? '#1e293b' : '#3b82f6')} 
+                                    stroke={filterDate === entry.date ? '#c084fc' : 'none'}
+                                    strokeWidth={2}
+                                />
+                            ))}
+                        </Bar>
                     </BarChart>
                 </ResponsiveContainer>
             </div>
