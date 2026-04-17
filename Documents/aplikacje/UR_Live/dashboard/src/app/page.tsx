@@ -129,12 +129,22 @@ const SensorGrid = React.memo(({ sensorKeys, sensorsMap }: any) => {
 const getAlarmDescription = (alert: any) => {
     if (!alert) return '';
     const textBlob = `${alert.alarm_source || ''} ${alert.type || ''} ${alert.FINAL_VERDICT || ''} ${alert.alias || ''} ${alert.msg || ''} ${alert.sn || ''}`.toLowerCase();
+    
+    const prefix = "ANALYSEPERIODE: Systemet har vurdert de siste 14 dagene med historisk data for å kalkulere dette avviket.\n\n";
 
-    if(textBlob.includes('aws') || textBlob.includes('gradient')) return 'Brannvern/AWS: Analyserer raske temperaturøkninger. Slår ut ved overskridelse av kritiske termiske grenser for å forhindre maskinbrann. Varsler krever umiddelbar inspeksjon.';
-    if(textBlob.includes('rcf') || textBlob.includes('anomali')) return 'RCF Analyse: Nevralt nettverk detekterer mønsteravvik i kombinasjonen av temperatur og vibrasjon. Tjener vanligvis som en tidlig indikator på begynnende lagerskade eller mekanisk slitasje.';
-    if(textBlob.includes('siemens') || textBlob.includes('rms')) return 'Siemens MindSphere: Statisk grenseverdianalyse typisk for vedvarende vibrasjoner. Reagerer ofte på ubalanse eller friksjonsfeil etter at slitasjen har blitt etablert.';
-    if(textBlob.includes('spindel') || textBlob.includes('qss') || textBlob.includes('spindel')) return 'Spindelanalyse: Dedikert overvåkning av kaldstart for tunge roterende masser. Modellen skiller smart mellom normal maskinoppvarming og faktiske avvik, og eliminerer falske morgenalarmer.';
-    return 'Hendelsesanalyse: Systemet har loggført mekaniske eller termiske uregelmessigheter som avviker fra det historiske og normale driftsmønsteret for denne spesifikke maskinen.';
+    if(textBlob.includes('aws') || textBlob.includes('gradient')) 
+        return prefix + 'TERMISK SIKKERHET (AWS): Dette er maskinens "febermåler". Den overvåker hvor raskt varmen stiger. Hvis temperaturen øker unormalt fort, slår den ut for å forhindre brann eller permanent skade. Dette krever at du sjekker maskinen med en gang.';
+    
+    if(textBlob.includes('rcf') || textBlob.includes('anomali')) 
+        return prefix + 'KUNSTIG INTELLIGENS (RCF): Datamaskinen har lært seg maskinens normale "rytme". Varselet betyr at den hører eller føler noe uvanlig i mønsteret av varme og risting – ofte lenge før et menneske kan merke at noe er galt.';
+    
+    if(textBlob.includes('siemens') || textBlob.includes('rms')) 
+        return prefix + 'VIBRASJONSMÅLING (MINDSPHERE): Denne sjekker om maskinen rister mer enn den tåler. Det fungerer som en alarm for ubalanse – hvis ristingen vedvarer, er det et tegn på at deler (som kulelagre) begynner å bli slitt og bør byttes.';
+    
+    if(textBlob.includes('spindel') || textBlob.includes('qss')) 
+        return prefix + 'SMART OPPVARMING (SPINDEL): Denne er laget for å forstå forskjellen på en vanlig "kaldstart" om morgenen og et ekte problem. Den vet at maskinen må bli varm, men varsler hvis varmen oppfører seg rart under denne prosessen.';
+    
+    return prefix + 'HENDELSESANALYSE: Systemet har oppdaget et avvik fra det normale mønsteret. Det betyr at maskinen oppfører seg annerledes nå enn den har gjort de siste to ukene.';
 };
 
 
@@ -601,7 +611,7 @@ const DetailedAnalysisView = React.memo(({ selectedAlert }: any) => {
                   <ShieldAlert className="w-5 h-5 text-blue-400 mt-0.5 shrink-0" />
                   <div>
                     <h4 className="text-xs uppercase font-bold text-slate-500 tracking-widest mb-1">Diagnostikk og Systemkilde</h4>
-                    <p className="text-slate-300 text-sm leading-relaxed">
+                    <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
                        {getAlarmDescription(selectedAlert)}
                     </p>
                   </div>
