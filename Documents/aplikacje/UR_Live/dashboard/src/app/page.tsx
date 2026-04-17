@@ -1058,9 +1058,13 @@ export default function Dashboard() {
               />
             </div>
 
-            {/* CHART VIEW (RIGHT - 3 COLS) */}
+            {/* CHART/ANALYTICS VIEW (RIGHT - 3 COLS) */}
             <div className="xl:col-span-3 h-full relative z-10">
-                <DetailedAnalysisView selectedAlert={selectedAlert} />
+                {selectedAlert ? (
+                    <DetailedAnalysisView selectedAlert={selectedAlert} />
+                ) : (
+                    <AggregatedAnalyticsView alerts={alerts} />
+                )}
             </div>
 
           </div>
