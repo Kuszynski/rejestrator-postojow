@@ -141,12 +141,25 @@ const getAlarmDescription = (alert: any) => {
 const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
   const [filterMachine, setFilterMachine] = useState<string | null>(null);
   const [filterDate, setFilterDate] = useState<string | null>(null);
+  const [filterSource, setFilterSource] = useState<string | null>(null);
 
   // Cross-filtered sub-sets
   const filteredForPareto = useMemo(() => {
     if (!alerts) return [];
-    return alerts.filter((a: any) => !filterDate || new Date(a.timestamp).toLocaleDateString('no-NO', { day: '2-digit', month: '2-digit' }) === filterDate);
-  }, [alerts, filterDate]);
+    return alerts.filter((a: any) => {
+        const matchesDate = !filterDate || new Date(a.timestamp).toLocaleDateString('no-NO', { day: '2-digit', month: '2-digit' }) === filterDate;
+        const str = `${a.alarm_source || ''} ${a.type || ''} ${a.FINAL_VERDICT || ''} ${a.alias || ''} ${a.msg || ''}`.toLowerCase();
+        let matchesSource = true;
+        if (filterSource) {
+            if (filterSource.includes('AWS')) matchesSource = str.includes('aws') || str.includes('gradient');
+            else if (filterSource.includes('RCF')) matchesSource = str.includes('rcf') || str.includes('anomali');
+            else if (filterSource.includes('Siemens')) matchesSource = str.includes('siemens') || str.includes('rms');
+            else if (filterSource.includes('Spindel')) matchesSource = str.includes('spindel') || str.includes('qss');
+            else if (filterSource.includes('Annet')) matchesSource = !str.includes('aws') && !str.includes('rcf') && !str.includes('siemens') && !str.includes('spindel');
+        }
+        return matchesDate && matchesSource;
+    });
+  }, [alerts, filterDate, filterSource]);
 
   const filteredForOther = useMemo(() => {
     if (!alerts) return [];
@@ -154,11 +167,22 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
         const name = a.alias || a.shortSn.replace(/^api_/i, '');
         const matchesMachine = !filterMachine || name === filterMachine;
         const matchesDate = !filterDate || new Date(a.timestamp).toLocaleDateString('no-NO', { day: '2-digit', month: '2-digit' }) === filterDate;
-        return matchesMachine && matchesDate;
-    });
-  }, [alerts, filterMachine, filterDate]);
+        
+        const str = `${a.alarm_source || ''} ${a.type || ''} ${a.FINAL_VERDICT || ''} ${a.alias || ''} ${a.msg || ''}`.toLowerCase();
+        let matchesSource = true;
+        if (filterSource) {
+            if (filterSource.includes('AWS')) matchesSource = str.includes('aws') || str.includes('gradient');
+            else if (filterSource.includes('RCF')) matchesSource = str.includes('rcf') || str.includes('anomali');
+            else if (filterSource.includes('Siemens')) matchesSource = str.includes('siemens') || str.includes('rms');
+            else if (filterSource.includes('Spindel')) matchesSource = str.includes('spindel') || str.includes('qss');
+            else if (filterSource.includes('Annet')) matchesSource = !str.includes('aws') && !str.includes('rcf') && !str.includes('siemens') && !str.includes('spindel');
+        }
 
-  // Aggregate data
+        return matchesMachine && matchesDate && matchesSource;
+    });
+  }, [alerts, filterMachine, filterDate, filterSource]);
+
+  // Aggregate data for Pareto (Machine Ranking)
   const paretoData = useMemo(() => {
     if (!filteredForPareto.length) return [];
     const counts: Record<string, number> = {};
@@ -170,10 +194,19 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
     return sorted.slice(0, 7);
   }, [filteredForPareto]);
 
+  // Aggregate data for Pie (Source Distribution)
   const sourceData = useMemo(() => {
-    if (!filteredForOther.length) return [];
+    // Only filtered by Machine and Date (to see how many AWS vs RCF for a machine)
+    const baseForSource = alerts?.filter((a: any) => {
+        const name = a.alias || a.shortSn.replace(/^api_/i, '');
+        const matchesMachine = !filterMachine || name === filterMachine;
+        const matchesDate = !filterDate || new Date(a.timestamp).toLocaleDateString('no-NO', { day: '2-digit', month: '2-digit' }) === filterDate;
+        return matchesMachine && matchesDate;
+    }) || [];
+
+    if (!baseForSource.length) return [];
     let aws = 0, rcf = 0, siemens = 0, spindel = 0, other = 0;
-    filteredForOther.forEach((a: any) => {
+    baseForSource.forEach((a: any) => {
         const str = `${a.alarm_source || ''} ${a.type || ''} ${a.FINAL_VERDICT || ''} ${a.alias || ''} ${a.msg || ''}`.toLowerCase();
         if(str.includes('aws') || str.includes('gradient')) aws++;
         else if(str.includes('rcf') || str.includes('anomali')) rcf++;
@@ -188,11 +221,26 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
     if(spindel>0) data.push({ name: 'Spindel (Kaldstart)', value: spindel, color: '#10b981' });
     if(other>0) data.push({ name: 'Annet', value: other, color: '#64748b' });
     return data;
-  }, [filteredForOther]);
+  }, [alerts, filterMachine, filterDate]);
 
+  // Aggregate data for Timeline
   const timelineData = useMemo(() => {
-    // Timeline always shows all days but can be filtered by machine
-    const baseForTimeline = alerts?.filter((a: any) => !filterMachine || (a.alias || a.shortSn.replace(/^api_/i, '')) === filterMachine) || [];
+    // Filtered by Machine and Source
+    const baseForTimeline = alerts?.filter((a: any) => {
+        const name = a.alias || a.shortSn.replace(/^api_/i, '');
+        const matchesMachine = !filterMachine || name === filterMachine;
+        const str = `${a.alarm_source || ''} ${a.type || ''} ${a.FINAL_VERDICT || ''} ${a.alias || ''} ${a.msg || ''}`.toLowerCase();
+        let matchesSource = true;
+        if (filterSource) {
+            if (filterSource.includes('AWS')) matchesSource = str.includes('aws') || str.includes('gradient');
+            else if (filterSource.includes('RCF')) matchesSource = str.includes('rcf') || str.includes('anomali');
+            else if (filterSource.includes('Siemens')) matchesSource = str.includes('siemens') || str.includes('rms');
+            else if (filterSource.includes('Spindel')) matchesSource = str.includes('spindel') || str.includes('qss');
+            else if (filterSource.includes('Annet')) matchesSource = !str.includes('aws') && !str.includes('rcf') && !str.includes('siemens') && !str.includes('spindel');
+        }
+        return matchesMachine && matchesSource;
+    }) || [];
+
     if (!baseForTimeline.length) return [];
     const days: Record<string, number> = {};
     const dayTimes: Record<string, number> = {};
@@ -203,11 +251,12 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
        if(!dayTimes[dateStr] || d.getTime() < dayTimes[dateStr]) dayTimes[dateStr] = d.getTime();
     });
     return Object.keys(days).map(k => ({ date: k, hendelser: days[k], t: dayTimes[k] })).sort((a,b) => a.t - b.t);
-  }, [alerts, filterMachine]);
+  }, [alerts, filterMachine, filterSource]);
 
   const resetFilters = () => {
     setFilterMachine(null);
     setFilterDate(null);
+    setFilterSource(null);
   };
 
   if (!alerts || alerts.length === 0) {
@@ -247,10 +296,11 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
     return null;
   };
 
-  const isFiltered = filterMachine || filterDate;
+  const isFiltered = filterMachine || filterDate || filterSource;
 
   return (
     <div className="flex flex-col h-full bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl shadow-xl min-h-[750px] overflow-hidden">
+      {/* HEADER */}
       <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-gradient-to-r from-slate-900 to-transparent relative">
          <div className="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
          <div className="flex flex-col">
@@ -261,6 +311,7 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
                 Analyserer {filteredForOther.length} av {alerts.length} hendelser 
                 {filterMachine && <span className="px-2 py-0.5 bg-blue-900/40 text-blue-400 rounded border border-blue-500/30 text-[10px] ml-2">Maskin: {filterMachine}</span>}
                 {filterDate && <span className="px-2 py-0.5 bg-purple-900/40 text-purple-400 rounded border border-purple-500/30 text-[10px] ml-2">Dato: {filterDate}</span>}
+                {filterSource && <span className="px-2 py-0.5 bg-orange-900/40 text-orange-400 rounded border border-orange-500/30 text-[10px] ml-2">Kilde: {filterSource}</span>}
             </div>
          </div>
          {isFiltered && (
@@ -273,99 +324,155 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
          )}
       </div>
 
-      <div className="flex-1 p-6 grid grid-cols-2 gap-8 overflow-y-auto">
+      <div className="flex-1 p-6 space-y-8 overflow-y-auto">
          
-         {/* PARETO: WORST OFFENDERS */}
-         <div className="col-span-2 xl:col-span-1 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col transition-all duration-500">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-orange-500" /> {filterDate ? `Problem-maskiner den ${filterDate}` : 'Top 7 Utsatte Maskiner (Pareto)'}
-            </h3>
-            <div className="flex-1 min-h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                    <BarChart 
-                        data={paretoData} 
-                        layout="vertical" 
-                        margin={{ top: 0, right: 30, left: 30, bottom: 0 }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={true} vertical={false} />
-                        <XAxis type="number" stroke="#475569" tick={{ fill: '#64748b', fontSize: 10 }} />
-                        <YAxis type="category" dataKey="name" stroke="#475569" tick={{ fill: '#94a3b8', fontSize: 10, width: 120 }} width={120} />
-                        <RechartsTooltip cursor={{fill: '#1e293b', opacity: 0.4}} content={<CustomTooltipAgg />} />
-                        <Bar 
-                            dataKey="count" 
-                            name="Antall Alarmer" 
-                            radius={[0, 4, 4, 0]} 
-                            isAnimationActive={false}
-                            onClick={(dataPoint: any) => setFilterMachine(filterMachine === dataPoint.name ? null : dataPoint.name)}
-                        >
-                            {paretoData.map((entry, index) => (
-                                <Cell 
-                                    key={`cell-${index}`} 
-                                    cursor="pointer"
-                                    fill={filterMachine === entry.name ? '#3b82f6' : (filterMachine ? '#1e293b' : '#ef4444')} 
-                                    stroke={filterMachine === entry.name ? '#60a5fa' : 'none'}
-                                    strokeWidth={2}
-                                />
-                            ))}
-                        </Bar>
-                    </BarChart>
-                </ResponsiveContainer>
+         <div className="grid grid-cols-2 gap-8">
+            {/* PARETO: WORST OFFENDERS */}
+            <div className="col-span-2 xl:col-span-1 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col transition-all duration-500">
+                <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 text-orange-500" /> {filterDate ? `Problem-maskiner den ${filterDate}` : 'Top 7 Utsatte Maskiner (Pareto)'}
+                </h3>
+                <div className="flex-1 min-h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={paretoData} layout="vertical" margin={{ top: 0, right: 30, left: 30, bottom: 0 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={true} vertical={false} />
+                            <XAxis type="number" stroke="#475569" tick={{ fill: '#64748b', fontSize: 10 }} />
+                            <YAxis type="category" dataKey="name" stroke="#475569" tick={{ fill: '#94a3b8', fontSize: 10, width: 120 }} width={120} />
+                            <RechartsTooltip cursor={{fill: '#1e293b', opacity: 0.4}} content={<CustomTooltipAgg />} />
+                            <Bar 
+                                dataKey="count" 
+                                name="Antall Alarmer" 
+                                radius={[0, 4, 4, 0]} 
+                                isAnimationActive={false}
+                                onClick={(dataPoint: any) => setFilterMachine(filterMachine === dataPoint.name ? null : dataPoint.name)}
+                            >
+                                {paretoData.map((entry, index) => (
+                                    <Cell 
+                                        key={`cell-${index}`} 
+                                        cursor="pointer"
+                                        fill={filterMachine === entry.name ? '#3b82f6' : (filterMachine ? '#1e293b' : '#ef4444')} 
+                                    />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+
+            {/* SOURCE DISTRIBUTION */}
+            <div className="col-span-2 xl:col-span-1 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col transition-all duration-500">
+                <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
+                    <Cpu className="w-4 h-4 text-purple-500" /> Feilkilde Fordeling {filterMachine ? `(${filterMachine})` : ''}
+                </h3>
+                <div className="flex-1 min-h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                            <Pie 
+                                data={sourceData} 
+                                cx="50%" 
+                                cy="50%" 
+                                innerRadius={70} 
+                                outerRadius={110} 
+                                dataKey="value" 
+                                isAnimationActive={false} 
+                                stroke="#0f172a" 
+                                strokeWidth={2}
+                                onClick={(dataPoint: any) => setFilterSource(filterSource === dataPoint.name ? null : dataPoint.name)}
+                            >
+                                {sourceData.map((entry, index) => (
+                                    <Cell 
+                                        key={`cell-${index}`} 
+                                        fill={filterSource === entry.name ? entry.color : (filterSource ? '#1e293b' : entry.color)} 
+                                        cursor="pointer"
+                                        style={{ outline: filterSource === entry.name ? `2px solid ${entry.color}` : 'none', outlineOffset: '4px' }}
+                                    />
+                                ))}
+                            </Pie>
+                            <RechartsTooltip content={<CustomTooltipPie />} />
+                            <Legend layout="vertical" verticalAlign="middle" align="right" wrapperStyle={{ fontSize: '11px' }} />
+                        </PieChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+
+            {/* TIMELINE */}
+            <div className="col-span-2 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col transition-all duration-500">
+                <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-blue-500" /> Hendelsesfrekvens {filterMachine ? `for ${filterMachine}` : 'Tidslinje'}
+                </h3>
+                <div className="flex-1 min-h-[250px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={timelineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                            <XAxis dataKey="date" stroke="#475569" tick={{ fill: '#64748b', fontSize: 10 }} />
+                            <YAxis stroke="#3b82f6" tick={{ fill: '#3b82f6', fontSize: 10 }} allowDecimals={false} />
+                            <RechartsTooltip cursor={{fill: '#1e293b', opacity: 0.4}} content={<CustomTooltipAgg />} />
+                            <Bar 
+                                dataKey="hendelser" 
+                                name="Kritiske Hendelser" 
+                                radius={[4, 4, 0, 0]} 
+                                isAnimationActive={false}
+                                onClick={(dataPoint: any) => setFilterDate(filterDate === dataPoint.date ? null : dataPoint.date)}
+                            >
+                                {timelineData.map((entry, index) => (
+                                    <Cell 
+                                        key={`cell-${index}`} 
+                                        cursor="pointer"
+                                        fill={filterDate === entry.date ? '#a855f7' : (filterDate ? '#1e293b' : '#3b82f6')} 
+                                    />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
             </div>
          </div>
 
-         {/* SOURCE DISTRIBUTION */}
-         <div className="col-span-2 xl:col-span-1 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col transition-all duration-500">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
-                <Cpu className="w-4 h-4 text-purple-500" /> Feilkilde Fordeling {filterMachine ? `(${filterMachine})` : ''}
-            </h3>
-            <div className="flex-1 min-h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                        <Pie data={sourceData} cx="50%" cy="50%" innerRadius={70} outerRadius={110} dataKey="value" isAnimationActive={false} stroke="#0f172a" strokeWidth={2}>
-                            {sourceData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={entry.color} opacity={1} />
-                            ))}
-                        </Pie>
-                        <RechartsTooltip content={<CustomTooltipPie />} />
-                        <Legend layout="vertical" verticalAlign="middle" align="right" wrapperStyle={{ fontSize: '11px' }} />
-                    </PieChart>
-                </ResponsiveContainer>
-            </div>
-         </div>
-
-         {/* TIMELINE */}
-         <div className="col-span-2 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col transition-all duration-500">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
-                <Activity className="w-4 h-4 text-blue-500" /> Hendelsesfrekvens {filterMachine ? `for ${filterMachine}` : 'Tidslinje'}
-            </h3>
-            <div className="flex-1 min-h-[250px]">
-                <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={timelineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
-                        <XAxis dataKey="date" stroke="#475569" tick={{ fill: '#64748b', fontSize: 10 }} />
-                        <YAxis stroke="#3b82f6" tick={{ fill: '#3b82f6', fontSize: 10 }} allowDecimals={false} />
-                        <RechartsTooltip cursor={{fill: '#1e293b', opacity: 0.4}} content={<CustomTooltipAgg />} />
-                        <Bar 
-                            dataKey="hendelser" 
-                            name="Kritiske Hendelser" 
-                            radius={[4, 4, 0, 0]} 
-                            isAnimationActive={false}
-                            onClick={(dataPoint: any) => setFilterDate(filterDate === dataPoint.date ? null : dataPoint.date)}
-                        >
-                            {timelineData.map((entry, index) => (
-                                <Cell 
-                                    key={`cell-${index}`} 
-                                    cursor="pointer"
-                                    fill={filterDate === entry.date ? '#a855f7' : (filterDate ? '#1e293b' : '#3b82f6')} 
-                                    stroke={filterDate === entry.date ? '#c084fc' : 'none'}
-                                    strokeWidth={2}
-                                />
-                            ))}
-                        </Bar>
-                    </BarChart>
-                </ResponsiveContainer>
-            </div>
-         </div>
+         {/* DETAILS TABLE */}
+         {isFiltered && (
+             <div className="col-span-2 bg-black/20 border border-slate-800/50 rounded-xl p-5 flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-blue-400" /> Detaljert Hendelseslogg (Filterert)
+                </h3>
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs font-mono">
+                        <thead>
+                            <tr className="border-b border-slate-800 text-slate-500 uppercase tracking-tighter">
+                                <th className="pb-3 px-2">Tidspunkt</th>
+                                <th className="pb-3 px-2">Maskin</th>
+                                <th className="pb-3 px-2">Kilde</th>
+                                <th className="pb-3 px-2 text-right">Parameter / Beskrivelse</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredForOther.slice(0, 15).map((a: any, idx: number) => {
+                                const d = new Date(a.timestamp);
+                                const timeStr = d.toLocaleString('no-NO', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+                                return (
+                                    <tr key={idx} className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors">
+                                        <td className="py-3 px-2 text-slate-400">{timeStr}</td>
+                                        <td className="py-3 px-2 font-bold text-white">{a.alias || a.shortSn.replace(/^api_/i, '')}</td>
+                                        <td className="py-3 px-2">
+                                            <span className="px-2 py-0.5 rounded text-[10px] bg-slate-800 border border-slate-700 text-slate-300">
+                                                {a.alarm_source || 'Ukjent'}
+                                            </span>
+                                        </td>
+                                        <td className="py-3 px-2 text-right text-slate-400 max-w-[400px] truncate">
+                                            {a.msg || a.FINAL_VERDICT || 'Ingen detaljer tilgjengelig'}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                    {filteredForOther.length > 15 && (
+                        <div className="mt-4 text-center text-slate-500 text-[10px] uppercase tracking-widest">
+                            Viser 15 av {filteredForOther.length} hendelser. Bruk sidepanelet til venstre for fullstendig logg.
+                        </div>
+                    )}
+                </div>
+             </div>
+         )}
 
       </div>
     </div>
