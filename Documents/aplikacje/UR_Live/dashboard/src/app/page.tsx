@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { AlertTriangle, Activity, Thermometer, ShieldAlert, Cpu, FolderUp, CloudDownload, CheckSquare, Square, TrendingUp, Settings, ToggleLeft, ToggleRight, ScrollText, Play } from 'lucide-react';
-import { ResponsiveContainer, ComposedChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ReferenceLine, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
+import { ResponsiveContainer, ComposedChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ReferenceLine, ReferenceDot, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 
 const translateVerdict = (v: string | undefined | null) => {
   if (!v) return 'INAKTIV';
@@ -571,6 +571,23 @@ const DetailedAnalysisView = React.memo(({ selectedAlert }: any) => {
 
   const isoTimestamp = new Date(selectedAlert.timestamp).toISOString();
 
+  // Finne nærmeste punkt i grafen for å markere hendelsen
+  const eventMarker = useMemo(() => {
+    if (!chartData || chartData.length === 0) return null;
+    const targetTs = new Date(selectedAlert.timestamp).getTime();
+    let closest = chartData[0];
+    let minDiff = Math.abs(new Date(chartData[0].timestamp).getTime() - targetTs);
+
+    for (const point of chartData) {
+        const diff = Math.abs(new Date(point.timestamp).getTime() - targetTs);
+        if (diff < minDiff) {
+            minDiff = diff;
+            closest = point;
+        }
+    }
+    return closest;
+  }, [chartData, selectedAlert.timestamp]);
+
   return (
     <div className="flex flex-col h-full bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl shadow-xl min-h-[750px] overflow-hidden">
       <div className="p-6 border-b border-slate-800 flex justify-between items-start bg-gradient-to-r from-slate-900 to-transparent relative">
@@ -665,13 +682,34 @@ const DetailedAnalysisView = React.memo(({ selectedAlert }: any) => {
                          <RechartsTooltip content={<CustomTooltip />} />
                          <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '20px' }} />
                          
-                         <ReferenceLine 
-                             x={isoTimestamp} 
-                             stroke="#ef4444" 
-                             strokeDasharray="3 3" 
-                             yAxisId="left"
-                             label={{ position: 'top', value: 'HENDELSE', fill: '#ef4444', fontSize: 10, fontWeight: 'bold' }} 
-                         />
+                         {eventMarker && (
+                             <ReferenceLine 
+                                 x={eventMarker.timestamp} 
+                                 stroke="#ef4444" 
+                                 strokeWidth={3}
+                                 strokeDasharray="5 5"
+                                 yAxisId="left"
+                                 label={{ 
+                                     value: 'HENDELSE', 
+                                     position: 'top', 
+                                     fill: '#ef4444', 
+                                     fontSize: 12, 
+                                     fontWeight: 'black'
+                                 }} 
+                             />
+                         )}
+
+                         {eventMarker && eventMarker.temp_mean && (
+                             <ReferenceDot 
+                                 x={eventMarker.timestamp} 
+                                 y={eventMarker.temp_mean} 
+                                 yAxisId="left"
+                                 r={6} 
+                                 fill="#ef4444" 
+                                 stroke="#fff" 
+                                 strokeWidth={2}
+                             />
+                         )}
                          
                          <Area 
                              yAxisId="left" 
