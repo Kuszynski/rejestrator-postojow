@@ -440,7 +440,7 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
                             <tr className="border-b border-slate-800 text-slate-500 uppercase tracking-tighter">
                                 <th className="pb-3 px-2">Tidspunkt</th>
                                 <th className="pb-3 px-2">Maskin</th>
-                                <th className="pb-3 px-2">Kilde</th>
+                                <th className="pb-3 px-2">Målte Verdier</th>
                                 <th className="pb-3 px-2 text-right">Parameter / Beskrivelse</th>
                             </tr>
                         </thead>
@@ -448,17 +448,36 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
                             {filteredForOther.slice(0, 15).map((a: any, idx: number) => {
                                 const d = new Date(a.timestamp);
                                 const timeStr = d.toLocaleString('no-NO', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+                                
+                                // Determiner kilde-ikon/markør
+                                const isAws = String(a.alarm_source).toLowerCase().includes('aws') || String(a.msg).toLowerCase().includes('gradient');
+                                const isVib = String(a.alarm_source).toLowerCase().includes('siemens') || String(a.alarm_source).toLowerCase().includes('rcf');
+
                                 return (
                                     <tr key={idx} className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors">
-                                        <td className="py-3 px-2 text-slate-400">{timeStr}</td>
-                                        <td className="py-3 px-2 font-bold text-white">{a.alias || a.shortSn.replace(/^api_/i, '')}</td>
+                                        <td className="py-3 px-2 text-slate-400 text-[10px] whitespace-nowrap">{timeStr}</td>
+                                        <td className="py-3 px-2 font-bold text-white whitespace-nowrap">{a.alias || a.shortSn.replace(/^api_/i, '')}</td>
                                         <td className="py-3 px-2">
-                                            <span className="px-2 py-0.5 rounded text-[10px] bg-slate-800 border border-slate-700 text-slate-300">
-                                                {a.alarm_source || 'Ukjent'}
-                                            </span>
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex flex-col">
+                                                    <span className="text-orange-400 font-bold">{a.temp_mean ? `${a.temp_mean?.toFixed(1)}°C` : '--'}</span>
+                                                    {isAws && a.temp_gradient_final > 0 && (
+                                                        <span className="text-purple-400 text-[9px] font-bold">+{a.temp_gradient_final?.toFixed(1)}°C/h</span>
+                                                    )}
+                                                </div>
+                                                {a.vib_rms > 0 && (
+                                                    <div className="h-6 w-[1px] bg-slate-800 mx-1"></div>
+                                                )}
+                                                {a.vib_rms > 0 && (
+                                                    <span className="text-blue-400 font-bold">{a.vib_rms?.toFixed(2)}g</span>
+                                                )}
+                                            </div>
                                         </td>
-                                        <td className="py-3 px-2 text-right text-slate-400 max-w-[400px] truncate">
-                                            {a.msg || a.FINAL_VERDICT || 'Ingen detaljer tilgjengelig'}
+                                        <td className="py-3 px-2 text-right text-slate-300 max-w-[400px] truncate group relative">
+                                            <span className="hover:text-white transition-colors">{a.msg || a.FINAL_VERDICT || 'Detaljer loggført'}</span>
+                                            <div className="hidden group-hover:block absolute right-0 bottom-full mb-2 p-2 bg-slate-900 border border-slate-700 rounded shadow-2xl z-50 text-[10px] w-64 text-left whitespace-normal">
+                                                {a.msg || a.FINAL_VERDICT}
+                                            </div>
                                         </td>
                                     </tr>
                                 );
