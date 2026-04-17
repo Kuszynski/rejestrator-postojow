@@ -437,9 +437,10 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs font-mono">
                         <thead>
-                            <tr className="border-b border-slate-800 text-slate-500 uppercase tracking-tighter">
+                            <tr className="border-b border-slate-800 text-slate-500 uppercase tracking-tighter text-[10px]">
                                 <th className="pb-3 px-2">Tidspunkt</th>
                                 <th className="pb-3 px-2">Maskin</th>
+                                <th className="pb-3 px-2">Status</th>
                                 <th className="pb-3 px-2">Målte Verdier</th>
                                 <th className="pb-3 px-2 text-right">Parameter / Beskrivelse</th>
                             </tr>
@@ -451,16 +452,20 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
                                 
                                 // Determiner kilde-ikon/markør
                                 const isAws = String(a.alarm_source).toLowerCase().includes('aws') || String(a.msg).toLowerCase().includes('gradient');
-                                const isVib = String(a.alarm_source).toLowerCase().includes('siemens') || String(a.alarm_source).toLowerCase().includes('rcf');
-
+                                
                                 return (
                                     <tr key={idx} className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors">
                                         <td className="py-3 px-2 text-slate-400 text-[10px] whitespace-nowrap">{timeStr}</td>
-                                        <td className="py-3 px-2 font-bold text-white whitespace-nowrap">{a.alias || a.shortSn.replace(/^api_/i, '')}</td>
+                                        <td className="py-3 px-2 font-bold text-white whitespace-nowrap text-[11px]">{a.alias || a.shortSn.replace(/^api_/i, '')}</td>
+                                        <td className="py-3 px-2">
+                                            <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase border ${getStatusColor(a.FINAL_VERDICT || a.type)}`}>
+                                                {translateVerdict(a.FINAL_VERDICT || a.type)}
+                                            </span>
+                                        </td>
                                         <td className="py-3 px-2">
                                             <div className="flex items-center gap-3">
                                                 <div className="flex flex-col">
-                                                    <span className="text-orange-400 font-bold">{a.temp_mean ? `${a.temp_mean?.toFixed(1)}°C` : '--'}</span>
+                                                    <span className="text-orange-400 font-bold text-[11px]">{a.temp_mean ? `${a.temp_mean?.toFixed(1)}°C` : '--'}</span>
                                                     {isAws && a.temp_gradient_final > 0 && (
                                                         <span className="text-purple-400 text-[9px] font-bold">+{a.temp_gradient_final?.toFixed(1)}°C/h</span>
                                                     )}
@@ -469,11 +474,11 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
                                                     <div className="h-6 w-[1px] bg-slate-800 mx-1"></div>
                                                 )}
                                                 {a.vib_rms > 0 && (
-                                                    <span className="text-blue-400 font-bold">{a.vib_rms?.toFixed(2)}g</span>
+                                                    <span className="text-blue-400 font-bold text-[11px]">{a.vib_rms?.toFixed(2)}g</span>
                                                 )}
                                             </div>
                                         </td>
-                                        <td className="py-3 px-2 text-right text-slate-300 max-w-[400px] truncate group relative">
+                                        <td className="py-3 px-2 text-right text-slate-300 max-w-[400px] truncate group relative text-[11px]">
                                             <span className="hover:text-white transition-colors">{a.msg || a.FINAL_VERDICT || 'Detaljer loggført'}</span>
                                             <div className="hidden group-hover:block absolute right-0 bottom-full mb-2 p-2 bg-slate-900 border border-slate-700 rounded shadow-2xl z-50 text-[10px] w-64 text-left whitespace-normal">
                                                 {a.msg || a.FINAL_VERDICT}
