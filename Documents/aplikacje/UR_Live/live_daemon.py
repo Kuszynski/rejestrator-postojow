@@ -61,7 +61,8 @@ _pushover_last_sent: dict = {}
 
 
 async def send_pushover_notification(session: aiohttp.ClientSession, alias: str, sn: str,
-                                     verdict: str, temp: float, vib: float, gradient: float) -> None:
+                                     verdict: str, temp: float, vib: float, gradient: float,
+                                     alarm_source: str = "") -> None:
     """Wyslij powiadomienie push na telefon przez Pushover API."""
     now = time.time()
     last = _pushover_last_sent.get(sn, 0)
@@ -71,10 +72,22 @@ async def send_pushover_notification(session: aiohttp.ClientSession, alias: str,
     is_fire = 'BRANN' in verdict or 'STOPP' in verdict
     title = f"{'🔥 BRANN/STOPP' if is_fire else '🔴 KRITISK ALARM'}: {alias}"
     grad_str = f"+{gradient:.1f}°C/h" if gradient > 0 else f"{gradient:.1f}°C/h"
+
+    # Czytelna nazwa algorytmu
+    source_labels = {
+        'AWS':     '🌡 AWS Monitron (Gradient temp.)',
+        'Siemens': '📳 Siemens MindSphere (Wibracje)',
+        'RCF':     '🤖 RCF – Sztuczna Inteligencja',
+        'Spindle': '🔩 Spindle (Nagrzewanie wrzeciona)',
+        'SKF':     '⚙️ SKF Crest Factor (Łożysko)',
+    }
+    source_label = source_labels.get(alarm_source, f'Algorytm: {alarm_source}') if alarm_source else 'Nieznany'
+
     message = (
         f"Maskin: {alias}\n"
         f"Temperatur: {temp:.1f}°C  ({grad_str})\n"
         f"Vibrasjon: {vib:.2f} g\n"
+        f"Kilde: {source_label}\n"
         f"Status: {verdict.replace(chr(9), '').strip()}"
     )
 
@@ -91,7 +104,7 @@ async def send_pushover_notification(session: aiohttp.ClientSession, alias: str,
         async with session.post(PUSHOVER_URL, data=payload) as resp:
             if resp.status == 200:
                 _pushover_last_sent[sn] = now
-                print(f"   [PUSH] Powiadomienie wysłane → {alias} ({verdict[:30]})")
+                print(f"   [PUSH] Powiadomienie wysłane → {alias} ({verdict[:30]}) [{alarm_source}]")
             else:
                 body = await resp.text()
                 print(f"   [PUSH WARN] Błąd Pushover {resp.status}: {body[:120]}")
@@ -431,7 +444,8 @@ def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame = N
                                 alias_name, sn, final_verdict_no,
                                 float(row.get('temp_mean', 0.0)),
                                 float(row.get('vib_rms', 0.0)),
-                                float(row.get('temp_gradient_final', 0.0))
+                                float(row.get('temp_gradient_final', 0.0)),
+                                str(row.get('alarm_source', ''))
                             ))
 
         _append_anomalies(df_raw, hwstate.event_history_raw)
