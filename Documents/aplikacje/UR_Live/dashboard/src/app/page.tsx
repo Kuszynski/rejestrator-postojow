@@ -476,8 +476,10 @@ const AggregatedAnalyticsView = React.memo(({ alerts }: any) => {
                                             <div className="flex items-center gap-3">
                                                 <div className="flex flex-col">
                                                     <span className="text-orange-400 font-bold text-[11px]">{a.temp_mean ? `${a.temp_mean?.toFixed(1)}°C` : '--'}</span>
-                                                    {isAws && a.temp_gradient_final > 0 && (
-                                                        <span className="text-purple-400 text-[9px] font-bold">+{a.temp_gradient_final?.toFixed(1)}°C/h</span>
+                                                    {a.temp_gradient !== undefined && a.temp_gradient !== 0 && (
+                                                        <span className="text-purple-400 text-[9px] font-bold">
+                                                            {a.temp_gradient > 0 ? '+' : ''}{a.temp_gradient?.toFixed(1)}°C/h
+                                                        </span>
                                                     )}
                                                 </div>
                                                 {a.vib_rms > 0 && (

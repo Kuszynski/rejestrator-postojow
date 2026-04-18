@@ -137,7 +137,7 @@ ALARM_PERSISTENCE_FIRE = 1       # 1 × 5min = NATYCHMIAST dla POŻAR/STOP (W u�
 # --- HEAVY IMPACT PROFILE (RĘBAKI / QSS) ---
 # Wprowadzamy osobne, ułagodzone kryteria dla maszyn brutalnie tnących kłody (np. 1880 QSS-420).
 # Rębaki zębowe produkują niekończący się ciąg szpilek wibracyjnych - standardowo ISO/SKF zarzucałyby alarmami przez cały dzień.
-HEAVY_KEYWORDS = ['QSS', 'HUGG', 'CHIPPER', 'REBAK', 'RĘBAK', 'BARK', 'RL-600', 'RC-600', 'REDUSER', '2230']
+HEAVY_KEYWORDS = ['QSS', 'HUGG', 'CHIPPER', 'REBAK', 'RĘBAK', 'BARK', 'RL-600', 'RC-600', 'REDUSER', '2230', 'SPONSKRUE']
 HEAVY_SKF_CF_WARNING = 6.0       # Standardowy to 5.0 (dopuszczamy rębaki do cięcia twardszych materiałów)
 HEAVY_SKF_CF_CRITICAL = 8.0      # Standardowy to 6.0
 
@@ -334,8 +334,11 @@ def classify_production_time(df: pd.DataFrame, is_heavy: bool = False) -> pd.Dat
     """
     df = df.copy()
 
-    # Silnik pracuje, jeśli wibracje przekraczają próg szumu jałowego
-    df['is_production_raw'] = df['vib_rms'] > SKF_VIBRATION_IDLE
+    # [POPRAWKA V2] Dla śrub (Sponskrue) szum tła jest wyższy.
+    # Używamy wyższego progu (0.15g), aby system poprawnie wykrywał moment startu
+    # i aktywował ochronę rozgrzewkową (warmup).
+    idle_threshold = 0.15 if is_heavy else SKF_VIBRATION_IDLE
+    df['is_production_raw'] = df['vib_rms'] > idle_threshold
 
     # --- AWS MACHINE STATE GATING (Czas Wybiegu / Run-down) ---
     # Zamiast ucinać produkcję natychmiast (co powoduje anomalie matematyczne w RCF),
@@ -744,6 +747,9 @@ def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None, is_heavy
     )
 
     gradient_for_alarm[df['is_warmup'] & ~is_extreme & ~is_suspicious_warmup] = 0.0
+
+    # [POPRAWKA V2] Czułość ogólna zależna od profilu maszyny (Dla Heavy: 25.0°C/h)
+    critical_limit = 25.0 if is_heavy else AWS_GRADIENT_CRITICAL
     
     # [POPRAWKA] Usypiamy stygnięcie (rundown). ALE — jeśli temperatura ROŚNIE podczas postoju,
     # to jest to sytuacja skrajnie niebezpieczna (ogień lub slipping belt).
@@ -809,9 +815,9 @@ def analyze_aws_gradient(df: pd.DataFrame, hall_temp: pd.Series = None, is_heavy
         ~df['is_production'] | df['is_break'],                       # IDLE (Postój / Przerwa)
         gradient_for_alarm < AWS_GRADIENT_WARNING,                   # Stabilna
         (gradient_for_alarm >= AWS_GRADIENT_WARNING) &
-        (gradient_for_alarm < AWS_GRADIENT_CRITICAL),                # Trend grzania
-        (gradient_for_alarm >= AWS_GRADIENT_CRITICAL) & (df['temp_mean'] >= min_fire_temp), # Potwierdzony ogień
-        gradient_for_alarm >= AWS_GRADIENT_CRITICAL                  # Krytyczny przy małej temp
+        (gradient_for_alarm < critical_limit),                       # Trend grzania
+        (gradient_for_alarm >= critical_limit) & (df['temp_mean'] >= min_fire_temp), # Potwierdzony ogień
+        gradient_for_alarm >= critical_limit                         # Krytyczny przy małej temp
     ]
     choices = [
         '🔴🔥 BRANN/STOPP',

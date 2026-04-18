@@ -227,6 +227,7 @@ def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame = N
             import bearing_monitor
             is_heavy = any(keyword.upper() in alias.upper() for keyword in bearing_monitor.HEAVY_KEYWORDS)
             is_oil = any(keyword.upper() in alias.upper() for keyword in bearing_monitor.OIL_KEYWORDS)
+            is_spindle = any(keyword.upper() in alias.upper() for keyword in getattr(bearing_monitor, 'SPINDLE_KEYWORDS', ['SPINDEL', 'SPINDLE']))
             
             try:
                 if 'vib_max' not in d or d['vib_max'].isna().all():
@@ -255,13 +256,21 @@ def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame = N
                         df_hall_prep = bearing_monitor.prepare_hall_data(df_hall_raw)
                         if not df_hall_prep.empty:
                             hall_temp_series = df_hall_prep['hall_temp']
-                    d = analyze_aws_gradient(d, hall_temp=hall_temp_series, is_heavy=is_heavy, is_oil=is_oil) 
+                    d = analyze_aws_gradient(d, hall_temp=hall_temp_series, is_heavy=is_heavy, is_oil=is_oil, is_spindle=is_spindle, sn=sn) 
                 except Exception as e: 
                     # print(f"DEBUG: Hall error for {sn}: {e}")
                     pass
                 
+                try:
+                    if is_spindle:
+                        # [NOWOŚĆ] Specjalistyczna logika termiczna wrzeciona QSS (Phase 1/2/3)
+                        # Wykrywa rozgrzewkę, plateau i ponowny wzrost temp.
+                        from bearing_monitor import analyze_spindle_qss
+                        d = analyze_spindle_qss(d, is_spindle=is_spindle, sn=sn)
+                except Exception: pass
+
                 if delta_df is not None:
-                    try: d = analyze_rcf_anomaly(d) 
+                    try: d = analyze_rcf_anomaly(d, is_heavy=is_heavy) 
                     except Exception as e: pass
                 else:
                     if 'rcf_score' not in d.columns: d['rcf_score'] = 0.0
