@@ -50,6 +50,54 @@ API_KEY = os.getenv("API_KEY", "jP4UeJ8RBN5sX5FdTtKLlHDEEc9nbYlUz/s8UyikfiI=")
 SYSTEM_ID = os.getenv("SYSTEM_ID", "nIwosVxCrK9RTctvb90X")
 API_BASE_URL = os.getenv("API_BASE_URL", "https://api.neuronsensors.app/v2")
 
+# PUSHOVER — powiadomienia push na telefon
+PUSHOVER_TOKEN = os.getenv("PUSHOVER_TOKEN", "abcuu941s9jftnpbqpxpemw4cqgzas")
+PUSHOVER_USER  = os.getenv("PUSHOVER_USER",  "uypxajic1hdgo9838ha82eafh2oq16")
+PUSHOVER_URL   = "https://api.pushover.net/1/messages.json"
+PUSHOVER_COOLDOWN_SECONDS = 3600  # Min. 1 godzina między powiadomieniami dla tego samego sensora
+
+# Cooldown tracker: { sn: last_sent_timestamp }
+_pushover_last_sent: dict = {}
+
+
+async def send_pushover_notification(session: aiohttp.ClientSession, alias: str, sn: str,
+                                     verdict: str, temp: float, vib: float, gradient: float) -> None:
+    """Wyslij powiadomienie push na telefon przez Pushover API."""
+    now = time.time()
+    last = _pushover_last_sent.get(sn, 0)
+    if now - last < PUSHOVER_COOLDOWN_SECONDS:
+        return  # cooldown aktywny — nie spamuj
+
+    is_fire = 'BRANN' in verdict or 'STOPP' in verdict
+    title = f"{'🔥 BRANN/STOPP' if is_fire else '🔴 KRITISK ALARM'}: {alias}"
+    grad_str = f"+{gradient:.1f}°C/h" if gradient > 0 else f"{gradient:.1f}°C/h"
+    message = (
+        f"Maskin: {alias}\n"
+        f"Temperatur: {temp:.1f}°C  ({grad_str})\n"
+        f"Vibrasjon: {vib:.2f} g\n"
+        f"Status: {verdict.replace(chr(9), '').strip()}"
+    )
+
+    payload = {
+        "token":    PUSHOVER_TOKEN,
+        "user":     PUSHOVER_USER,
+        "title":    title,
+        "message":  message,
+        "priority": 1 if is_fire else 0,
+        "sound":    "siren" if is_fire else "magic",
+    }
+
+    try:
+        async with session.post(PUSHOVER_URL, data=payload) as resp:
+            if resp.status == 200:
+                _pushover_last_sent[sn] = now
+                print(f"   [PUSH] Powiadomienie wysłane → {alias} ({verdict[:30]})")
+            else:
+                body = await resp.text()
+                print(f"   [PUSH WARN] Błąd Pushover {resp.status}: {body[:120]}")
+    except Exception as e:
+        print(f"   [PUSH ERR] {e}")
+
 
 class HardwareState:
     def __init__(self):
@@ -62,6 +110,7 @@ class HardwareState:
         self.event_history_comp = [] # Lista zdarzeń z kompensacją
         self.settings = {"use_hall_compensation": True}
         self.mining_progress = 100.0 # Procent przeliczania historii
+        self._pushover_session = None  # Wstrzykiwany z main()
 
 
 async def fetch_sensor_delta(session: aiohttp.ClientSession, hwstate: HardwareState, sn: str):
@@ -371,6 +420,19 @@ def run_ai_inference(hwstate: HardwareState, sn: str, delta_df: pd.DataFrame = N
                             "temp_mean": float(row.get('temp_mean', 0.0)),
                             "temp_gradient": float(row.get('temp_gradient_final', 0.0))
                         })
+
+                        # Wyślij powiadomienie push jeśli to krytyczny alarm z dzisiaj
+                        is_critical = 'KRITISK' in final_verdict_no or 'BRANN' in final_verdict_no or 'STOPP' in final_verdict_no
+                        is_today = ts_iso[:10] == datetime.now().strftime('%Y-%m-%d')
+                        if is_critical and is_today and hwstate._pushover_session is not None:
+                            alias_name = hwstate.sensor_aliases.get(sn, sn)
+                            asyncio.ensure_future(send_pushover_notification(
+                                hwstate._pushover_session,
+                                alias_name, sn, final_verdict_no,
+                                float(row.get('temp_mean', 0.0)),
+                                float(row.get('vib_rms', 0.0)),
+                                float(row.get('temp_gradient_final', 0.0))
+                            ))
 
         _append_anomalies(df_raw, hwstate.event_history_raw)
         _append_anomalies(df_comp, hwstate.event_history_comp)
@@ -793,6 +855,7 @@ async def main():
         pass
     
     async with aiohttp.ClientSession() as session:
+        hwstate._pushover_session = session  # umożliwia wysyłanie powiadomień Pushover
         # 2. Pobierz aktualną listę sensorów (z filtrem tagu)
         hwstate.active_sensors = await get_active_sensors(session, hwstate)
         
