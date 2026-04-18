@@ -1,0 +1,33 @@
+name: 🚀 Deploy to AWS EC2
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    name: Deploy via SSH
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📦 Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          timeout: 300s
+          script: |
+            set -e
+            echo "📥 Pulling latest changes from GitHub..."
+            cd /home/ubuntu/app
+            git pull origin master
+
+            echo "🐳 Rebuilding Docker containers..."
+            docker compose up -d --build --remove-orphans
+
+            echo "🧹 Cleaning up unused Docker images..."
+            docker image prune -f
+
+            echo "✅ Deployment complete!"
+            docker compose ps
