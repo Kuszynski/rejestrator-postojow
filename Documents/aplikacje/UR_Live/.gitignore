@@ -25,12 +25,23 @@ wheels/
 venv/
 ENV/
 
-# Data files (Large)
+# Data files (Large / runtime)
 *.csv
 *.xlsx
 *.pdf
 *.cache.json
+*.parquet
 sensors_out.json
+live_status.json
+event_history_raw.json
+event_history_comp.json
+
+# Logs
+*.log
+daemon_out.log
+daemon_err.log
+daemon_fresh.log
+daemon_error.log
 
 # Next.js
 dashboard/.next/
